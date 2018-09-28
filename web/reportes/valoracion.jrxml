@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="valoracion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="532" leftMargin="50" rightMargin="30" topMargin="10" bottomMargin="10" uuid="4c397d89-bd39-4341-be50-9f737236b7aa">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="valoracion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="538" leftMargin="44" rightMargin="30" topMargin="10" bottomMargin="4" uuid="4c397d89-bd39-4341-be50-9f737236b7aa">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="309"/>
+	<property name="ireport.y" value="274"/>
 	<property name="ireport.background.image.properties" value="true,true,0.25,208,179,0,0,225,422"/>
 	<parameter name="codigoValoracion" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -88,9 +88,16 @@ v.codigo=$P{codigoValoracion}]]>
 	<group name="conductaSeguir">
 		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
 		<groupFooter>
-			<band height="77">
+			<band height="74">
+				<staticText>
+					<reportElement x="-9" y="0" width="541" height="14" uuid="f1c5c30a-bff2-4d07-876d-c724a29c4100"/>
+					<textElement>
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CONDUCTA A SEGUIR]]></text>
+				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="11" y="19" width="510" height="20" uuid="365b2563-e2b2-4eae-a6a7-0f2ee4591ea5"/>
+					<reportElement x="-9" y="14" width="541" height="20" uuid="365b2563-e2b2-4eae-a6a7-0f2ee4591ea5"/>
 					<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
 						<pen lineColor="#FFFFFF"/>
 						<topPen lineWidth="0.25" lineColor="#FFFFFF"/>
@@ -103,25 +110,22 @@ v.codigo=$P{codigoValoracion}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{conducta_seguir}]]></textFieldExpression>
 				</textField>
-				<staticText>
-					<reportElement x="11" y="5" width="510" height="14" uuid="f1c5c30a-bff2-4d07-876d-c724a29c4100"/>
-					<textElement>
-						<font fontName="Arial" isBold="true"/>
-					</textElement>
-					<text><![CDATA[CONDUCTA A SEGUIR]]></text>
-				</staticText>
-				<rectangle radius="10">
-					<reportElement mode="Transparent" x="0" y="0" width="532" height="65" uuid="2e74d9bf-4f3b-4877-b44b-50febe292b26"/>
-				</rectangle>
 			</band>
 		</groupFooter>
 	</group>
 	<group name="impresionDiagnostica">
 		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
 		<groupFooter>
-			<band height="65">
+			<band>
+				<staticText>
+					<reportElement x="-10" y="-39" width="542" height="17" uuid="ae3fe6d3-79b0-4cd6-95bd-215de57504f8"/>
+					<textElement>
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<text><![CDATA[IMPRESION DIAGNOSTICA]]></text>
+				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="11" y="19" width="510" height="20" uuid="16d58e65-8b52-4753-b514-9be5a82aef79"/>
+					<reportElement x="-10" y="-22" width="542" height="20" uuid="16d58e65-8b52-4753-b514-9be5a82aef79"/>
 					<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
 						<pen lineColor="#FFFFFF"/>
 						<topPen lineWidth="0.25" lineColor="#FFFFFF"/>
@@ -134,25 +138,15 @@ v.codigo=$P{codigoValoracion}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{impresion_diagnostica}]]></textFieldExpression>
 				</textField>
-				<staticText>
-					<reportElement x="11" y="5" width="510" height="14" uuid="ae3fe6d3-79b0-4cd6-95bd-215de57504f8"/>
-					<textElement>
-						<font fontName="Arial" isBold="true"/>
-					</textElement>
-					<text><![CDATA[IMPRESION DIAGNOSTICA]]></text>
-				</staticText>
-				<rectangle radius="10">
-					<reportElement mode="Transparent" x="0" y="0" width="532" height="65" uuid="19281441-8902-439b-89a3-43e67fa66a9d"/>
-				</rectangle>
 			</band>
 		</groupFooter>
 	</group>
 	<group name="antecedentesEvaluacion">
 		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
 		<groupFooter>
-			<band height="102">
+			<band height="84">
 				<textField isStretchWithOverflow="true">
-					<reportElement x="11" y="19" width="511" height="20" uuid="3cc203c9-4642-46bd-a341-795e0b91053d"/>
+					<reportElement x="-10" y="14" width="542" height="20" uuid="3cc203c9-4642-46bd-a341-795e0b91053d"/>
 					<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
 						<pen lineColor="#FFFFFF"/>
 						<topPen lineWidth="0.25" lineColor="#FFFFFF"/>
@@ -166,31 +160,28 @@ v.codigo=$P{codigoValoracion}]]>
 					<textFieldExpression><![CDATA[$F{antecedentes_evaluacion}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="11" y="5" width="511" height="14" uuid="dc795bdd-386f-44b8-a602-bf14a2e32dc3"/>
+					<reportElement x="-10" y="0" width="542" height="14" uuid="dc795bdd-386f-44b8-a602-bf14a2e32dc3"/>
 					<textElement>
 						<font fontName="Arial" isBold="true"/>
 					</textElement>
 					<text><![CDATA[ANTECEDENTES - EVALUACION]]></text>
 				</staticText>
-				<rectangle radius="10">
-					<reportElement mode="Transparent" x="0" y="0" width="532" height="101" uuid="f7190e49-4da5-4c61-8c53-dc9f48a387c2"/>
-				</rectangle>
 			</band>
 		</groupFooter>
 	</group>
 	<group name="motivoConsulta">
 		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
 		<groupFooter>
-			<band height="69">
+			<band height="49">
 				<staticText>
-					<reportElement x="10" y="7" width="512" height="14" uuid="6631031b-4d7b-4e50-920d-208a686aa9c0"/>
+					<reportElement x="-10" y="7" width="542" height="14" uuid="6631031b-4d7b-4e50-920d-208a686aa9c0"/>
 					<textElement>
 						<font fontName="Arial" isBold="true"/>
 					</textElement>
 					<text><![CDATA[MOTIVO DE CONSULTA]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="11" y="21" width="511" height="20" uuid="8ef02c73-3eb1-4c39-a7e5-61cb90e511f5"/>
+					<reportElement x="-10" y="21" width="542" height="25" uuid="8ef02c73-3eb1-4c39-a7e5-61cb90e511f5"/>
 					<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
 						<pen lineWidth="0.0" lineColor="#FFFFFF"/>
 						<topPen lineWidth="0.0" lineColor="#FFFFFF"/>
@@ -203,9 +194,6 @@ v.codigo=$P{codigoValoracion}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{motivo_consulta}]]></textFieldExpression>
 				</textField>
-				<rectangle radius="10">
-					<reportElement mode="Transparent" x="0" y="0" width="532" height="69" uuid="7ba29e68-bbcf-4849-8f6e-f9ec5051baf2"/>
-				</rectangle>
 			</band>
 		</groupFooter>
 	</group>
@@ -629,7 +617,7 @@ Pereira - Risaralda - Colombia]]></text>
 				<textFieldExpression><![CDATA[$F{telefono2}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="10">
-				<reportElement mode="Transparent" x="0" y="22" width="532" height="177" uuid="81c057e4-1646-4337-b708-88f5c7b4e8b8"/>
+				<reportElement mode="Transparent" x="-31" y="22" width="580" height="177" uuid="81c057e4-1646-4337-b708-88f5c7b4e8b8"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="8" y="3" width="36" height="20" uuid="ed0bcdf1-1333-433f-8dd9-bcbef60fb67c"/>
@@ -648,27 +636,26 @@ Pereira - Risaralda - Colombia]]></text>
 		</band>
 	</detail>
 	<summary>
-		<band height="99" splitType="Stretch">
-			<line>
-				<reportElement x="14" y="60" width="150" height="1" uuid="249ea4b1-5a72-4e58-b6eb-fc2a8d684f08"/>
-			</line>
+		<band height="30">
 			<staticText>
-				<reportElement x="41" y="61" width="100" height="28" uuid="dc96bb49-eedb-47de-a24c-079719b12887"/>
+				<reportElement x="14" y="11" width="150" height="13" uuid="dc96bb49-eedb-47de-a24c-079719b12887"/>
 				<textElement>
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PROFESIONAL
-T.P. No.]]></text>
+				<text><![CDATA[PROFESIONAL T.P. No.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="410" y="68" width="80" height="15" uuid="e7b4a929-b7e4-451b-a68e-7e244843732b"/>
+				<reportElement x="389" y="11" width="80" height="15" uuid="e7b4a929-b7e4-451b-a68e-7e244843732b"/>
 				<textElement>
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PACIENTE]]></text>
 			</staticText>
 			<line>
-				<reportElement x="371" y="60" width="148" height="1" uuid="b8e6a755-904d-4771-be59-305492b1e451"/>
+				<reportElement x="355" y="8" width="148" height="1" uuid="b8e6a755-904d-4771-be59-305492b1e451"/>
+			</line>
+			<line>
+				<reportElement x="7" y="9" width="148" height="1" uuid="d566765e-8c6e-4b6f-ae42-4b6f0e3cf879"/>
 			</line>
 		</band>
 	</summary>
