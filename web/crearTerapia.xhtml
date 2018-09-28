@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmCrearTerapia">
+                <p:growl id="grCrearTerapia" showDetail="true" life="5000" />
+                <p:panel header="FORMULARIO TERAPIA" id="pnlCrearTerapia">
+                    <table cellpadding="5">
+                        <tr>
+                            <td align="right"><h:outputLabel for="nombrePaciente" value="* Paciente:" /></td>
+                            <td><p:autoComplete id="nombrePaciente" dropdown="false" value="#{uiterapia.terapia.cita.paciente.nombreCompleto}"
+                                                completeMethod="#{uiterapia.listarPacientesPatron}"  scrollHeight="200"
+                                                maxResults="10" minQueryLength="3"
+                                                >
+                                    <p:ajax event="itemSelect" listener="#{uiterapia.consultarPacientePorNombreCompleto}" update="grCrearTerapia"/>
+                                    <p:ajax event="blur"       listener="#{uiterapia.consultarPacientePorNombreCompleto}" update="grCrearTerapia"/>
+                                </p:autoComplete></td>
+                        </tr>
+
+
+                        <tr><td>Procedimiento</td><td><p:selectOneMenu value="#{uiterapia.terapia.procedimiento.codigo}" id="codigoTerapia">
+                                    <f:selectItem itemLabel="" itemValue="-1" />
+                                    <f:selectItems value="#{uiterapia.cmbTerapias}"  />
+                                </p:selectOneMenu></td>
+                        </tr>
+
+                        <tr><td>Terapias prescritas</td><td><p:inputText id="cantidadFormulada" value="#{uiterapia.terapia.cantidadFormulada}" /></td></tr>
+                        <tr><td>Terapias autorizada</td><td><p:inputText id="cantidadAutorizada" value="#{uiterapia.terapia.cantidadAutorizada}" /></td></tr>
+                        <tr><td>Profesional valora</td><td><p:selectOneMenu value="#{uiterapia.terapia.profesionalPrescribe.cedula}" id="profesionalValora">
+                                    <f:selectItem itemLabel="" itemValue="-1" />
+                                    <f:selectItems value="#{uiterapia.cmbProfesionales}"  />
+                                </p:selectOneMenu></td>
+                        </tr>                        
+                        
+                        <tr><td>Código Diagnóstico Principal</td><td><p:selectOneMenu value="#{uiterapia.terapia.codigoDiagnostico}" id="codigoDiagnostico">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{uiterapia.listaCodigosDiagnostico}"  />
+                            </p:selectOneMenu></td></tr>
+                        <tr><td>Código Diagnóstico Secundario</td><td><p:selectOneMenu value="#{uiterapia.terapia.codigoDiagnostico2}" id="codigoDiagnostico2">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{uiterapia.listaCodigosDiagnostico}"  />
+                            </p:selectOneMenu></td></tr>
+
+                        <tr><td colspan="2"><p:commandButton value="Guardar" id="btnGuardar" update="grCrearTerapia,pnlCrearTerapia" actionListener="#{uiterapia.guardarTerapia()}"  /></td></tr>
+
+
+                    </table>
+                </p:panel>
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

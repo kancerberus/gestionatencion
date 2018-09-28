@@ -1,0 +1,64 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package vista;
+
+import controlador.GestorProfesional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
+
+import modelo.Profesional;
+
+/**
+ *
+ * @author Andres
+ */
+@FacesConverter("convertidorprofesional")
+public class ConvertidorProfesional implements Converter {
+    @ManagedProperty("#{gestorProfesional}")
+    private GestorProfesional gp;
+    @Override
+    public Object getAsObject(FacesContext context, UIComponent component, String value) {
+        try {
+            for (Profesional p : gp.listarProfesionalesPatron("")) {
+                if (p.getCedula().equals(value)) {
+                    return p;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ConvertidorProfesional.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public String getAsString(FacesContext context, UIComponent component, Object value) {
+        if (value instanceof Profesional) {
+            Profesional profesional = (Profesional) value;
+            return profesional.getCedula();
+        }
+        return "";
+    }
+
+    /**
+     * @return the gp
+     */
+    public GestorProfesional getGp() {
+        return gp;
+    }
+
+    /**
+     * @param gp the gp to set
+     */
+    public void setGp(GestorProfesional gp) {
+        this.gp = gp;
+    }
+
+}

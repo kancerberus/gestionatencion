@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmConsultarPaciente">
+                <p:growl id="growlConsultaPaciente" showDetail="true" life="5000" />
+                <p:panel header="CONSULTAR PACIENTES" id="pnlConsultaPaciente" style="width: 1800px;">
+                    <table>                        
+                        <tr><td>
+                                <p:dataTable var="itemPaciente" value="#{uipaciente.listaPacientes}" id="dtListaPacientes" style="font-size: 65%;"
+                                             rows="10" paginator="true" >
+
+                                    <p:column headerText="Cedula" sortBy="#{itemPaciente.identificacion}">
+                                        <h:outputText value="#{itemPaciente.identificacion}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre" sortBy="#{itemPaciente.nombreCompleto}">
+                                        <h:outputText value="#{itemPaciente.nombreCompleto}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha Nac." >
+                                        <h:outputText value="#{itemPaciente.fechaNacimiento}" />
+                                    </p:column>
+                                    <p:column headerText="Edad" sortBy="#{itemPaciente.edad}">
+                                        <h:outputText value="#{itemPaciente.edad}" />
+                                    </p:column>
+                                    <p:column headerText="Correo E." >
+                                        <h:outputText value="#{itemPaciente.email}" />
+                                    </p:column>
+                                    <p:column headerText="Sexo" >
+                                        <h:outputText value="#{itemPaciente.sexo}" />
+                                    </p:column>
+                                    <p:column headerText="Ocupación" >
+                                        <h:outputText value="#{itemPaciente.ocupacion}" />
+                                    </p:column>
+                                    <p:column headerText="Estado Civil" >
+                                        <h:outputText value="#{itemPaciente.estadoCivil}" />
+                                    </p:column>
+                                    <p:column headerText="Grado Escolar" >
+                                        <h:outputText value="#{itemPaciente.gradoEscolar}" />
+                                    </p:column>
+                                    <p:column headerText="Entidad" >
+                                        <h:outputText value="#{itemPaciente.entidad.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Régimen" >
+                                        <h:outputText value="#{itemPaciente.tipoUsuario}" />
+                                    </p:column>
+                                    <p:column headerText="Tipo Usuario" >
+                                        <h:outputText value="#{itemPaciente.tipoAfiliacion}" />
+                                    </p:column>
+                                    <p:column headerText="Dirección1" >
+                                        <h:outputText value="#{itemPaciente.direccion1}" />
+                                    </p:column>
+                                    <p:column headerText="Dirección2" >
+                                        <h:outputText value="#{itemPaciente.direccion2}" />
+                                    </p:column>
+                                    <p:column headerText="Teléfono1" >
+                                        <h:outputText value="#{itemPaciente.telefono1}" />
+                                    </p:column>
+                                    <p:column headerText="Teléfono2" >
+                                        <h:outputText value="#{itemPaciente.telefono2}" />
+                                    </p:column>
+                                    <p:column headerText="Ciudad Residencia" >
+                                        <h:outputText value="#{itemPaciente.ciudadResidencia.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Ciudad Nacimiento" >
+                                        <h:outputText value="#{itemPaciente.ciudadNacimiento.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Contacto" >
+                                        <h:outputText value="#{itemPaciente.padres}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha Reg. Mod." sortBy="#{itemPaciente.fechaApertura}">
+                                        <h:outputText value="#{itemPaciente.fechaApertura}" />
+                                    </p:column>
+                                    
+                                    
+                                    
+                                </p:dataTable>
+                            </td></tr>
+                        <tr><td>
+                            <p:commandButton icon="ui-icon-refresh" value="Consultar" style="height: 26px; width: 150px; font-size: 80%;" 
+                                             actionListener="#{uipaciente.listarPacientes()}" update="dtListaPacientes" />
+                            </td></tr>
+                    </table>
+                </p:panel>
+                
+                
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

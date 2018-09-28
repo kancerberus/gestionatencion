@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmConsultarEntidad">
+                <p:growl id="growlConsultaEntidad" showDetail="true" life="5000" />
+                <p:panel header="ENTIDADES" id="pnlConsultaEntidad">
+                    <table>
+
+                        <tr><td>
+                                <p:dataTable var="itemEntidad" value="#{uientidad.listaEntidades}" id="dtListaEntidades" style="font-size: 65%;"
+                                             rows="10" paginator="true" >
+
+                                    <p:column headerText="NIT" style="width:35px" sortBy="#{itemEntidad.nit}">
+                                        <h:outputText value="#{itemEntidad.nit}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre" style="width:35px" sortBy="#{itemEntidad.nombre}">
+                                        <h:outputText value="#{itemEntidad.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Representante" style="width:35px" sortBy="#{itemEntidad.representante}">
+                                        <h:outputText value="#{itemEntidad.representante}" />
+                                    </p:column>
+                                    <p:column headerText="Direccion" style="width:35px" sortBy="#{itemEntidad.direccion}">
+                                        <h:outputText value="#{itemEntidad.direccion}" />
+                                    </p:column>
+                                    <p:column headerText="Telefono" style="width:35px" sortBy="#{itemEntidad.telefono}">
+                                        <h:outputText value="#{itemEntidad.telefono}" />
+                                    </p:column>
+                                    
+                                </p:dataTable>
+                            </td></tr>
+                        <tr><td>
+                            <p:commandButton icon="ui-icon-refresh" value="Consultar" style="height: 26px; width: 150px; font-size: 80%;" 
+                                             actionListener="#{uientidad.consultarEntidad()}" update="dtListaEntidades" />
+                            </td></tr>
+                    </table>
+                </p:panel>
+
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

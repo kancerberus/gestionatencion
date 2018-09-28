@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmExportarPacientes">
+                <p:growl id="growlExportarPacientes" showDetail="true" life="5000" />
+                <p:panel header="PACIENTES" id="pnlExportarPacientes">
+                    <table>
+
+                        <tr><td>
+                                <p:dataTable var="itemControlExport" value="#{uipaciente.listaControlExport}" id="dtListaControlExport" style="font-size: 65%;"
+                                             rows="10" paginator="true" >
+
+                                    <p:column headerText="Codigo" style="width:35px" >
+                                        <h:outputText value="#{itemControlExport.codExport}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha" style="width:35px" >
+                                        <h:outputText value="#{itemControlExport.fecha}" />
+                                    </p:column>
+                                    <p:column headerText="Cantidad" style="width:35px" >
+                                        <h:outputText value="#{itemControlExport.cantidad}" />
+                                    </p:column>
+                                    <p:column headerText="Descargar Archivo 1" style="width:35px" >
+                                        <p:commandButton ajax="false"  actionListener="#{uipaciente.generarArchivo(itemControlExport)}" icon="ui-icon-refresh">
+                                            
+                                            <p:fileDownload value="#{uipaciente.archivo}" />
+                                        </p:commandButton>
+                                    </p:column> 
+
+                                    <p:column headerText="Descargar Archivo 2" style="width:35px" >
+                                        <p:commandButton ajax="false"  actionListener="#{uipaciente.generarArchivo(itemControlExport)}" icon="ui-icon-refresh">
+                                            
+                                            <p:fileDownload value="#{uipaciente.archivo2}" />
+                                        </p:commandButton>
+                                    </p:column>                                     
+                                    
+
+                                </p:dataTable>
+                            </td></tr>
+                        <tr><td>
+                                <p:commandButton icon="ui-icon-refresh" value="Refrescar" style="height: 26px; width: 150px; font-size: 80%;" 
+                                                 actionListener="#{uipaciente.listarControlExport()}" update="dtListaControlExport,growlExportarPacientes" />
+                                <p:commandButton icon="ui-icon-refresh" value="Generar" style="height: 26px; width: 150px; font-size: 80%;" 
+                                                 actionListener="#{uipaciente.generarExport()}" update="dtListaControlExport,growlExportarPacientes" />
+                            </td></tr>
+                    </table>
+                </p:panel>
+
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

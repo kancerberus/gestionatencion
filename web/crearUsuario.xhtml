@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmCrearUsuario">
+                <p:growl id="grCrearUsuario" showDetail="true" life="5000" />
+                <p:panel header="FORMULARIO USUARIO" id="pnlCrearUsuario">
+                    <table cellpadding="5">
+                        <tr>
+                            <td align="right"><h:outputLabel for="usuario" value="* Usuario" /></td>
+                            <td><p:inputText id="usuario" value="#{uiusuario.usuario.usuario}">
+                                    <p:ajax event="blur" listener="#{uiusuario.consultarUsuarioPorLogin()}" 
+                                            update="pnlCrearUsuario"/>
+                                </p:inputText></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Clave</td>
+                            <td><p:inputText id="clave" value="#{uiusuario.usuario.clave}" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Nombre</td>
+                            <td><p:inputText id="nombre" value="#{uiusuario.usuario.nombre}" /></td>
+                        </tr>                        
+                        <tr>
+                            <td align="right">Perfil</td>
+                            <td>
+                            
+                            <p:selectOneMenu value="#{uiusuario.usuario.perfil.codigo}" id="perfil">
+                                    <f:selectItem itemLabel="" itemValue="" />
+                                    <f:selectItems value="#{uiusuario.comboListaPerfiles}"  />
+                                </p:selectOneMenu></td>
+                                                       
+                        </tr>
+                        <tr>
+                            <td align="right">Profesional</td>
+                            <td><p:selectOneMenu value="#{uiusuario.usuario.id}" id="profesional">
+                                    <f:selectItem itemLabel="" itemValue="" />
+                                    <f:selectItems value="#{uiusuario.comboListaProfesionales}"  />
+                                </p:selectOneMenu></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><p:commandButton value="Guardar" id="btnGuardar" update="grCrearUsuario,pnlCrearUsuario" actionListener="#{uiusuario.guardarUsuario()}"  />
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </p:panel>
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

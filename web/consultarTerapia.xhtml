@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmConsultaTerapia">
+                <p:growl id="growlConsultaTerapia" showDetail="true" life="5000" />
+                <p:panel header="CONSULTAR TERAPIAS" id="pnlConsultaTerapia">
+                    <table style="width: 1700px;">
+                        <tr><td>
+                                <table border="1">
+                                    <tr><td><p:outputLabel value="Id Paciente:"/></td><td><p:inputText value="#{uiterapia.paciente.identificacion}" /></td>
+                                        <td><p:outputLabel value="Fecha inicial:"/></td>
+                                        <td><p:calendar id="fechaInicial" value="#{uiterapia.fechaInicial}" locale="es" />
+                                        </td><td><p:outputLabel value="Procedimiento"/></td><td><p:selectOneMenu value="#{uiterapia.terapia.procedimiento.codigo}" id="codigoProcedimiento">
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{uiterapia.cmbTerapias}"  />
+                                            </p:selectOneMenu></td></tr>
+                                    <tr><td><p:outputLabel value="Nombre:"/></td><td><p:autoComplete id="nombrePaciente" dropdown="false" value="#{uiterapia.paciente.nombreCompleto}"
+                                                                                                     completeMethod="#{uicita.listarPacientesPatron}"  scrollHeight="200"
+                                                                                                     maxResults="10" minQueryLength="3"
+                                                                                                     style="width: 200px;">
+
+                                            </p:autoComplete></td><td><p:outputLabel value="Fecha final:"/></td>
+                                        <td>
+                                            <p:calendar id="fechaFinal" value="#{uiterapia.fechaFinal}" locale="es" />
+                                        </td>
+                                        <td><p:outputLabel value="Entidad:"  /></td>
+                                        <td>
+                                            <p:selectOneMenu value="#{uiterapia.paciente.entidad.codigo}" id="codigoEntidad">
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{uiterapia.cmbEntidades}"  />
+                                            </p:selectOneMenu>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><p:outputLabel value="Mostrar solo activas:"/></td><td><p:selectBooleanCheckbox value="#{uiterapia.activa}" id="chcActiva" /></td>
+                                        <td><p:outputLabel value="Rango de edad:"/></td>
+                                        <td><p:selectOneMenu id="edadInicial" value="#{uiterapia.edadInicial}" style="width:50px" >
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItem itemLabel="5" itemValue="5" /><f:selectItem itemLabel="10" itemValue="10" />
+                                                <f:selectItem itemLabel="15" itemValue="15" /><f:selectItem itemLabel="20" itemValue="20" />
+                                                <f:selectItem itemLabel="25" itemValue="25" /><f:selectItem itemLabel="30" itemValue="30" />
+                                                <f:selectItem itemLabel="35" itemValue="35" /><f:selectItem itemLabel="40" itemValue="40" />
+                                                <f:selectItem itemLabel="45" itemValue="45" /><f:selectItem itemLabel="50" itemValue="50" />
+                                                <f:selectItem itemLabel="55" itemValue="55" />
+                                                <f:selectItem itemLabel="60" itemValue="60" /><f:selectItem itemLabel="65" itemValue="65" />
+                                                <f:selectItem itemLabel="70" itemValue="70" /><f:selectItem itemLabel="75" itemValue="75" />
+                                                <f:selectItem itemLabel="80" itemValue="80" /><f:selectItem itemLabel="85" itemValue="85" />
+                                                <f:selectItem itemLabel="90" itemValue="90" /><f:selectItem itemLabel="95" itemValue="95" />
+                                                <f:selectItem itemLabel="100" itemValue="100" />
+                                            </p:selectOneMenu>
+                                            <p:selectOneMenu id="edadFinal" value="#{uiterapia.edadFinal}" style="width:50px" >
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItem itemLabel="5" itemValue="5" /><f:selectItem itemLabel="10" itemValue="10" />
+                                                <f:selectItem itemLabel="15" itemValue="15" /><f:selectItem itemLabel="20" itemValue="20" />
+                                                <f:selectItem itemLabel="25" itemValue="25" /><f:selectItem itemLabel="30" itemValue="30" />
+                                                <f:selectItem itemLabel="35" itemValue="35" /><f:selectItem itemLabel="40" itemValue="40" />
+                                                <f:selectItem itemLabel="45" itemValue="45" /><f:selectItem itemLabel="50" itemValue="50" />
+                                                <f:selectItem itemLabel="55" itemValue="55" />
+                                                <f:selectItem itemLabel="60" itemValue="60" /><f:selectItem itemLabel="65" itemValue="65" />
+                                                <f:selectItem itemLabel="70" itemValue="70" /><f:selectItem itemLabel="75" itemValue="75" />
+                                                <f:selectItem itemLabel="80" itemValue="80" /><f:selectItem itemLabel="85" itemValue="85" />
+                                                <f:selectItem itemLabel="90" itemValue="90" /><f:selectItem itemLabel="95" itemValue="95" />
+                                                <f:selectItem itemLabel="100" itemValue="100" />
+                                            </p:selectOneMenu></td>
+                                        <td></td>
+                                        <td><p:commandButton icon="ui-icon-search" value="Consultar" style="height: 26px; width: 150px; font-size: 80%;"
+                                                             actionListener="#{uiterapia.consultarTerapiasPaciente()}" update="dtListaTerapias" /></td>
+
+                                    </tr>
+                                    <tr><td><p:outputLabel value="Autorizadas:"/></td><td><p:selectBooleanCheckbox value="#{uiterapia.autorizadas}" id="chcAutorizadas" /></td><td><p:outputLabel value="Sin proxima cita:"/></td><td><p:selectBooleanCheckbox value="#{uiterapia.sinProximaCita}" id="chcSinProximaCita" /></td><td></td><td></td></tr>
+                                </table>
+                            </td></tr>
+                        <tr><td>
+                                <p:dataTable var="itemTerapia" value="#{uiterapia.listaTerapias}" id="dtListaTerapias" style="font-size: 65%;"
+                                             rows="10" paginator="true" >
+
+                                    <p:column headerText="Fecha solicitud" style="width:35px" sortBy="#{itemTerapia.fechaSolicitud}">
+                                        <h:outputText value="#{itemTerapia.fechaSolicitud}" />
+                                    </p:column>
+                                    <p:column headerText="Codigo" style="width:35px" sortBy="#{itemTerapia.codigo}">
+                                        <h:outputText value="#{itemTerapia.codigo}" />
+                                    </p:column>
+                                    <p:column headerText="Paciente" style="width:35px" sortBy="#{itemTerapia.cita.paciente.nombreCompleto}">
+                                        <h:outputText value="#{itemTerapia.cita.paciente.nombreCompleto}" />
+                                    </p:column>
+                                    <p:column headerText="Entidad" style="width:35px" sortBy="#{itemTerapia.cita.paciente.entidad.nombre}">
+                                        <h:outputText value="#{itemTerapia.cita.paciente.entidad.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Edad" style="width:30px" sortBy="#{itemTerapia.cita.paciente.edad}">
+                                        <h:outputText value="#{itemTerapia.cita.paciente.edad}" />
+                                    </p:column>
+
+                                    <p:column headerText="Procedimiento" style="width:35px" sortBy="#{itemTerapia.procedimiento.nombre}">
+                                        <h:outputText value="#{itemTerapia.procedimiento.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha" style="width:35px" sortBy="#{itemTerapia.fecha}">
+                                        <h:outputText value="#{itemTerapia.fecha}" />
+                                    </p:column>
+                                    <p:column headerText="Prescritas" style="width:35px" sortBy="#{itemTerapia.cantidadFormulada}">
+                                        <h:outputText value="#{itemTerapia.cantidadFormulada}" />
+                                    </p:column>
+                                    <p:column headerText="Autorizadas" style="width:35px" sortBy="#{itemTerapia.cantidadAutorizada}">
+                                        <h:outputText value="#{itemTerapia.cantidadAutorizada}" />
+                                    </p:column>
+                                    <p:column headerText="Atendidas" style="width:35px" sortBy="#{itemTerapia.cantidadAtendida}">
+                                        <h:outputText value="#{itemTerapia.cantidadAtendida}" />
+                                    </p:column>
+                                    <p:column headerText="Pendientes" style="width:35px" sortBy="#{itemTerapia.cantidadPendiente}">
+                                        <h:outputText value="#{itemTerapia.cantidadPendiente}" />
+                                    </p:column>
+                                    <p:column headerText="Inasistidas" style="width:35px" sortBy="#{itemTerapia.cantidadInasistidas}">
+                                        <h:outputText value="#{itemTerapia.cantidadInasistidas}" />
+                                    </p:column>
+                                    <p:column headerText="Prox cita" style="width:35px" sortBy="#{itemTerapia.cita.fecha}">
+                                        <h:outputText value="#{itemTerapia.cita.fecha}" />
+                                    </p:column>
+                                    <p:column headerText="DX" style="width:35px">
+                                        <h:outputText value="#{itemTerapia.valoracion.codigoDiagnostico}" />
+                                    </p:column>
+                                    <p:column headerText="Prof. Valora" style="width:35px">
+                                        <h:outputText value="#{itemTerapia.valoracion.cita.profesional.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Horario pref." style="width:35px" >
+                                        <h:outputText value="#{itemTerapia.horarioPreferencial}" />
+                                    </p:column>
+                                    <p:column headerText="Observaciones" style="width:35px" >
+                                        <h:outputText value="#{itemTerapia.observaciones}" />
+                                    </p:column>
+                                    <p:column headerText="Seguimiento1" style="width:35px" >
+                                        <h:outputText value="#{itemTerapia.seguimiento1}" />
+                                    </p:column>
+                                    <p:column headerText="Seguimiento2" style="width:35px" >
+                                        <h:outputText value="#{itemTerapia.seguimiento2}" />
+                                    </p:column>
+                                    <p:column headerText="Seguimiento3" style="width:35px" >
+                                        <h:outputText value="#{itemTerapia.seguimiento3}" />
+                                    </p:column>
+
+                                    <p:column headerText="Activa" style="width:35px">
+                                        <p:selectBooleanCheckbox value="#{itemTerapia.activa}" disabled="true"/>
+                                    </p:column>
+
+                                    <p:column headerText="Modificar" style="width:32px; text-align: center">
+                                        <p:commandButton update=":frmConsultaTerapia:pnlModificarTerapia" oncomplete="PF('modificarTerapiaW').show()" icon="ui-icon-pencil" title="Editar" >
+                                            <f:setPropertyActionListener value="#{itemTerapia}" target="#{uiterapia.terapiaSeleccionada}" />
+                                        </p:commandButton>
+                                    </p:column>
+                                    <p:column headerText="Contacto" style="width:32px; text-align: center">
+                                        <p:commandButton update=":frmConsultaTerapia:pnlInformacionAdicionalPacienteTerapia" oncomplete="PF('informacionAdicionalPacienteTerapiaW').show()" icon="ui-icon-pencil" title="Informacion Adicional" >
+                                            <f:setPropertyActionListener value="#{itemTerapia}" target="#{uiterapia.terapiaSeleccionada}" />
+                                        </p:commandButton>
+                                    </p:column>
+                                    <p:column headerText="Inf. terapéutico" style="width:32px; text-align: center">
+                                        <p:commandButton update=":frmConsultaTerapia:pnlInformeTerapeutico" oncomplete="PF('informeTerapeuticoW').show()" icon="ui-icon-document" title="Registrar" >
+                                            <f:setPropertyActionListener value="#{itemTerapia}" target="#{uiterapia.terapiaSeleccionada}" />
+                                        </p:commandButton>
+
+
+                                        <p:commandButton icon="ui-icon-print"  title="Exportar" action="#{uiterapia.configurarRutaInformeTerapeutico()}" oncomplete="PF('dialogoInformeTerapeuticoW').show()"  update=":frmConsultaTerapia:dialogoInformeTerapeutico">
+                                            <f:setPropertyActionListener value="#{itemTerapia}" target="#{uiterapia.terapiaSeleccionada}" />
+                                        </p:commandButton>
+
+
+
+                                    </p:column>
+                                </p:dataTable>
+                            </td></tr>
+                        <tr>
+                            <td style="text-align:left;">
+                                <h:commandLink>
+                                    <p:graphicImage name="xls_icon.png" width="24"/>
+                                    <p:dataExporter type="xls" target="dtListaTerapias" fileName="terapias" />
+                                </h:commandLink>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+                <p:dialog header="MODIFICAR TERAPIA" widgetVar="modificarTerapiaW" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="pnlModificarTerapia" style="text-align:center;" >
+                        <table cellpadding="5">
+                            <tr><td style="text-align:right;"><h:outputText value="Terapias autorizadas" /></td><td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.cantidadAutorizada}" /></td></tr>
+                            <tr><td style="text-align:right;"><h:outputText value="Activa" /></td>              <td style="text-align:left;"><p:selectBooleanCheckbox value="#{uiterapia.terapiaSeleccionada.activa}" /></td></tr>
+
+                            <tr><td style="text-align:right;"><h:outputText value="Nro Autorizacion" /></td><td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.nroAutorizacion}" /></td></tr>
+                            <tr><td style="text-align:right;"><h:outputText value="Fecha solicitud" /></td><td style="text-align:left;"><p:calendar id="fechaSolicitud" value="#{uiterapia.terapiaSeleccionada.fechaSolicitud}" locale="es" /></td></tr>
+                            <tr><td style="text-align:right;"><h:outputText value="Horario preferencial" /></td><td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.horarioPreferencial}" /></td></tr>
+                            <tr><td style="text-align:right;"><h:outputText value="Observaciones" /></td><td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.observaciones}" /></td></tr>
+                            <tr><td style="text-align:right;"><h:outputText value="Seguimiento 1" /></td><td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.seguimiento1}" /></td></tr>
+                            <tr><td style="text-align:right;"><h:outputText value="Seguimiento 2" /></td><td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.seguimiento2}" /></td></tr>
+                            <tr><td style="text-align:right;"><h:outputText value="Seguimiento 3" /></td><td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.seguimiento3}" /></td></tr>
+
+                            <tr><td colspan="2"><p:commandButton icon="ui-icon-disk" value="Guardar" style="height: 26px; width: 100px; font-size: 80%;"
+                                                                 actionListener="#{uiterapia.actualizarTerapia()}" update="dtListaTerapias,growlConsultaTerapia"
+                                                                 oncomplete="PF('modificarTerapiaW').hide()" /></td></tr>
+                        </table>
+                    </p:outputPanel>
+                </p:dialog>
+
+                <p:dialog header="INFORMACION ADICIONAL" widgetVar="informacionAdicionalPacienteTerapiaW" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="pnlInformacionAdicionalPacienteTerapia" style="text-align:center;" >
+                        <table cellpadding="5">
+                            <tr><td style="text-align:right;"><h:outputText value="email" /></td>        <td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.cita.paciente.email}" /></td></tr>
+                            <tr><td style="text-align:right;"><h:outputText value="Telefono1" /></td>     <td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.cita.paciente.telefono1}" /></td></tr>
+                            <tr><td style="text-align:right;"><h:outputText value="Telefono2" /></td>     <td style="text-align:left;"><p:inputText value="#{uiterapia.terapiaSeleccionada.cita.paciente.telefono2}" /></td></tr>
+                            <tr><td colspan="2"><p:commandButton icon="ui-icon-search" value="Guardar" style="height: 26px; width: 150px; font-size: 80%;"
+                                                                 actionListener="#{uiterapia.actualizarPacienteTerapia()}" update="dtListaTerapias,growlConsultaTerapia" oncomplete="PF('informacionAdicionalPacienteTerapiaW').hide()" /></td></tr>
+                        </table>
+                    </p:outputPanel>
+                </p:dialog>
+
+                <p:dialog header="INFORME TERAPEUTICO" widgetVar="informeTerapeuticoW" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="pnlInformeTerapeutico" style="text-align:center;" >
+                        <table cellpadding="5">
+                            <tr><td style="text-align:right;"><p:fieldset legend="INFORME TERAPEUTICO" ><p:inputTextarea id="txtInformeTerapeutico" rows="3" cols="50" value="#{uiterapia.terapiaSeleccionada.informeTerapeutico}" /></p:fieldset></td></tr>
+                            <tr><td style="text-align:right;"><p:commandButton icon="ui-icon-disk" value="Guardar" style="height: 26px; width: 100px; font-size: 80%;"
+                                                                               actionListener="#{uiterapia.actualizarTerapiaInformeTerapeutico()}" update="dtListaTerapias,growlConsultaTerapia"
+                                                                               oncomplete="PF('informeTerapeuticoW').hide()" /></td></tr>
+                        </table>
+                    </p:outputPanel>
+                </p:dialog>
+
+                <p:dialog  id="dialogoInformeTerapeutico" header="Exportando" widgetVar="dialogoInformeTerapeuticoW" onShow="#{uiterapia.rutaExportar} PF('dialogoInformeTerapeuticoW').hide();" >
+                </p:dialog>
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

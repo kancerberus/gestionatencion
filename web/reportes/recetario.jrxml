@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recetario" language="groovy" pageWidth="612" pageHeight="792" columnWidth="532" leftMargin="50" rightMargin="30" topMargin="30" bottomMargin="20" uuid="a63e25e0-7304-4be9-9e75-b6319a2e16c5">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoValoracion" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select
+v.fecha ,
+p.identificacion,
+l_tipo_identificacion.label tipo_identificacion,
+p.nombre||(case when character_length(coalesce(p.segundo_nombre,''))=0 then '' else ' '||p.segundo_nombre end)||(case when character_length(coalesce(p.primer_apellido,''))=0 then '' else ' '||p.primer_apellido end)||(case when character_length(coalesce(p.segundo_apellido,''))=0 then '' else ' '||p.segundo_apellido end) nombre_completo,
+observacion_recetario
+from
+valoracion v
+inner join pacientes p on (v.id_paciente=p.identificacion)
+left join (lista l
+inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='TIPO_IDENTIFICACION') ) l_tipo_identificacion on (l_tipo_identificacion.value=p.tipo_identificacion)
+where
+v.codigo=$P{codigoValoracion}]]>
+	</queryString>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="identificacion" class="java.lang.String"/>
+	<field name="tipo_identificacion" class="java.lang.String"/>
+	<field name="nombre_completo" class="java.lang.String"/>
+	<field name="observacion_recetario" class="java.lang.String"/>
+	<group name="observacionRecetario">
+		<groupExpression><![CDATA[$P{codigoValoracion}]]></groupExpression>
+		<groupFooter>
+			<band height="266">
+				<rectangle radius="10">
+					<reportElement x="0" y="0" width="532" height="266" uuid="5f838b89-3607-41b1-b409-f7d50ad1b30a"/>
+				</rectangle>
+				<textField isBlankWhenNull="true">
+					<reportElement x="17" y="30" width="505" height="226" uuid="7b204c67-c9aa-469d-b069-e6470f86a587"/>
+					<textFieldExpression><![CDATA[$F{observacion_recetario}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="17" y="0" width="53" height="30" uuid="93eaaf13-6aa5-497f-a7cf-6731b33c1d08"/>
+					<textElement>
+						<font fontName="Edwardian Script ITC" size="20" isBold="true"/>
+					</textElement>
+					<text><![CDATA[R/]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="75" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="19" width="532" height="52" uuid="6c57ec83-70fa-42a1-848c-f527d803183a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Colombia Personería Jurídica 4378
+NIT 891.408.974-4
+www.ideai.org.co
+Cra 3ª Nº19-51 - PBX (6)3353838 - FAX (6)3338092
+Pereira - Risaralda - Colombia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="532" height="19" uuid="515d8174-7f15-4a34-b14b-30a9cf19b3b1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE AUDIOLOGIA INTEGRAL]]></text>
+			</staticText>
+			<image>
+				<reportElement x="17" y="0" width="53" height="71" uuid="c7831212-a81d-4f28-9496-d6d8e03b56df"/>
+				<imageExpression><![CDATA["C:\\Imagenes\\LogoIDEAIbmp2.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="73" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="11" width="100" height="20" uuid="d1c9d3cc-dc56-4628-bc79-d5ce61e34630"/>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="100" y="11" width="100" height="20" uuid="cad39092-65dc-46d2-acde-808ee8d2b288"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="31" width="100" height="20" uuid="fbe7d108-3211-4f94-898a-fd4f724f640a"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="31" width="295" height="20" uuid="8a84128e-e638-43ed-aa2b-f61df4b3c6e7"/>
+				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="51" width="100" height="20" uuid="bff02021-33e0-4447-9277-394bdcfd41a2"/>
+				<text><![CDATA[Identificacion]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="51" width="53" height="20" uuid="f437bb40-dff6-417e-8187-47d81ce338f3"/>
+				<textFieldExpression><![CDATA[$F{tipo_identificacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="51" width="100" height="20" uuid="57c20e58-fea7-465d-8c27-023906f384a8"/>
+				<textFieldExpression><![CDATA[$F{identificacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="10" width="532" height="20" uuid="9c47d1e1-a7f4-4757-8d34-8e03a025aa9c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA["Nada hay en el intelecto que no haya entrado por los sentidos"]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

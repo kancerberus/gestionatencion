@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmCrearEntidad">
+                <p:growl id="grCrearEntidad" showDetail="true" life="5000" />
+                <p:panel header="FORMULARIO ENTIDAD" id="pnlCrearTerapia" style="width: 400px;">
+                    <table cellpadding="5">
+                        <tr>
+                            <td align="right"><h:outputLabel for="nit" value="* NIT" /></td>
+                            <td><p:inputText id="nit" value="#{uientidad.entidad.nit}">
+                                    <p:ajax event="blur" listener="#{uientidad.consultarEntidadPorNit}" 
+                                                update="pnlCrearTerapia"/>
+                                </p:inputText></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Nombre</td>
+                            <td><p:inputText id="nombre" value="#{uientidad.entidad.nombre}" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Representante</td>
+                            <td><p:inputText id="representante" value="#{uientidad.entidad.representante}" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Direccion</td>
+                            <td><p:inputText id="direccion" value="#{uientidad.entidad.direccion}" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Telefono</td>
+                            <td><p:inputText id="telefono" value="#{uientidad.entidad.telefono}" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><p:commandButton value="Guardar" id="btnGuardar" update="grCrearEntidad,pnlCrearTerapia" actionListener="#{uientidad.guardarEntidad()}"  />
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </p:panel>
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

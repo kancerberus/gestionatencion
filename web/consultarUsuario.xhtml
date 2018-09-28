@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmConsultarUsuarios">
+                <p:growl id="growlConsultaUsuarios" showDetail="true" life="5000" />
+                <p:panel header="CONSULTAR USUARIOS" id="pnlConsultaUsuarios">
+                    <table>                        
+                        <tr><td>
+                                <p:dataTable var="itemUsuario" value="#{uiusuario.listaUsuarios}" id="dtListaUsuarios" style="font-size: 65%;"
+                                             rows="10" paginator="true" >
+
+                                    <p:column headerText="Usuario" style="width:35px" sortBy="#{itemUsuario.usuario}">
+                                        <h:outputText value="#{itemUsuario.usuario}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre" style="width:35px" sortBy="#{itemUsuario.nombre}">
+                                        <h:outputText value="#{itemUsuario.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Perfil" style="width:35px" sortBy="#{itemUsuario.perfil.nombre}">
+                                        <h:outputText value="#{itemUsuario.perfil.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Profesional" style="width:35px" sortBy="#{itemUsuario.id}">
+                                        <h:outputText value="#{itemUsuario.id}" />
+                                    </p:column>
+                                    
+                                </p:dataTable>
+                            </td></tr>
+                        <tr><td>
+                            <p:commandButton icon="ui-icon-refresh" value="Consultar" style="height: 26px; width: 150px; font-size: 80%;" 
+                                             actionListener="#{uiusuario.consultarUsuario()}" update="dtListaUsuarios" />
+                            </td></tr>
+                    </table>
+                </p:panel>
+                
+                
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <h:body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:outputStylesheet name="general.css"  />
+            <h:form id="formAgendas">
+                <p:growl id="aviso" showDetail="true" life="5000" widgetVar="mensajesA" />
+                <p:panel header="AGENDAS"  style="width: 900px;">
+                    <h:panelGrid columns="2" style="width: 850px;" >
+                        <h:panelGrid columns="1" style="width: 250px;" >
+                            <p:outputLabel value="Especialidad" for="especialidad" />
+                            <p:autoComplete id="especialidad" dropdown="true" value="#{uiagenda.especialidadAgendas.nombre}" 
+                                            completeMethod="#{uiagenda.listarEspecialidadesPatron}" forceSelection="true" >
+                                <p:ajax event="itemSelect" listener="#{uiagenda.consultarProfesionalesPorEspecialidad}" 
+                                        update="profesional,pnlCalendarioAgendas" />
+                            </p:autoComplete>
+                            <p:outputLabel value="Profesional" for="profesional" />
+
+
+                            <p:selectOneListbox id="profesional" value="#{uiagenda.profesionalAgendas.cedula}"  scrollHeight="100" style="width: 243px;" >
+                                <f:selectItems value="#{uiagenda.listaProfesionales}" />
+                                <p:ajax listener="#{uiagenda.refrescarAgenda}" update="pnlCalendarioAgendas" />
+                            </p:selectOneListbox>                                
+
+                            <p:calendar id="fechaAgendas" value="#{uiagenda.fecha}" mode="inline" locale="es" >
+                                <p:ajax event="dateSelect" listener="#{uiagenda.consultarAgenda}" update="pnlCalendarioAgendas" />
+                            </p:calendar>
+
+                            <p:panelGrid columns="2">
+                                <p:selectBooleanCheckbox value="#{uiagenda.modoEliminar}" id="chcModoEliminar">
+                                    <p:ajax update="pnlCalendarioAgendas" />
+                                </p:selectBooleanCheckbox>
+                                <p:outputLabel value="Modo dia" for="chcModoEliminar" />
+                            </p:panelGrid>
+                            <p:commandButton id="btnEliminar" icon="ui-icon-close" value="Eliminar" style="height: 26px; width: 100px; font-size: 80%;" 
+                                             actionListener="#{uiagenda.eliminarAgenda()}" update="pnlCalendarioAgendas" />
+
+
+                            <!-- sdfasdfa -->
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="1" style="width: 600px;" id="pnlCalendarioAgendas">
+                            <p:schedule id="calendarioAgendas" value="#{uiagenda.eventModel}" initialDate="#{uiagenda.fecha}" locale="es" 
+                                        view="agendaDay" showHeader="true" slotMinutes="15" minTime="6" maxTime="20" timeZone="GMT-5" 
+                                        centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="" resizable="false"
+                                        draggable="false" rendered="#{not uiagenda.modoEliminar}">
+                            <p:ajax event="eventSelect" listener="#{uiagenda.onEventSelectCalendarioAgendas}" update="pnlCalendarioAgendas,aviso" />
+                            </p:schedule>
+                            
+                            <p:schedule id="calendarioAgendasEliminar" value="#{uiagenda.eventModelEliminar}" initialDate="#{uiagenda.fecha}" locale="es" 
+                                        view="month" showHeader="true" slotMinutes="15" minTime="6" maxTime="20" timeZone="GMT-5" 
+                                        centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="" resizable="false"
+                                        draggable="false" rendered="#{uiagenda.modoEliminar}">
+                                <p:ajax event="eventSelect" listener="#{uiagenda.onEventSelect}" update="pnlCalendarioAgendas,aviso" />
+                            </p:schedule>
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+
+                </p:panel>
+            </h:form>
+        </ui:composition>
+    </h:body>
+</html>

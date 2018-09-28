@@ -1,0 +1,147 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+background-color:#26296b;
+font-family: Tahoma, Verdana;
+font-size: 13px;
+color:#333;
+}
+
+.centrar{
+position: absolute; /*nos posicionamos en el centro del navegador*/
+top:50%;
+left:50%;
+width:658px;
+margin-left:-329px;
+height:420px;
+margin-top:-210px;
+padding:5px;
+}
+
+#logo-login{
+background-image:url(./imagenes/sicehc/logeo-logo.png);
+background-position:top center;
+background-repeat:no-repeat;
+width:auto;
+height:111px;
+}
+
+input{
+background-image:url(./imagenes/sicehc/fondo-imput.jpg);
+background-repeat:repeat-x;
+background-color:#fff;
+height:30px;
+color:#06C;
+letter-spacing:1pt;
+font-weight:bold;
+padding-left:7px;
+padding-right:7px;
+
+    transition: all 0.25s ease-in-out;
+    -webkit-transition: all 0.25s ease-in-out;
+    -moz-transition: all 0.25s ease-in-out;
+    border-radius:8px;
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border:1px solid rgba(0,0,0,0.4);
+}
+
+#txtUsuario{
+	margin-left:34px;
+	width:300px;
+}
+
+#txtClave{
+	margin-left:12px;
+		width:300px;
+}
+
+#txtEmpresas{
+	margin-left:27px;
+		width:300px;
+}
+
+.btn-entrar{
+text-align:center;
+width:450px;
+}
+
+#entrar{
+width:107px;
+height:50px;
+padding:7px 7px 7px 7px;
+background-image:url(./imagenes/sicehc/boton.jpg);
+background-repeat:repeat-x;
+font-weight:bold;
+font-size:14px;
+color:#fff;
+letter-spacing:1pt;
+
+/*Estilo para los Bordes*/
+border-width: 2px;
+border-style: solid;
+border-color:#fff;
+
+/*bordes redondos*/
+border-radius: 7px;
+-ms-border-radius: 7px;
+-moz-border-radius: 7px;
+-webkit-border-radius: 7px;
+-khtml-border-radius: 7px;
+
+}
+
+#entrar:hover{
+background-image:url(./imagenes/sicehc/boton2.jpg);
+background-repeat:repeat-x;
+font-weight:bold;
+color:#fff;
+font-size:14px;
+letter-spacing:1pt;
+
+/*Estilo para los Bordes*/
+border-width: 2px;
+border-style: solid;
+border-color:#fff;
+
+/*bordes redondos*/
+border-radius: 7px;
+-ms-border-radius: 7px;
+-moz-border-radius: 7px;
+-webkit-border-radius: 7px;
+-khtml-border-radius: 7px;
+}
+
+#contenido{
+background-image:url(./imagenes/sicehc/login-fondo.png);
+background-position:center;
+background-repeat: repeat-y;
+height:200px;
+padding-left:150px;
+padding-top:50px;
+}
+
+H2{
+color: #04a5b4;
+font-size:13pt;
+font-weight: bold;
+}
+
+span{
+position:relative;
+width:170px;
+}
+
+#login-inferior{
+background-image:url(./imagenes/sicehc/login-fondo-inferior.png);
+background-position: center bottom;
+background-repeat:no-repeat;
+width:auto;
+height:55px;
+}
+
+#copy{
+	color:#fff;
+	vertical-align: bottom;
+        text-align:center;
+}

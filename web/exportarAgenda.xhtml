@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmExportarAgenda">
+                <p:growl id="growl1" showDetail="true" life="5000" />
+                <p:panel header="EXPORTAR AGENDA" id="pnlExportarAgenda">
+                    <table>
+                        <tr><td>
+                                <table>
+                                    <tr>
+                                        <td><p:outputLabel value="Profesional" for="profesional" /></td><td>
+                                            <p:autoComplete id="profesional" dropdown="true"
+                                                            value="#{uiagenda.profesional.nombre}" 
+                                                            completeMethod="#{uiagenda.listarProfesionalesPatron}"
+                                                            forceSelection="true" >
+
+                                            </p:autoComplete></td><td></td>
+                                    </tr>
+                                    <tr><td><p:outputLabel value="Fecha Inicial:"/></td><td><p:calendar value="#{uiagenda.fechaInicial}" mode="popup" pattern="dd/MM/yyyy" locale="es"/></td><td></td></tr>
+                                    <tr><td><p:outputLabel value="Fecha Final:"/></td><td><p:calendar value="#{uiagenda.fechaFinal}" mode="popup" pattern="dd/MM/yyyy" locale="es"/></td>
+                                        <td><p:commandButton icon="ui-icon-search" value="Consultar" style="height: 26px; width: 150px; font-size: 80%;" 
+                                                             actionListener="#{uiagenda.consultarAgendaPorProfesional()}" update="dtListaAgenda,growl1" /></td></tr>
+                                </table>
+                            </td></tr>
+                        <tr><td>
+                                <p:dataTable var="itemAgenda" value="#{uiagenda.listaFranjasExportar}" id="dtListaAgenda" style="font-size: 65%;"
+                                             rows="10" paginator="true"
+                                             >                                
+                                    <p:column headerText="Fecha" >
+                                        <h:outputText value="#{itemAgenda.fechaHora}" >
+                                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="GMT-5" locale="es" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Duracion" style="width: 10%;">
+                                        <h:outputText value="#{itemAgenda.duracion} min." />
+                                    </p:column>
+                                    <p:column headerText="Profesional" >
+                                        <h:outputText value="#{itemAgenda.profesional.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Especialidad" >
+                                        <h:outputText value="#{itemAgenda.especialidad.nombre}" />
+                                    </p:column>                                    
+                                    <p:column headerText="Procedimiento" >
+                                        <h:outputText value="#{itemAgenda.procedimiento.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Cédula" >
+                                        <h:outputText value="#{itemAgenda.paciente.identificacion}" />
+                                    </p:column>
+                                    <p:column headerText="Paciente" >
+                                        <h:outputText value="#{itemAgenda.paciente.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Edad" >
+                                        <h:outputText value="#{itemAgenda.paciente.edad}" />
+                                    </p:column>
+                                    <p:column headerText="Cliente/EPS" >
+                                        <h:outputText value="#{itemAgenda.paciente.entidad.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Telefono" >
+                                        <h:outputText value="#{itemAgenda.paciente.telefono1}" />
+                                    </p:column>
+                                    <p:column headerText="Observaciones" >
+                                        <h:outputText value="#{itemAgenda.observaciones}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                                <p:panelGrid columns="2">
+                                    <h:commandLink>
+                                        <p:graphicImage name="xls_icon.png" width="24"/>
+                                        <p:dataExporter type="xls" target="dtListaAgenda" fileName="agenda" />
+                                    </h:commandLink>                               
+                                </p:panelGrid>
+                            </td></tr>
+                    </table>
+                </p:panel>
+            </h:form>
+        </ui:composition>
+    </h:body>
+</html>

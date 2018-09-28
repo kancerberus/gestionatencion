@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmConsultaCitas">
+                <p:growl id="growlConsultaCita" showDetail="true" life="5000" />
+                <p:panel header="CITAS" id="pnlConsultarCita">
+                    <table>
+                        <tr><td>
+                                <table>
+                                    <tr><td><p:outputLabel value="Id Paciente:"/></td><td><p:inputText value="#{uicita.cita.paciente.identificacion}" /></td><td></td></tr>
+                                    <tr><td><p:outputLabel value="Nombre:"/></td><td><p:autoComplete id="nombrePaciente" dropdown="false" value="#{uicita.cita.paciente.nombreCompleto}" 
+                                                                                                     completeMethod="#{uicita.listarPacientesPatron}"  scrollHeight="200" 
+                                                                                                     maxResults="10" minQueryLength="3"
+                                                                                                     style="width: 200px;">                                                      
+                                            </p:autoComplete></td><td></td></tr>
+                                    <tr><td><p:outputLabel value="Fecha:"/></td><td><p:calendar value="#{uicita.fechaInicial}" mode="popup" pattern="dd/MM/yyyy" locale="es"/></td><td><p:commandButton icon="ui-icon-search" value="Consultar Citas" style="height: 26px; width: 150px; font-size: 80%;" 
+                                                                                                                                                                                                        actionListener="#{uicita.consultarCitas}" update="dtListaCitas,growlConsultaCita" /></td></tr>
+                                </table>
+                            </td></tr>
+                        <tr><td>
+                                <p:dataTable var="itemCita" value="#{uicita.listaCitas}" id="dtListaCitas" style="font-size: 65%;"
+                                             rows="10" paginator="true" >
+
+                                    <p:column headerText="Codigo" style="width:35px">
+                                        <h:outputText value="#{itemCita.codigo}" />
+                                    </p:column>
+                                    <p:column headerText="Id. Paciente">
+                                        <h:outputText value="#{itemCita.paciente.identificacion}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre" >
+                                        <h:outputText value="#{itemCita.paciente.nombreCompleto}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha">
+                                        <h:outputText value="#{itemCita.fecha}" />
+                                    </p:column>
+                                    <p:column headerText="Hora" style="width:25px">
+                                        <h:outputText value="#{itemCita.hora}" >
+                                            <f:convertDateTime pattern="HH:mm" timeZone="GMT-5" locale="es" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Especialidad">
+                                        <h:outputText value="#{itemCita.especialidad.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Procedimientos">
+                                        <p:dataList value="#{itemCita.listaProcedimientos}" var="dlListaPro" style="padding: 0px 0px 0px 0px;">                                            
+                                            #{dlListaPro.nombre} - 
+                                            <h:outputText value="#{dlListaPro.hora}" >
+                                                <f:convertDateTime pattern="HH:mm" timeZone="GMT-5" locale="es" />
+                                            </h:outputText>
+                                        </p:dataList>
+                                    </p:column>
+                                    <p:column headerText="Profesional">
+                                        <h:outputText value="#{itemCita.profesional.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Estado">                                       
+                                        <h:outputText value="#{itemCita.estado.nombre}" />
+                                    </p:column>
+                                    <p:column style="width:32px; text-align: center">
+                                        <p:commandButton update=":frmConsultaCitas:pnlEstadoCita" oncomplete="PF('estadoCitaW').show()" icon="ui-icon-pencil" title="Editar estado" >
+                                            <f:setPropertyActionListener value="#{itemCita}" target="#{uicita.citaSeleccionada}" />
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </td></tr>
+                    </table>
+                </p:panel>
+                <p:dialog header="ESTADO CITA" widgetVar="estadoCitaW" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="pnlEstadoCita" style="text-align:center;" rendered="#{not empty uicita.citaSeleccionada}">
+                        <table>
+                            <tr><td><h:outputText value="Id. Paciente" /></td>      <td><p:inputText id="idPaciente" value="#{uicita.citaSeleccionada.paciente.identificacion}" /></td></tr>
+                            <tr><td><h:outputText value="Estado" /></td>
+                                <td><p:selectOneMenu value="#{uicita.citaSeleccionada.estado.codigo}" >
+                                        <p:ajax event="change" listener="#{uicita.deshabilitarCamposDialogo}" update="pnlEstadoCita" />
+                                        <f:selectItems value="#{uicita.listaEstadosCita}"  />
+                                    </p:selectOneMenu></td></tr>
+                            <tr><td><h:outputText value="Razón" /></td>             <td><p:inputText disabled="#{not uicita.razonHab}" id="motivo" value="#{uicita.citaSeleccionada.motivo}" /></td></tr>
+                            <tr><td><h:outputText value="Responsable" /></td>       <td><p:inputText disabled="#{not uicita.responsableHab}" id="responsable" value="#{uicita.citaSeleccionada.responsable}" /></td></tr>
+                            <tr><td><h:outputText value="Medio" /></td>             <td><p:inputText disabled="#{not uicita.medioHab}" id="medio" value="#{uicita.citaSeleccionada.medio}" /></td></tr>
+                            <tr><td><h:outputText value="Nro. autorización" /></td> <td><p:inputText disabled="#{not uicita.autorizacionHab}" id="numeroAutorizacion" value="#{uicita.citaSeleccionada.numeroAutorizacion}" /></td></tr>
+                            <tr><td colspan="2"><p:commandButton icon="ui-icon-disk" value="Guardar" style="height: 26px; width: 100px; font-size: 80%;" 
+                                                                 actionListener="#{uicita.guardarEstadoCita}" update="dtListaCitas" 
+                                                                 oncomplete="PF('estadoCitaW').hide()" /></td></tr>
+                        </table>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:body >
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="formCrearAgenda">
+                <p:growl id="growl" showDetail="true" life="5000"  />
+                <p:panel header="CREAR AGENDA" id="pnlCrearAgenda">
+                    <h:panelGrid columns="2">
+                        <h:panelGrid columns="1">
+                            <h:panelGrid columns="4" cellpadding="5">
+                                <p:outputLabel value="Especialidad" for="especialidadAm" />
+                                <p:autoComplete id="especialidadAm" dropdown="true" value="#{uiagenda.especialidadAm.nombre}" 
+                                                completeMethod="#{uiagenda.listarEspecialidadesPatron}" forceSelection="true" 
+                                                >
+                                    <p:ajax event="itemSelect" listener="#{uiagenda.limpiarProfesionales}" 
+                                            update="profesional" />	
+                                </p:autoComplete>
+                                <h:outputText value="" />
+                                <h:outputText value="" />
+
+                                <p:outputLabel value="Profesional" for="profesional" />
+                                <p:autoComplete id="profesional" dropdown="true"
+                                                value="#{uiagenda.profesional.nombre}" 
+                                                completeMethod="#{uiagenda.listarProfesionalesEspecialidadPatron}"
+                                                forceSelection="true" >
+
+                                </p:autoComplete>
+
+                                <h:outputText value="" />
+                                <h:outputText value="" />
+
+                                <p:outputLabel value="Fecha Inicial" for="fechaInicial" />
+                                <p:calendar id="fechaInicial" value="#{uiagenda.fechaInicial}" locale="es" />
+                                <p:outputLabel value="Fecha Final" for="fechaFinal" />
+                                <p:calendar id="fechaFinal" value="#{uiagenda.fechaFinal}" locale="es" />                                
+
+                                <p:commandButton value="Selector" id="generarDias" update="dtSelectorDias" actionListener="#{uiagenda.generarSelectorDias}" style="height: 26px; width: 100px; font-size: 80%;" />
+                                <h:outputText value="" />
+                                <h:outputText value="" />
+                                <h:outputText value="" />                                
+
+                            </h:panelGrid>
+                            <p:separator></p:separator>
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputText value="Atencion en la Mañana" />
+                                <p:selectBooleanCheckbox value="#{uiagenda.generaAgendaAm}">
+                                    <p:ajax update="horaInicialAm,horaFinalAm,dtSelectorDias" listener="#{uiagenda.actualizarFranjasSelectorAm()}"/>
+                                </p:selectBooleanCheckbox>
+                            </h:panelGrid>
+                            <h:panelGrid columns="4" cellpadding="5">
+                                <p:outputLabel value="Hora Inicial" for="horaInicialAm" />
+                                <p:calendar id="horaInicialAm" value="#{uiagenda.horaInicialAm}" timeOnly="true" pattern="HH:mm" locale="es" disabled="#{!uiagenda.generaAgendaAm}"/>
+                                <p:outputLabel value="Hora Final" for="horaFinalAm" />
+                                <p:calendar id="horaFinalAm" value="#{uiagenda.horaFinalAm}" timeOnly="true" pattern="HH:mm" locale="es" disabled="#{!uiagenda.generaAgendaAm}"/>
+
+                                <p:outputLabel for="duracionAm" value="Duracion" />
+                                <p:selectOneMenu id="duracionAm" value="#{uiagenda.duracionAm}" style="width:50px" >
+                                    <f:selectItem itemLabel="" itemValue="" />                         
+                                    <f:selectItem itemLabel="10" itemValue="10" />
+                                    <f:selectItem itemLabel="15" itemValue="15" />
+                                    <f:selectItem itemLabel="20" itemValue="20" />                            
+                                    <f:selectItem itemLabel="30" itemValue="30" />
+                                    <f:selectItem itemLabel="45" itemValue="45" />
+                                    <f:selectItem itemLabel="60" itemValue="60" />
+                                </p:selectOneMenu>
+                                <h:outputText value="" />
+                                <h:outputText value="" />
+
+                            </h:panelGrid>
+
+                            <p:separator></p:separator>
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputText value="Atencion en la tarde" />
+                                <p:selectBooleanCheckbox value="#{uiagenda.generaAgendaPm}">
+                                    <p:ajax update="horaInicialPm,horaFinalPm,dtSelectorDias" listener="#{uiagenda.actualizarFranjasSelectorPm()}" />
+                                </p:selectBooleanCheckbox>
+                            </h:panelGrid>
+                            <h:panelGrid columns="4" cellpadding="5">
+
+                                <p:outputLabel value="Hora Inicial" for="horaInicialPm" />
+                                <p:calendar id="horaInicialPm" value="#{uiagenda.horaInicialPm}" timeOnly="true" pattern="HH:mm" locale="es" disabled="#{!uiagenda.generaAgendaPm}" />
+                                <p:outputLabel value="Hora Final" for="horaFinalPm" />
+                                <p:calendar id="horaFinalPm" value="#{uiagenda.horaFinalPm}" timeOnly="true" pattern="HH:mm" locale="es" disabled="#{!uiagenda.generaAgendaPm}" />
+
+                                <h:outputText value="" />
+                                <h:outputText value="" />
+
+                            </h:panelGrid>
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <p:dataTable var="itemDia" value="#{uiagenda.selectorDias}" id="dtSelectorDias" style="font-size: 65%; width:170px" >                                    
+                                <p:column headerText="Fecha" style="width:50%">
+                                    <h:outputText value="#{itemDia.fecha}" />
+                                </p:column>
+                                <p:column headerText="AM" style="width:25%">
+                                    <p:selectBooleanCheckbox value="#{itemDia.franja1}" />
+                                </p:column>
+                                <p:column headerText="PM" style="width:25%">
+                                    <p:selectBooleanCheckbox value="#{itemDia.franja2}" />
+                                </p:column>
+
+                            </p:dataTable>                           
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <center>
+                        <p:commandButton value="Generar" id="btnGenerar" update="growl,pnlCrearAgenda" actionListener="#{uiagenda.crearAgenda}" />
+                        <p:commandButton value="Limpiar" id="btnLimpiar" update="growl,pnlCrearAgenda" actionListener="#{uiagenda.limpiarCreacionAgenda}" />
+                    </center>
+                </p:panel>               
+            </h:form>
+        </ui:composition>
+    </h:body>
+</html>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form>
+                <p:growl id="aviso" showDetail="true" life="5000" />
+                <p:panel header="CREAR PACIENTE" id="pnlCrearPaciente" style="width: 750px;" >
+                    <table cellpadding="5" border="0">                        
+                        <tr>
+                            <td align="right"><h:outputLabel value="* Doc. Identificación:" /></td>
+                            <td><p:inputText id="identificacion" value="#{uipaciente.paciente.identificacion}" >
+                                <p:ajax event="blur" listener="#{uipaciente.consultarPacientePorId}" 
+                                                update="pnlCrearPaciente"/>
+                                </p:inputText></td>
+                            <td></td>
+                            <td align="right"><h:outputLabel value="Tipo identificación:" /></td>
+                            <td><p:selectOneMenu value="#{uipaciente.paciente.tipoIdentificacion}" id="tipoIdentificacion">
+                                        <f:selectItem itemLabel="" itemValue="-1" />
+                                        <f:selectItems value="#{uipaciente.listaTipoIdentificacion}"  />
+                                    </p:selectOneMenu></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel value="* Primer nombre:" /></td>
+                            <td><p:inputText id="nombre" value="#{uipaciente.paciente.nombre}"/></td>
+                            <td></td>
+                            <td align="right"><h:outputLabel value=" Segundo nombre:" /></td>
+                            <td><p:inputText id="segundoNombre" value="#{uipaciente.paciente.segundoNombre}" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel value="* Primer apellido:" /></td>
+                            <td><p:inputText id="primerApellido" value="#{uipaciente.paciente.primerApellido}"/></td>
+                            <td></td>
+                            <td align="right"><h:outputLabel value=" Segundo apellido:" /></td>
+                            <td><p:inputText id="segundoApellido" value="#{uipaciente.paciente.segundoApellido}" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel value="* Fecha Nacimiento:" /></td>
+                            <td><p:calendar mode="popup" id="fechaNacimiento" value="#{uipaciente.paciente.fechaNacimiento}" 
+                                            locale="es" pattern="dd/MM/yyyy" navigator="true" mask="true"/></td>
+                            <td></td>
+                            <td align="right"><h:outputLabel value="Correo E.:" /></td>
+                            <td><p:inputText id="edad" value="#{uipaciente.paciente.email}" /></td>
+
+                        </tr>
+                        
+                        <tr>
+                            <td align="right"><p:outputLabel value="Sexo:" for="sexo" /></td>
+                            <td><p:selectOneMenu value="#{uipaciente.paciente.sexo}" id="sexo">
+                                        <f:selectItem itemLabel="" itemValue="-1" />
+                                        <f:selectItems value="#{uipaciente.listaSexo}"  />
+                                    </p:selectOneMenu></td>
+                            <td></td>
+                            <td align="right"><p:outputLabel value="Ocupacion:" for="ocupacion" /></td>
+                            <td><p:inputText id="ocupacion" value="#{uipaciente.paciente.ocupacion}" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel value="Estado civil:" for="estadoCivil" /></td>
+                            <td><p:selectOneMenu value="#{uipaciente.paciente.estadoCivil}" id="estadoCivil">
+                                        <f:selectItem itemLabel="" itemValue="-1" />
+                                        <f:selectItems value="#{uipaciente.listaEstadoCivil}"  />
+                                    </p:selectOneMenu></td>
+                            <td></td>
+                            <td align="right"><p:outputLabel value="Grado escolar:" for="gradoEscolar" /></td>
+                            <td><p:inputText id="gradoEscolar" value="#{uipaciente.paciente.gradoEscolar}" /></td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right"><p:outputLabel value="* Entidad:" for="entidad" /></td>
+                            <td colspan="4"><p:autoComplete id="entidad" dropdown="true" value="#{uipaciente.paciente.entidad.nombre}" 
+                                                            completeMethod="#{uipaciente.listarEntidadesPatron}"  scrollHeight="200" 
+                                                            forceSelection="true" size="68"/></td>
+
+                        </tr>
+                        <tr>
+                            <td align="right"><p:outputLabel for="tipoUsuario" value="Régimen:" /></td>                            
+                            <td><p:selectOneMenu id="tipoUsuario" value="#{uipaciente.paciente.tipoUsuario}" >
+                                    <f:selectItem itemLabel="" itemValue="" />
+                                    <f:selectItems value="#{uipaciente.listaRegimen}"  />                                
+                                </p:selectOneMenu></td>
+                            <td></td>
+                            <td align="right"><h:outputLabel for="tipoAfiliacion" value="Tipo usuario:" /></td>
+                            <td><p:selectOneMenu value="#{uipaciente.paciente.tipoAfiliacion}" id="tipoAfiliacion">
+                                        <f:selectItem itemLabel="" itemValue="-1" />
+                                        <f:selectItems value="#{uipaciente.listaTipoAfiliacion}"  />
+                                    </p:selectOneMenu></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel value="Condicion:" /></td>
+                            <td colspan="4"><p:selectOneMenu value="#{uipaciente.paciente.condicion}" id="condicion">
+                                        <f:selectItem itemLabel="" itemValue="" />
+                                        <f:selectItems value="#{uipaciente.listaCondicion}"  />
+                                    </p:selectOneMenu></td>                        
+                        </tr>                                                                        
+                        <tr>
+                            <td align="right"><h:outputLabel value="* Direccion1:" /></td>
+                            <td colspan="4"><p:inputText id="direccion1" value="#{uipaciente.paciente.direccion1}" style="width: 475px;"/></td>                        
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel value="Direccion2:" /></td>
+                            <td colspan="4"><p:inputText id="direccion2" value="#{uipaciente.paciente.direccion2}" style="width: 475px;"/></td>                        
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel value="* Telefono1:" /></td>
+                            <td><p:inputText id="telefono1" value="#{uipaciente.paciente.telefono1}" /></td>
+                            <td></td>
+                            <td align="right"><h:outputLabel value="* Ciudad Residencia:" /></td>
+                            <td><p:autoComplete id="ciudadResidencia" dropdown="true" value="#{uipaciente.paciente.ciudadResidencia.nombre}" 
+                                                            completeMethod="#{uipaciente.listarMunicipiosPatron}"  scrollHeight="200" 
+                                                            forceSelection="true" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel value="* Telefono2:" /></td>
+                            <td><p:inputText id="telefono2" value="#{uipaciente.paciente.telefono2}" /></td>
+                            
+                            <td></td>
+                            <td align="right"><h:outputLabel value="* Ciudad Nacimiento:" /></td>
+                            <td><p:autoComplete id="ciudadNacimiento" dropdown="true" value="#{uipaciente.paciente.ciudadNacimiento.nombre}" 
+                                                            completeMethod="#{uipaciente.listarMunicipiosPatron}"  scrollHeight="200" 
+                                                            forceSelection="true" /></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><h:outputLabel value="Contacto:" /></td>
+                            <td ><p:inputText id="padres" value="#{uipaciente.paciente.padres}" /></td>
+                            <td></td>
+                            <td align="right"><h:outputLabel for="fechaRegistro" value="Fecha Apertura:" /></td>
+                            <td><p:inputText id="fechaRegistro" value="#{uipaciente.paciente.fechaApertura}"  readonly="true" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5" locale="es" />
+                                </p:inputText></td>
+                        </tr>
+                        </table>
+                    <table>
+                        <tr>
+                            <td align="center" colspan="5"><p:commandButton value="Guardar" update="aviso,pnlCrearPaciente" actionListener="#{uipaciente.guardarPaciente}" /></td>
+                            <td align="center" colspan="5"><p:commandButton value="Limpiar" update="pnlCrearPaciente" actionListener="#{uipaciente.limpiarPaciente}" /></td>                        
+                        </tr>
+                    </table>
+                    <h:outputText value="* Campos requeridos." style="font-size: 70%;" />
+                </p:panel>   
+            </h:form>
+        </ui:composition>
+    </body>
+
+
+</html>
+

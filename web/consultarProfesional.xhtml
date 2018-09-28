@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmConsultarProfesional">
+                <p:growl id="growlConsultaProfesional" showDetail="true" life="5000" />
+                <p:panel header="CONSULTAR PROFESIONAL" id="pnlConsultaProfesional">
+                    <table>                        
+                        <tr><td>
+                                <p:dataTable var="itemProfesional" value="#{uiprofesional.listaProfesionales}" id="dtListaProfesionales" style="font-size: 65%;"
+                                             rows="10" paginator="true" >
+
+                                    <p:column headerText="Cedula" style="width:35px" sortBy="#{itemProfesional.cedula}" filterBy="#{itemProfesional.cedula}">
+                                        <h:outputText value="#{itemProfesional.cedula}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre" style="width:35px" sortBy="#{itemProfesional.nombre}" filterBy="#{itemProfesional.nombre}">
+                                        <h:outputText value="#{itemProfesional.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Direccion" style="width:35px" sortBy="#{itemProfesional.direccion}">
+                                        <h:outputText value="#{itemProfesional.direccion}" />
+                                    </p:column>
+                                    <p:column headerText="Telefono" style="width:35px" sortBy="#{itemProfesional.telefono}">
+                                        <h:outputText value="#{itemProfesional.telefono}" />
+                                    </p:column>
+                                    <p:column headerText="Activo" style="width:35px" sortBy="#{itemProfesional.activo}">
+                                        <p:selectBooleanCheckbox value="#{itemProfesional.activo}"  disabled="true"/>
+                                    </p:column>
+                                    
+                                </p:dataTable>
+                            </td></tr>
+                        <tr><td>
+                            <p:commandButton icon="ui-icon-refresh" value="Consultar" style="height: 26px; width: 150px; font-size: 80%;" 
+                                             actionListener="#{uiprofesional.consultarProfesionales()}" update="dtListaProfesionales" />
+                            </td></tr>
+                    </table>
+                </p:panel>
+                
+                
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>

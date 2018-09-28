@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>SICEHC - Terapia</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet name="general.css"  />
+        <h:form id="frmFormularioTerapia">
+            <p:growl id="mensajesTerapia" showDetail="true" life="5000"  />
+            <p:panel header="FORMULARIO TERAPIA" style="width: 100%;" id="pnlTerapia">
+                <table cellpadding="5" class="" border="0" style="width: 96%;">
+                    <tr>
+                        <td colspan="4"></td><td>Nro. Autorizacion</td><td><h:outputText value="#{uiterapia.terapia.nroAutorizacion}" /></td>
+                    </tr>
+                    <tr><td>Fecha/Hora</td><td><p:calendar id="fecha" value="#{uiterapia.terapia.fecha}" locale="es" /></td><td>Primera vez</td><td><p:selectBooleanCheckbox value="#{uiterapia.terapia.primeraVez}" /></td><td>Control</td><td><p:selectBooleanCheckbox value="#{uiterapia.terapia.control}" /></td></tr>
+                    <tr><td>Condicion</td><td><p:selectOneMenu value="#{uiterapia.terapia.cita.paciente.condicion}" id="condicion">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{uipaciente.listaCondicion}"  />
+                            </p:selectOneMenu></td><td>Codigo RIPS</td><td><p:inputText id="codigoRIPS" value="#{uiterapia.terapia.codigoRIPS}" /></td><td></td><td></td></tr>
+                    
+                    
+                    <tr><td>Código Diagnóstico Principal</td><td colspan="5">
+                            <p:selectOneMenu value="#{uiterapia.terapia.codigoDiagnostico}" id="codigoDiagnostico" style="width: 80%">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{uiterapia.listaCodigosDiagnostico}"  />
+                            </p:selectOneMenu></td></tr>
+                    <tr><td>Código Diagnóstico Secundario</td><td colspan="5">
+                            <p:selectOneMenu value="#{uiterapia.terapia.codigoDiagnostico2}" id="codigoDiagnostico2" style="width: 80%">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{uiterapia.listaCodigosDiagnostico}"  />
+                            </p:selectOneMenu></td></tr>
+                    
+                    
+                    
+                    
+                    <tr><td colspan="6" align="center"><p:panelGrid id="tblDatosPaciente" columns="6" style=" font-size: 70%; width: 90%;">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre: " />
+                                    <h:outputText value="#{uiterapia.terapia.cita.paciente.nombreCompleto}" />
+                                </f:facet>
+                                <h:outputText value="Fecha Nacimiento" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.fechaNacimiento}" ><f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5" locale="es" /></h:outputText>
+                                <h:outputText value="Edad" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.edad}" />
+                                <h:outputText value="Sexo" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.sexo}" />
+                                <h:outputText value="Estado Civil" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.estadoCivil}" />
+                                <h:outputText value="Ocupacion" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.ocupacion}" />
+                                <h:outputText value="Grado Escolar" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.gradoEscolar}" />
+                                <h:outputText value="Entidad" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.entidad.nombre}" />
+                                <h:outputText value="Tipo Afiliado" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.tipoAfiliacion}" />
+                                <h:outputText value="Tipo Identificacion" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.tipoIdentificacion}" />
+                                <h:outputText value="Identificacion" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.identificacion}" />
+                                <h:outputText value="Dirección1" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.direccion1}" />
+                                <h:outputText value="Telefono1" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.telefono1}" />
+                                <h:outputText value="Telefono2" style="font-weight: bold;" /><h:outputText value="#{uiterapia.terapia.cita.paciente.telefono2}" />
+
+                            </p:panelGrid></td></tr>
+                    <tr><td>Acudiente</td> <td><p:inputText id="nombreAcompanante" value="#{uiterapia.terapia.nombreAcompanante}" /></td>        <td>Diagnóstico</td><td colspan="3"><p:inputTextarea id="diagnostico" rows="2" cols="60" value="#{uiterapia.terapia.diagnostico}" /></td></tr>
+                    <tr><td>Parentesco</td><td><p:inputText id="parentescoAcompanante" value="#{uiterapia.terapia.parentescoAcompanante}" /></td><td>Plan de tratamiento</td><td colspan="3"><p:inputTextarea id="planTratamiento" rows="2" cols="60" value="#{uiterapia.terapia.planTratamiento}" /></td></tr>
+
+
+
+                    <tr><td colspan="6"><p:fieldset legend="EVOLUCION" style="width: 98%" >
+                                <p:inputTextarea rows="3" cols="145" value="#{uiterapia.detalleTerapia.actividad}" style="width: 98%"/>
+                            </p:fieldset></td></tr>
+                    <tr><td colspan="6"><p:fieldset legend="EVOLUCIONES ANTERIORES" style="width: 98%">
+                                <p:dataTable var="itemDetalleTerapia" value="#{uiterapia.terapia.detalleTerapia}" id="dtListaActividadesAnteriores"
+                                             style="font-size: 65%; width: 900px;" rows="10" paginator="false" >
+                                    <p:column headerText="Fecha" style="width: 10%;">
+                                        <h:outputText value="#{itemDetalleTerapia.fecha}" />
+                                    </p:column>
+                                    <p:column headerText="Hora" style="width: 10%;">
+                                        <h:outputText value="#{itemDetalleTerapia.hora}" />
+                                    </p:column>
+                                    <p:column headerText="Actividad" >
+                                        <h:outputText value="#{itemDetalleTerapia.actividad}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:fieldset></td></tr>
+                    <tr><td colspan="6"><p:fieldset legend="OBSERVACIONES" style="width: 98%">
+                                <p:inputTextarea rows="3" cols="145" value="#{uiterapia.terapia.evolucion}" style="width: 98%"/>
+                            </p:fieldset></td></tr>
+                    <tr><td colspan="6"><p:fieldset legend="RECOMENDACION" style="width: 98%">
+                                <p:inputTextarea rows="3" cols="145" value="#{uiterapia.terapia.recomendacion}" style="width: 98%"/>
+                            </p:fieldset></td></tr>
+
+                    <tr><td>Sesiones</td><td><p:selectOneMenu value="#{uiterapia.terapia.cantSesiones}" id="cantSesiones">
+                                <f:selectItem itemLabel="1" itemValue="1" />
+                                <f:selectItem itemLabel="2" itemValue="2" />
+                                <f:selectItem itemLabel="3" itemValue="3" />
+                                <f:selectItem itemLabel="4" itemValue="4" />
+                                <f:selectItem itemLabel="5" itemValue="5" />
+                                
+                            </p:selectOneMenu></td><td></td>
+                        <td></td>
+                        <td><p:commandButton value="Guardar" id="btnGuardar" update="mensajesTerapia,btnGuardar" disabled="#{uiterapia.guardado}" actionListener="#{uiterapia.actualizarTerapiaCita()}" oncomplete="window.close()" /></td>
+                        <td align="right">
+                            
+                            </td>
+                    </tr>
+
+
+                </table>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

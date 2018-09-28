@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>SICEHC - Historia clinica por valoracion</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet name="general.css"  />
+        <h:form id="frmResumenProfesional">
+            <p:growl id="mensajesValoracion" showDetail="true" life="5000"  />
+            <p:panel header="FORMULARIO VALORACION" style="width: 100%;" id="pnlHistoriaClinicaValoracion">
+                <table cellpadding="5" class="" border="0">
+                    <tr><td>Fecha/Hora</td><td><p:calendar id="fecha" value="#{uivaloracion.valoracion.fecha}" locale="es" />
+                                               <p:calendar id="hora" value="#{uivaloracion.valoracion.hora}" timeOnly="true" pattern="HH:mm" locale="es" style="width: 50%;" /></td>
+                        <td>Primera vez</td><td><p:selectBooleanCheckbox value="#{uivaloracion.valoracion.primeraVez}" /></td><td>Control</td><td>
+                                                <p:selectBooleanCheckbox value="#{uivaloracion.valoracion.control}" /></td></tr>
+
+                    <tr><td>Especialidad</td><td><h:outputText id="especialidad" value="#{uivaloracion.valoracion.cita.especialidad.nombre}" /></td>
+                        <td>Procedimiento</td><td><h:outputText id="procedimiento" value="#{uivaloracion.valoracion.cita.listaProcedimientos.get(0).nombre}" /></td>                        
+                        <td>Codigo RIPS</td><td><p:inputText id="codigoRIPS" value="#{uivaloracion.valoracion.codigoRIPS}" /></td></tr>
+
+                    <tr><td>Código Diagnóstico Principal</td><td colspan="5">
+                            <p:selectOneMenu value="#{uivaloracion.valoracion.codigoDiagnostico}" id="codigoDiagnostico" style="width: 80%">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{uivaloracion.listaCodigosDiagnostico}"  />
+                            </p:selectOneMenu></td></tr>
+
+                    <tr><td>Código Diagnóstico Secundario</td><td colspan="5">
+                            <p:selectOneMenu value="#{uivaloracion.valoracion.codigoDiagnostico2}" id="codigoDiagnostico2" style="width: 80%">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{uivaloracion.listaCodigosDiagnostico2}"  />
+                            </p:selectOneMenu></td></tr>
+
+                    <tr><td colspan="6" align="center"><p:panelGrid id="tblDatosPaciente" columns="6" style=" font-size: 70%; width: 90%;">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre: " />
+                                    <h:outputText value="#{uivaloracion.valoracion.cita.paciente.nombreCompleto}" />
+                                </f:facet>
+                                <h:outputText value="Fecha Nacimiento" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.fechaNacimiento}" ><f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5" locale="es" /></h:outputText>
+                                <h:outputText value="Edad" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.edad}" />
+                                <h:outputText value="Sexo" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.sexo}" />
+                                <h:outputText value="Estado Civil" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.estadoCivil}" />
+                                <h:outputText value="Ocupacion" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.ocupacion}" />
+                                <h:outputText value="Grado Escolar" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.gradoEscolar}" />
+                                <h:outputText value="Entidad" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.entidad.nombre}" />
+                                <h:outputText value="Tipo Afiliado" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.tipoAfiliacion}" />
+                                <h:outputText value="Tipo Identificacion" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.tipoIdentificacion}" />
+                                <h:outputText value="Identificacion" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.identificacion}" />
+                                <h:outputText value="Dirección1" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.direccion1}" />
+                                <h:outputText value="Telefono1" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.telefono1}" />
+                                <h:outputText value="Telefono2" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.telefono2}" />
+
+                            </p:panelGrid></td></tr>
+                    <tr><td>Nombre Acompañante</td><td><p:inputText id="nombreAcompanante" value="#{uivaloracion.valoracion.nombreAcompanante}" /></td><td>Parentesco</td><td><p:inputText id="parentescoAcompanante" value="#{uivaloracion.valoracion.parentescoAcompanante}" /></td><td>Remitido por</td><td><p:inputText id="remitidoPor" value="#{uivaloracion.valoracion.remitidoPor}" /></td></tr>
+                    <tr><td>Dirección</td><td><p:inputText id="direccionAcompanante" value="#{uivaloracion.valoracion.direccionAcompanante}" /></td><td>Teléfono</td><td><p:inputText id="telefonoAcompanante" value="#{uivaloracion.valoracion.telefonoAcompanante}" /></td><td>Tipo Formato</td><td><p:selectOneMenu value="#{uivaloracion.valoracion.tipoFormato}" id="tipoFormato">
+                                <f:selectItem itemLabel="" itemValue="-1" />
+                                <f:selectItems value="#{uivaloracion.listaTipoFormato}"  />
+                            </p:selectOneMenu></td></tr>
+                    <tr><td>Condicion</td><td colspan="5"><p:selectOneMenu value="#{uivaloracion.valoracion.cita.paciente.condicion}" id="condicion">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{uipaciente.listaCondicion}"  />
+                            </p:selectOneMenu></td></tr>
+
+                    <tr><td colspan="6"><p:fieldset legend="MOTIVO DE CONSULTA" style="width: 98%">
+                                            <p:inputTextarea rows="3" cols="145" value="#{uivaloracion.valoracion.motivoConsulta}" style="width: 98%"/>
+                                       </p:fieldset></td></tr>
+                    <tr><td colspan="6"><p:fieldset legend="ANTECEDENTES - EVALUACION" style="width: 98%">
+                                            <p:inputTextarea rows="6" cols="145" value="#{uivaloracion.valoracion.antecedentesEvaluacion}" style="width: 98%"/>
+                                       </p:fieldset></td></tr>
+                    <tr><td colspan="6"><p:fieldset legend="IMPRESION DIAGNOSTICA" style="width: 98%">
+                                            <p:inputTextarea rows="2" cols="145" value="#{uivaloracion.valoracion.impresionDiagnostica}" style="width: 98%"/>
+                                       </p:fieldset></td></tr>
+                    <tr><td colspan="6"><p:fieldset legend="CONDUCTA A SEGUIR" style="width: 98%">
+                                            <p:inputTextarea rows="3" cols="145" value="#{uivaloracion.valoracion.conductaSeguir}" style="width: 98%"/>
+                                       </p:fieldset></td></tr>
+
+
+                    <tr>
+                        <td>
+                            Habilitar terapias                            
+                        </td>
+                        <td> 
+                            <p:selectBooleanCheckbox value="#{uivaloracion.enviaTerapia}" >
+                                <p:ajax event="change" update="txtObservacionRecetario" />
+                            </p:selectBooleanCheckbox>
+                        </td>
+                        <td align="right" colspan="6">
+                            <p:commandButton icon="ui-icon-plus" style="height: 26px; width: 26px; font-size: 80%;" 
+                                             update="dtListaTerapias" actionListener="#{uivaloracion.adicionarTerapia()}" />
+                            <p:commandButton icon="ui-icon-minus" style="height: 26px; width: 26px; font-size: 80%;" 
+                                             update="dtListaTerapias" actionListener="#{uivaloracion.removerTerapia()}" />
+                        </td>
+                    </tr>
+                    
+                    <tr><td colspan="6"><p:fieldset id="lgdObservacionRecetario" legend="OBSERVACION RECETARIO" ><p:inputTextarea id="txtObservacionRecetario" disabled="#{!uivaloracion.enviaTerapia}" rows="3" cols="145" value="#{uivaloracion.valoracion.observacionRecetario}" /></p:fieldset></td></tr>
+
+                    <tr>
+                        <td colspan="6">
+                            <p:dataTable var="itemTerapia" value="#{uivaloracion.valoracion.listaTerapias}" id="dtListaTerapias" style="font-size: 80%;"
+                                         editable="true" editMode="cell" >
+                                <f:facet name="header">
+                                    Terapias a prescribir
+                                </f:facet>
+
+                                <p:ajax event="cellEdit" listener="#{uivaloracion.onCellEdit}" update="" />
+
+                                <p:column headerText="Terapia" style="width:60%; height: 20px;" id="txtTerapia">                                        
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{itemTerapia.procedimiento.nombre}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{itemTerapia.procedimiento.codigo}" style="width:100%">
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{uivaloracion.listaTerapias}" var="itemProcedimiento" itemLabel="#{itemProcedimiento.label}" itemValue="#{itemProcedimiento.value}" />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Cantidad" style="width:20%">                                                                                                                        
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{itemTerapia.cantidadFormulada}" /></f:facet>
+                                        <f:facet name="input"><p:inputText id="txtCantidad" value="#{itemTerapia.cantidadFormulada}" /></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+
+                                <p:column headerText="Autorizada" style="width:20%">                                                                                                                        
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{itemTerapia.autorizada.nombre}" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{itemTerapia.autorizada.codigo}" style="width:100%">                                                
+                                                <f:selectItems value="#{uivaloracion.comboConfirmacion}" var="itemConfirmacion" itemLabel="#{itemConfirmacion.label}" itemValue="#{itemConfirmacion.value}" />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                            </p:dataTable>
+                        </td>
+
+                    </tr>
+                    <tr><td></td><td></td><td></td><td></td>
+                        <td><p:commandButton value="Guardar" id="btnGuardar" update="mensajesValoracion,btnGuardar" disabled="#{uivaloracion.guardado}" actionListener="#{uivaloracion.guardarValoracion}"  oncomplete="window.close()"/></td>
+                        <td align="right">
+                        </td>
+                    </tr>
+
+
+                </table>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

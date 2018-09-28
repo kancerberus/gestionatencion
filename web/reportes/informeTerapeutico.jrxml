@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informeTerapeutico" language="groovy" pageWidth="612" pageHeight="792" columnWidth="532" leftMargin="50" rightMargin="30" topMargin="30" bottomMargin="20" uuid="535cc5cd-f013-4d9b-a08d-70341a50e3b9">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="103"/>
+	<parameter name="codigoTerapia" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+e.nombre area,
+t.fecha_informe_terapeutico,
+p.nombre||(case when character_length(coalesce(p.segundo_nombre,''))=0 then '' else ' '||p.segundo_nombre end)||(case when character_length(coalesce(p.primer_apellido,''))=0 then '' else ' '||p.primer_apellido end)||(case when character_length(coalesce(p.segundo_apellido,''))=0 then '' else ' '||p.segundo_apellido end) nombre_completo,
+p.telefono1,
+p.fecha_nacimiento,
+((current_date-p.fecha_nacimiento)/365)::integer edad,
+l_tipo_identificacion.label tipo_identificacion,
+l_sexo.label sexo,
+p.identificacion,
+t.informe_terapeutico
+from
+terapia t
+inner join pacientes p on (t.id_paciente=p.identificacion)
+inner join rel_procedimientos_especialidad rpe on (t.codigo_procedimiento=rpe.codigo_procedimiento)
+inner join especialidades e on (rpe.codigo_especialidad=e.codigo)
+left join (lista l
+inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='SEXO') ) l_sexo on (l_sexo.value=p.sexo)
+left join (lista l
+inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='TIPO_IDENTIFICACION') ) l_tipo_identificacion on (l_tipo_identificacion.value=p.tipo_identificacion)
+where
+t.codigo=$P{codigoTerapia}]]>
+	</queryString>
+	<field name="area" class="java.lang.String"/>
+	<field name="fecha_informe_terapeutico" class="java.sql.Date"/>
+	<field name="nombre_completo" class="java.lang.String"/>
+	<field name="telefono1" class="java.lang.String"/>
+	<field name="fecha_nacimiento" class="java.sql.Date"/>
+	<field name="edad" class="java.lang.Integer"/>
+	<field name="tipo_identificacion" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="identificacion" class="java.lang.String"/>
+	<field name="informe_terapeutico" class="java.lang.String"/>
+	<group name="informeTerapeutico">
+		<groupExpression><![CDATA[$P{codigoTerapia}]]></groupExpression>
+		<groupFooter>
+			<band height="375">
+				<rectangle radius="10">
+					<reportElement x="0" y="0" width="532" height="375" uuid="fbf52116-f1ae-488c-8acb-a473214c0914"/>
+				</rectangle>
+				<textField>
+					<reportElement x="10" y="20" width="522" height="344" uuid="f1c6de83-c6db-405f-a6fa-50979280192c"/>
+					<textFieldExpression><![CDATA[$F{informe_terapeutico}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="10" y="0" width="90" height="20" uuid="97acdb2b-202d-46c8-b5ff-8ad82b8a1d73"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[DIAGNOSTICO:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="97" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="19" width="532" height="52" uuid="265bc413-4f3f-4a6d-beb3-d86f5b483b96"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Colombia Personería Jurídica 4378
+NIT 891.408.974-4
+www.ideai.org.co
+Cra 3ª Nº19-51 - PBX (6)3353838 - FAX (6)3338092
+Pereira - Risaralda - Colombia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="532" height="19" uuid="290b94dc-1ad0-45ec-bedc-0e226c1031c1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSTITUTO DE AUDIOLOGIA INTEGRAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="74" width="532" height="19" uuid="a37de62e-ba6e-4063-a788-0baf301e989f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORME TERAPÉUTICO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="24" y="0" width="54" height="93" uuid="d545e5e2-1484-4e49-9ed4-986202b646f4"/>
+				<imageExpression><![CDATA["C:\\Imagenes\\LogoIDEAIbmp2.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="444" y="29" width="60" height="39" uuid="5b3f5c32-f65d-4ba2-a6bb-b014f4b4a700"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CG-FOR-10
+1 DE 1
+01/06/2011
+3]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="81">
+			<rectangle radius="10">
+				<reportElement x="0" y="20" width="532" height="61" uuid="5eb0c2ed-016b-49a2-9cc9-ff47749e9d67"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="83c3f030-4b69-47e7-bca1-3fb04eb9582f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Area:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="0" width="184" height="20" uuid="91dea7c4-4d22-43a2-96c0-c83f00a965f4"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="332" y="0" width="100" height="20" uuid="b477bb64-399c-461e-888c-75fab937829f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="432" y="0" width="100" height="20" uuid="55dd6e0b-9256-40f1-85b3-f1112750e8c5"/>
+				<textFieldExpression><![CDATA[$F{fecha_informe_terapeutico}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="20" width="90" height="20" uuid="c9c20a15-3325-4080-9d60-c82220088450"/>
+				<text><![CDATA[Nombres y Apellidos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="20" width="232" height="20" uuid="36c3174c-82d4-4af3-8bd9-1022ed36bac0"/>
+				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="332" y="20" width="100" height="20" uuid="23a4a189-3517-474f-99f7-8479dc81011b"/>
+				<text><![CDATA[Tel]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="432" y="20" width="100" height="20" uuid="dd7ea37f-180e-4205-98ef-6c142e7502cd"/>
+				<textFieldExpression><![CDATA[$F{telefono1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="40" width="105" height="20" uuid="116e2707-feef-4326-820b-1a8c7b975612"/>
+				<text><![CDATA[Fecha de Nacimiento]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="115" y="40" width="85" height="20" uuid="6bb3e4b4-d77b-4f6a-b9b4-1a31c848aaa2"/>
+				<textFieldExpression><![CDATA[$F{fecha_nacimiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="236" y="40" width="48" height="20" uuid="f0266283-34f7-4f8c-bde3-418e47497472"/>
+				<text><![CDATA[Edad]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="284" y="40" width="100" height="20" uuid="9f55e07a-d15d-425a-a13b-ec8f5511f37f"/>
+				<textFieldExpression><![CDATA[$F{edad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="398" y="40" width="34" height="20" uuid="c356b746-e770-455c-8670-a544e4bab83b"/>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="432" y="40" width="100" height="20" uuid="459431a4-6f44-4792-9a42-4001fb8d94c6"/>
+				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="60" width="90" height="20" uuid="1ca6a5c3-91c2-4ae4-9745-d1966fa54781"/>
+				<text><![CDATA[Identificacion]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="60" width="100" height="20" uuid="da5d9087-8c7b-4cd3-a731-286bfdca13f3"/>
+				<textFieldExpression><![CDATA[$F{tipo_identificacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="60" width="100" height="20" uuid="f683e3fa-046d-430f-9c4f-d09a8be77f19"/>
+				<textFieldExpression><![CDATA[$F{identificacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="122" splitType="Stretch">
+			<line>
+				<reportElement x="10" y="110" width="150" height="1" uuid="1aa223c2-023a-4a1f-991a-a2696aae2a4b"/>
+			</line>
+			<line>
+				<reportElement x="367" y="100" width="148" height="1" uuid="8be932da-6e74-4ba2-857a-da14b219dc40"/>
+			</line>
+			<staticText>
+				<reportElement x="406" y="101" width="80" height="15" uuid="d92baaa8-0fa8-4eec-8820-3fc5b135a12b"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PACIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="81" width="100" height="28" uuid="0aee9bd2-6bb0-41e7-a92b-d345a7920e9d"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROFESIONAL
+R.P. No.]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
