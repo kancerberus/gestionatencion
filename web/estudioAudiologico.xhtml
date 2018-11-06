@@ -23,8 +23,8 @@ and open the template in the editor.
         <h:outputStylesheet name="general.css"  />
         <h:form id="frmEstudioAudiologico">             
             <p:growl id="mensajesEstudioAudiologico" showDetail="true" life="5000"  />
-            <p:panel header="ESTUDIO AUDIOLOGICO" style="width: 2100px;" id="pnlEstudioAudiologico">
-                <table>
+            <p:panel header="ESTUDIO AUDIOLOGICO" style="width: 1500px;" id="pnlEstudioAudiologico">
+                <table >
                     <tr><td>
                             <table cellpadding="5" class="">
                                 <tr><td>
@@ -63,11 +63,12 @@ and open the template in the editor.
 
                             </table>
                         </td>
+                        </tr><tr>
                         <td>
                             <table>
                                 <tr>
                                     <td>
-                                        <table>
+                                        <table >
                                             <tr>
                                                 <td>
                                                     <p:dataTable id="dtAudiometriaTonosPurosOD" var="puntoATPOD" value="#{uiestudioaudiologico.puntosAudiometriaTonosPurosOD}" 
@@ -153,8 +154,9 @@ and open the template in the editor.
                                                     </p:dataTable>                                                    
                                                 </td>
                                                 <td></td>
+                                                <!-- campo libre -->
                                                 <td colspan="3" align="center">
-                                                    <p:dataTable id="dtCampoLibre" var="campoLibreVar" value="#{uiestudioaudiologico.tablaCampoLibre}" 
+                                                    <p:dataTable id="dtCampoLibre" var="campoLibreVar" value="#{uiestudioaudiologico.estudioAudiologico.tablaCampoLibre}" 
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 350px;">
 
                                                         <p:column headerText="" style="padding: 0px; width: 55%;">
@@ -194,18 +196,18 @@ and open the template in the editor.
                                                             <h:outputText value="CARACTERISTICAS" />                                                            
                                                         </f:facet>
                                                         <h:outputText value="OD" style="padding: 0px;"/>
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.od}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.od}" style="width: 50px;"/>
                                                         <h:outputText value="OI" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.oi}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.oi}" style="width: 50px;"/>
                                                         <h:outputText value="Bilateral" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.bilateral}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.bilateral}" style="width: 50px;"/>
 
                                                         <h:outputText value="Continuo" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.continuo}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.continuo}" style="width: 50px;"/>
                                                         <h:outputText value="Pulsatil" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.pulsatil}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.pulsatil}" style="width: 50px;"/>
                                                         <h:outputText value="Frecuencia(Hz)" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.frecuencia}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.frecuencia}" style="width: 50px;"/>
                                                     </p:panelGrid>
 
                                                     <p:panelGrid columns="6" style="font-size: 70%; width: 500px;">
@@ -213,11 +215,11 @@ and open the template in the editor.
                                                             <h:outputText value="MEDIDO CON" />                                                            
                                                         </f:facet>
                                                         <h:outputText value="Ruido Blanco" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.ruidoBlanco}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.ruidoBlanco}" style="width: 50px;"/>
                                                         <h:outputText value="Tono Puro" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.tonoPuro}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.tonoPuro}" style="width: 50px;"/>
                                                         <h:outputText value="Tono Warble" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.tonoWarble}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.tonoWarble}" style="width: 50px;"/>
                                                     </p:panelGrid>
 
                                                     <p:panelGrid columns="3" style="font-size: 70%; width: 500px;">
@@ -225,15 +227,15 @@ and open the template in the editor.
                                                             <h:outputText value="INTENSIDAD" />
                                                         </f:facet>
                                                         <h:outputText value="Umbral de la señal" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.umbralSenal}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.umbralSenal}" style="width: 50px;"/>
                                                         <h:outputText value="dB" />
 
                                                         <h:outputText value="Intensidad del Acufeno" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.intensidadAcufeno}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.intensidadAcufeno}" style="width: 50px;"/>
                                                         <h:outputText value="dB SU (sobre el Umbral)" />
 
                                                         <h:outputText value="Enmascaramiento" />
-                                                        <p:inputText value="#{uiestudioaudiologico.acufenometria.enmascaramiento}" style="width: 50px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.enmascaramiento}" style="width: 50px;"/>
                                                         <h:outputText value="dB SU (sobre el Umbral)" />
                                                     </p:panelGrid>
 
@@ -241,7 +243,7 @@ and open the template in the editor.
                                                 <td colspan="3" align="center">
                                                     <br/>
                                                     <h:outputText value="INMITANCIA ACUSTICA"/><br/><br/>
-                                                    <p:dataTable id="dtTimpanogramas" var="timpanogramasVar" value="#{uiestudioaudiologico.inmitanciaAcustica.tablaTimpanograma}" 
+                                                    <p:dataTable id="dtTimpanogramas" var="timpanogramasVar" value="#{uiestudioaudiologico.estudioAudiologico.tablaTimpanograma}" 
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 300px; ">
                                                         <f:facet name="header">
                                                             <h:outputText value="TIMPANOGRAMAS" />                                                            
@@ -266,7 +268,7 @@ and open the template in the editor.
                                                         </p:column>
                                                     </p:dataTable>
                                                     <br/>
-                                                    <p:dataTable id="dtInmitanciaAcustica" var="inmitanciaAcusticaVar" value="#{uiestudioaudiologico.inmitanciaAcustica.valoresInmitanciaAcustica}" 
+                                                    <p:dataTable id="dtInmitanciaAcustica" var="inmitanciaAcusticaVar" value="#{uiestudioaudiologico.estudioAudiologico.valoresInmitanciaAcustica}" 
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 350px; ">
                                                         <p:column style="padding: 0px; text-align: center;">
                                                             <h:outputText value="#{inmitanciaAcusticaVar.parametro}" style="width:70%"/>
@@ -285,6 +287,9 @@ and open the template in the editor.
                                                         </p:column>
                                                     </p:dataTable>
                                                 </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7" align="center"><p:commandButton value="Guardar" id="btnGuardar" update="mensajesEstudioAudiologico" actionListener="#{uiestudioaudiologico.guardarEstudio()}" oncomplete="window.close()" /></td>
                                             </tr>
                                         </table>
                                     </td>

@@ -6,7 +6,9 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -33,11 +35,22 @@ public class EstudioAudiologico implements Serializable {
     
     private Grafico audiometriaTonosPurosOD;
     
+    private List<CampoLibre> tablaCampoLibre;
+    private List<Timpanograma> tablaTimpanograma;
+    private List<CampoLibre> valoresInmitanciaAcustica;
+    private String impedanciometro;    
+    private Acufenometria acufenometria;
+    
     
    
 
     public EstudioAudiologico() {
         audiometriaTonosPurosOD = new Grafico();
+        tablaCampoLibre = new ArrayList<>();
+        tablaTimpanograma = new ArrayList<>();
+        valoresInmitanciaAcustica = new ArrayList<>();
+        acufenometria = new Acufenometria();
+        
     }
 
     /**
@@ -262,6 +275,76 @@ public class EstudioAudiologico implements Serializable {
      */
     public void setAudiometriaTonosPurosOD(Grafico audiometriaTonosPurosOD) {
         this.audiometriaTonosPurosOD = audiometriaTonosPurosOD;
+    }
+
+    /**
+     * @return the tablaCampoLibre
+     */
+    public List<CampoLibre> getTablaCampoLibre() {
+        return tablaCampoLibre;
+    }
+
+    /**
+     * @param tablaCampoLibre the tablaCampoLibre to set
+     */
+    public void setTablaCampoLibre(List<CampoLibre> tablaCampoLibre) {
+        this.tablaCampoLibre = tablaCampoLibre;
+    }
+
+    /**
+     * @return the tablaTimpanograma
+     */
+    public List<Timpanograma> getTablaTimpanograma() {
+        return tablaTimpanograma;
+    }
+
+    /**
+     * @param tablaTimpanograma the tablaTimpanograma to set
+     */
+    public void setTablaTimpanograma(List<Timpanograma> tablaTimpanograma) {
+        this.tablaTimpanograma = tablaTimpanograma;
+    }
+
+    /**
+     * @return the valoresInmitanciaAcustica
+     */
+    public List<CampoLibre> getValoresInmitanciaAcustica() {
+        return valoresInmitanciaAcustica;
+    }
+
+    /**
+     * @param valoresInmitanciaAcustica the valoresInmitanciaAcustica to set
+     */
+    public void setValoresInmitanciaAcustica(List<CampoLibre> valoresInmitanciaAcustica) {
+        this.valoresInmitanciaAcustica = valoresInmitanciaAcustica;
+    }
+
+    /**
+     * @return the impedanciometro
+     */
+    public String getImpedanciometro() {
+        return impedanciometro;
+    }
+
+    /**
+     * @param impedanciometro the impedanciometro to set
+     */
+    public void setImpedanciometro(String impedanciometro) {
+        this.impedanciometro = impedanciometro;
+    }
+
+    /**
+     * @return the acufenometria
+     */
+    public Acufenometria getAcufenometria() {
+        return acufenometria;
+    }
+
+    /**
+     * @param acufenometria the acufenometria to set
+     */
+    public void setAcufenometria(Acufenometria acufenometria) {
+        this.acufenometria = acufenometria;
     }
     
     

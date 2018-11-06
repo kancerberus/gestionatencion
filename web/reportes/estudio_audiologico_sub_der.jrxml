@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estudio_audiologico_sub_der" language="groovy" pageWidth="425" pageHeight="566" columnWidth="425" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7334682c-6e04-4862-b9bf-62c160d7ef1f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigo_estudio_sub_der" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Desarrollo\\github\\gestionatencion\\web\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select '' aux]]>
+	</queryString>
+	<title>
+		<band height="519" splitType="Stretch">
+			<subreport>
+				<reportElement x="271" y="193" width="121" height="47" uuid="05ca6711-2b8c-4795-bfdb-c2408cc8e7ff"/>
+				<subreportParameter name="codigo_estudio_sub_campo_libre">
+					<subreportParameterExpression><![CDATA[$P{codigo_estudio_sub_der}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estudio_audiologico_sub_campo_libre.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="268" y="284" width="121" height="100" uuid="14b7e748-daba-4545-8dd7-92348bce5158"/>
+				<subreportParameter name="codigo_estudio_sub_timpanograma">
+					<subreportParameterExpression><![CDATA[$P{codigo_estudio_sub_der}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estudio_audiologico_sub_timpanograma.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="0" y="281" width="425" height="1" uuid="2a96db13-541b-4a3f-a904-f5d6d95a1a42"/>
+			</line>
+			<line>
+				<reportElement x="210" y="281" width="1" height="217" uuid="4c838cf7-0070-45cd-a15f-985f2c5121da"/>
+			</line>
+			<subreport>
+				<reportElement x="218" y="433" width="180" height="74" uuid="7b2ffaed-70aa-4103-919e-d0227a6e583a"/>
+				<subreportParameter name="codigo_estudio_sub_inmitancia">
+					<subreportParameterExpression><![CDATA[$P{codigo_estudio_sub_der}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estudio_audiologico_sub_inmitancia.jasper"]]></subreportExpression>
+			</subreport>
+			<image>
+				<reportElement x="351" y="26" width="74" height="100" uuid="f399452c-489a-4495-9773-4d0fb4456af9"/>
+				<imageExpression><![CDATA["D:\\Desarrollo\\github\\gestionatencion\\web\\resources\\nomenclatura.png"]]></imageExpression>
+			</image>
+			<subreport>
+				<reportElement x="0" y="303" width="168" height="100" uuid="f4b5af6b-2e24-4902-91c5-5f1795a9b832"/>
+				<subreportParameter name="codigo_estudio_sub_acufenometria">
+					<subreportParameterExpression><![CDATA[$P{codigo_estudio_sub_der}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estudio_audiologico_sub_acufenometria.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+</jasperReport>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estudio_audiologico_sub_inmitancia" language="groovy" pageWidth="216" pageHeight="752" columnWidth="216" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="23f1ae35-c213-4789-a9f1-1a9409a0cdd5">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigo_estudio_sub_inmitancia" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+label,valor1,valor2
+from
+parametros_estudio_audiologico pest
+INNER join (lista l inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='INMITANCIA_ACUSTICA') )
+l_campo_libre on (
+l_campo_libre.value=pest.value and
+l_campo_libre.codigo_lista=pest.codigo_lista)
+where
+pest.codigo_estudio=$P{codigo_estudio_sub_inmitancia}
+order by orden asc]]>
+	</queryString>
+	<field name="label" class="java.lang.String"/>
+	<field name="valor1" class="java.lang.String"/>
+	<field name="valor2" class="java.lang.String"/>
+	<columnHeader>
+		<band height="10" splitType="Stretch">
+			<staticText>
+				<reportElement x="87" y="0" width="55" height="10" uuid="a6362d3d-db07-4ba7-b93a-7b7c7db049f1"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Oído Derecho]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="55" height="10" uuid="fade8bae-da4d-467f-99bc-2bd359316135"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Oído Izquierdo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="10" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="87" height="10" uuid="4a240878-7017-40e8-a624-8e5249f35eda"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{label}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="87" y="0" width="55" height="10" uuid="6f3dc561-f20f-490d-a671-7c1fbab8d2f0"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="150" y="0" width="55" height="10" uuid="97553a3f-973a-4ca2-8e63-702fe2bc1fc5"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

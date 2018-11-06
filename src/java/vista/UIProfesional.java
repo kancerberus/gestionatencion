@@ -78,6 +78,9 @@ public class UIProfesional implements Serializable {
                 //codigoAtencion = "window.open('.././exportar?nomReporte=valoracion&amp;parametros=codigoValoracion&amp;valores=" + codigo + "&amp;tipos=I');";
                 codigoAtencion = "window.open('.././exportar?nomReporte=valoracion&parametros=codigoValoracion&valores=" + codigo + "&tipos=I');";
                 rutaRecetario = "window.open('.././exportar?nomReporte=recetario&parametros=codigoValoracion&valores=" + codigo + "&tipos=I');";
+            } else if (cita.getListaProcedimientos().get(0).getTipo() == 4) {
+                //codigoAtencion = "window.open('.././exportar?nomReporte=valoracion&amp;parametros=codigoValoracion&amp;valores=" + codigo + "&amp;tipos=I');";
+                codigoAtencion = "window.open('.././exportar?nomReporte=estudio_audiologico&parametros=codigo_estudio&valores=" + codigo + "&tipos=I');";                
             }
             //#{itemCita.listaProcedimientos.get(0).tipo eq 1 ? 
             //"window.open('.././exportar?nomReporte=terapia&amp;parametros=codigoTerapia&amp;valores=".(uiprofesional.codigoAtencion)."&amp;tipos=I');"
@@ -110,6 +113,10 @@ public class UIProfesional implements Serializable {
             UIValoracion uivaloracion = (UIValoracion) ef.createValueExpression(contextoEL, "#{uivaloracion}", UIValoracion.class).getValue(contextoEL);
             uivaloracion.getValoracion().setCita(cita);
             contextoJSF.getExternalContext().getRequestMap().put("uivaloracion", UIValoracion.class);
+        } else if (cita.getListaProcedimientos().get(0).getTipo() == 4) {
+            UIEstudioAudiologico uiestudioaudiologico = (UIEstudioAudiologico) ef.createValueExpression(contextoEL, "#{uiestudioaudiologico}", UIEstudioAudiologico.class).getValue(contextoEL);
+            uiestudioaudiologico.getEstudioAudiologico().setCita(cita);
+            contextoJSF.getExternalContext().getRequestMap().put("uiestudioaudiologico", UIEstudioAudiologico.class);
         }
     }
 

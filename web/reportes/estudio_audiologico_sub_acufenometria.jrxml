@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estudio_audiologico_sub_acufenometria" language="groovy" pageWidth="216" pageHeight="752" columnWidth="216" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2fbbb991-f68e-4e1b-b329-8fe5e8562942">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigo_estudio_sub_acufenometria" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from estudio_audiologico where codigo=$P{codigo_estudio_sub_acufenometria}]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Integer"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="hora" class="java.sql.Time"/>
+	<field name="primera_vez" class="java.lang.Boolean"/>
+	<field name="control" class="java.lang.Boolean"/>
+	<field name="codigo_rips" class="java.lang.String"/>
+	<field name="remitido_por" class="java.lang.String"/>
+	<field name="nombre_acompanante" class="java.lang.String"/>
+	<field name="direccion_acompanante" class="java.lang.String"/>
+	<field name="telefono_acompanante" class="java.lang.String"/>
+	<field name="parentesco_acompanante" class="java.lang.String"/>
+	<field name="acu_od" class="java.lang.String"/>
+	<field name="acu_oi" class="java.lang.String"/>
+	<field name="acu_bilateral" class="java.lang.String"/>
+	<field name="acu_continuo" class="java.lang.String"/>
+	<field name="acu_pulsatil" class="java.lang.String"/>
+	<field name="acu_frecuencia" class="java.lang.String"/>
+	<field name="acu_ruido_blanco" class="java.lang.String"/>
+	<field name="acu_tono_puro" class="java.lang.String"/>
+	<field name="acu_tono_warble" class="java.lang.String"/>
+	<field name="acu_umbral" class="java.lang.String"/>
+	<field name="acu_intensidad" class="java.lang.String"/>
+	<field name="acu_enmascaramiento" class="java.lang.String"/>
+	<field name="motivo_consulta" class="java.lang.String"/>
+	<field name="antecedentes" class="java.lang.String"/>
+	<field name="diagnostico_audiologico" class="java.lang.String"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<field name="cod_cita" class="java.lang.Integer"/>
+	<title>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="216" height="15" forecolor="#0000FF" uuid="0ba9c23f-95a7-4156-a57c-81573f8f09dd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACUFENOMETRÍA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="130" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="9" width="22" height="10" uuid="f2a8dc6b-47e6-40a2-abb9-d166b868523f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="23" y="9" width="35" height="10" uuid="a899f78c-29e4-42ec-b148-a54ed164b13e"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_od}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="58" y="9" width="16" height="10" uuid="dc9bebab-c41f-43c7-b84b-eeacebd102cf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OI]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="74" y="9" width="38" height="10" uuid="a675ad65-30fb-4e0f-8e89-03ca9fcd52c9"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_oi}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="112" y="9" width="27" height="10" uuid="2f369666-baa3-4931-8c4b-baa87756899f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Bilateral]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="139" y="9" width="51" height="10" uuid="4cf720a8-00a2-490c-9a60-6a5de3377f37"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_bilateral}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="22" width="34" height="10" uuid="0c447bbf-da46-4ba5-bbd8-f3e2f2c05b80"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Continuo]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="35" y="22" width="41" height="10" uuid="1d6b5d95-5c65-4ccd-9b40-3e2b4da7b3f6"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_continuo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="112" y="22" width="27" height="10" uuid="4851702b-17a7-41c1-a0f6-334877404e70"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Pulsatil]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="139" y="22" width="51" height="10" uuid="f61420b0-ba05-46b1-a4bb-082ee6a0e4fc"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_pulsatil}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="32" width="34" height="10" uuid="9a141808-8949-4cd9-8f76-d9d48370522f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Frecuencia]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="35" y="32" width="41" height="10" uuid="3a3f242f-abaa-4659-bafb-70589e099410"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_frecuencia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="61" width="40" height="10" uuid="897fed60-df8e-4a37-921c-02b3198e2b71"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Ruido blanco]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="41" y="61" width="26" height="10" uuid="edc24d50-c4dd-4dfe-8295-c100ac80aef6"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_ruido_blanco}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="70" y="61" width="35" height="10" uuid="144b7ee4-4703-4b12-b6bb-bd9b02446fd5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Tono puro]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="61" width="26" height="10" uuid="1fa7f98d-f0cb-428c-ab8a-f1f5004542a1"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_tono_puro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="137" y="61" width="36" height="10" uuid="d9421c41-ec16-43d0-b15c-1a613a62dacc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Tono warble]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="173" y="61" width="36" height="10" uuid="9d51d14c-7ce8-4628-9931-c6a52a45bc0f"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_tono_warble}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="98" width="66" height="10" uuid="0f523878-476e-4771-b78f-8981fc488b7a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Umbral de señal]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="67" y="98" width="53" height="10" uuid="f0b910df-990f-4e27-9d02-ae84f4e846e4"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_umbral}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="108" width="66" height="10" uuid="02abd6ea-d4e6-40e1-931e-da5531795ded"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Intensidad del acufeno]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="67" y="108" width="53" height="10" uuid="7dabc9ab-60e4-4de9-861a-2a84c584ef16"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_intensidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="118" width="66" height="10" uuid="007df017-47ca-496d-aa32-75b538e694e5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Enmascaramiento]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="67" y="118" width="53" height="10" uuid="5b9d1508-d54f-4117-a9b9-914d4025a131"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acu_enmascaramiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="0" width="57" height="9" uuid="e761a6dd-112f-4e72-95fc-006baf5b1429"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[CARACTERÍSTICAS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="32" width="18" height="10" uuid="943309e4-6451-4216-9f17-40c8f844fe52"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Hz]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="49" width="49" height="10" uuid="8b8b73a9-534b-44aa-8bda-50c54c6533a9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[MEDIDO CON:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="84" width="37" height="10" uuid="f00dfa0c-4e12-42f7-baea-8ee9631773ba"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[INTENSIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="98" width="70" height="10" uuid="e8dd5373-cce7-4813-94b7-9b3f3e628b26"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[dB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="108" width="70" height="10" uuid="79019081-84fd-4057-bcbf-ea9bc45c5702"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[dB SU (sobre el Umbral)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="118" width="70" height="10" uuid="5ffbf5ac-a0b1-4019-af71-861ff9f219cf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[dB SU (sobre el Umbral)]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

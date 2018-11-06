@@ -43,6 +43,8 @@ public class CitaDAO {
                 sql = "select codigo_terapia as codigo from detalle_terapia where cod_cita=" + cita.getCodigo();
             } else if (cita.getListaProcedimientos().get(0).getTipo() == 2) {//valoracion
                 sql = "select codigo from valoracion where cod_cita=" + cita.getCodigo();
+            } else if (cita.getListaProcedimientos().get(0).getTipo() == 4) {//estudio audiologico
+                sql = "select codigo from estudio_audiologico where cod_cita=" + cita.getCodigo();
             }
             rs = consulta.ejecutar(sql);
             if (rs.next()) {

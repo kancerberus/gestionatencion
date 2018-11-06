@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estudio_audiologico" language="groovy" pageWidth="921" pageHeight="595" orientation="Landscape" columnWidth="881" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91dbe4bf-c94f-4b78-b1c2-a3dedc183398">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="232"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Desarrollo\\github\\gestionatencion\\web\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigo_estudio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select '' campo_falso]]>
+	</queryString>
+	<field name="campo_falso" class="java.lang.String"/>
+	<title>
+		<band height="427" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="439" height="427" uuid="086bd9e0-0805-40c7-801c-4cc906d8c4b8"/>
+				<subreportParameter name="codigo_estudio_sub_izq">
+					<subreportParameterExpression><![CDATA[$P{codigo_estudio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estudio_audiologico_sub_izq.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="450" y="0" width="431" height="427" uuid="5b97d6bf-181a-4291-964f-6a99d259e51f"/>
+				<subreportParameter name="codigo_estudio_sub_der">
+					<subreportParameterExpression><![CDATA[$P{codigo_estudio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estudio_audiologico_sub_der.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+</jasperReport>

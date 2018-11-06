@@ -5,17 +5,15 @@
  */
 package vista;
 
+import controlador.GestorEstudioAudiologico;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Acufenometria;
-import modelo.CampoLibre;
-//import javax.faces.component.UIColumn;
-//import javax.faces.bean.ManagedProperty;
-//import javax.faces.bean.ManagedBean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.EstudioAudiologico;
-import modelo.InmitanciaAcustica;
+
 import modelo.Punto;
 import modelo.PuntoL;
 import org.primefaces.event.CellEditEvent;
@@ -25,6 +23,7 @@ import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
+import util.Utilidades;
 
 /**
  *
@@ -48,24 +47,22 @@ public class UIEstudioAudiologico implements Serializable {
     private List<PuntoL> puntosAudiometriaVocalS1;
     private List<PuntoL> puntosAudiometriaVocalS2;
 
-    //tabla OD OI
-    private List<CampoLibre> tablaCampoLibre;
-
-    //acufenometria
-    private Acufenometria acufenometria;
-    //inmitancia acustica
-    private InmitanciaAcustica inmitanciaAcustica;
+    GestorEstudioAudiologico gestorEstudioAudiologico;
+    public Utilidades util = new Utilidades();
 
     public UIEstudioAudiologico() {
-        estudioAudiologico = new EstudioAudiologico();
+        try {
+            estudioAudiologico = new EstudioAudiologico();
+            gestorEstudioAudiologico = new GestorEstudioAudiologico();
+            puntosAudiometriaTonosPurosOD = new ArrayList<>();
+            puntosAudiometriaTonosPurosOI = new ArrayList<>();
+            puntosAudiometriaVocalS1 = new ArrayList<>();
+            puntosAudiometriaVocalS2 = new ArrayList<>();
+            inicializarTablas();
+        } catch (Exception ex) {
+            Logger.getLogger(UIEstudioAudiologico.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        puntosAudiometriaTonosPurosOD = new ArrayList<>();
-        puntosAudiometriaTonosPurosOI = new ArrayList<>();
-        puntosAudiometriaVocalS1 = new ArrayList<>();
-        puntosAudiometriaVocalS2 = new ArrayList<>();
-        inicializarCampoLibre();
-        inmitanciaAcustica = new InmitanciaAcustica();
-        acufenometria = new Acufenometria();
     }
 
     private void createLineModels() {
@@ -300,22 +297,30 @@ public class UIEstudioAudiologico implements Serializable {
         yAxis.setMax(100);
     }
 
-    private void inicializarCampoLibre() {
-        tablaCampoLibre = new ArrayList<>();
-        CampoLibre cl = new CampoLibre("P.T.A. Promedio tonos audibles", "", "", "");
-        tablaCampoLibre.add(cl);
+    private void inicializarTablas() {
+        try {
+            //GestorEstudioAudiologico gestorEstudioAudiologico = new GestorEstudioAudiologico();
+            estudioAudiologico.setTablaCampoLibre(gestorEstudioAudiologico.listarOpcionesTipoCampoLibre("CAMPO_LIBRE"));
+            estudioAudiologico.setTablaTimpanograma(gestorEstudioAudiologico.listarOpcionesTipoTimpanograma("TIMPANOGRAMA"));
+            estudioAudiologico.setValoresInmitanciaAcustica(gestorEstudioAudiologico.listarOpcionesTipoCampoLibre("INMITANCIA_ACUSTICA"));
+        } catch (Exception ex) {
+            Logger.getLogger(UIEstudioAudiologico.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        cl = new CampoLibre("S.T.A. Umbral captación voz", "", "", "");
-        tablaCampoLibre.add(cl);
-        cl = new CampoLibre("S.R.T. Umbral reconoc. palabra", "", "", "");
-        tablaCampoLibre.add(cl);
-        cl = new CampoLibre("S.D. Porcentaje discriminación", "", "", "");
-        tablaCampoLibre.add(cl);
-        cl = new CampoLibre("M.C.L. Nivel de comodidad", "", "", "");
-        tablaCampoLibre.add(cl);
-        cl = new CampoLibre("U.C.L. Nivel de incomodidad", "", "", "");
-        tablaCampoLibre.add(cl);
+    }
 
+    public void guardarEstudio() {
+        Integer resultado;
+        try {
+            resultado = gestorEstudioAudiologico.guardarEstudio(estudioAudiologico);
+            if (resultado > 0) {
+                util.mostrarMensaje("El estudio se guardo exitosamente.");
+            } else {
+                util.mostrarMensaje("Se presento un error al guardar.");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(UIEstudioAudiologico.class.getName()).log(Level.SEVERE, null, ex);
+        }        
     }
 
     /**
@@ -430,48 +435,6 @@ public class UIEstudioAudiologico implements Serializable {
      */
     public void setPuntosAudiometriaVocalS2(List<PuntoL> puntosAudiometriaVocalS2) {
         this.puntosAudiometriaVocalS2 = puntosAudiometriaVocalS2;
-    }
-
-    /**
-     * @return the tablaCampoLibre
-     */
-    public List<CampoLibre> getTablaCampoLibre() {
-        return tablaCampoLibre;
-    }
-
-    /**
-     * @param tablaCampoLibre the tablaCampoLibre to set
-     */
-    public void setTablaCampoLibre(List<CampoLibre> tablaCampoLibre) {
-        this.tablaCampoLibre = tablaCampoLibre;
-    }
-
-    /**
-     * @return the inmitanciaAcustica
-     */
-    public InmitanciaAcustica getInmitanciaAcustica() {
-        return inmitanciaAcustica;
-    }
-
-    /**
-     * @param inmitanciaAcustica the inmitanciaAcustica to set
-     */
-    public void setInmitanciaAcustica(InmitanciaAcustica inmitanciaAcustica) {
-        this.inmitanciaAcustica = inmitanciaAcustica;
-    }
-
-    /**
-     * @return the acufenometria
-     */
-    public Acufenometria getAcufenometria() {
-        return acufenometria;
-    }
-
-    /**
-     * @param acufenometria the acufenometria to set
-     */
-    public void setAcufenometria(Acufenometria acufenometria) {
-        this.acufenometria = acufenometria;
     }
 
 }

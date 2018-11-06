@@ -11,15 +11,20 @@ package modelo;
  */
 public class Timpanograma {
 
+    private String codigo;
+    private String codigoLista;
     private String parametro;    
     private String descripcion;
     private String valor1;
     private String valor2; 
 
-    public Timpanograma(String parametro, String descripcion) {
+    public Timpanograma(String codigo, String codigoLista, String parametro, String descripcion) {
+        this.codigo = codigo;
+        this.codigoLista = codigoLista;
         this.parametro = parametro;
         this.descripcion = descripcion;
     }
+
     
 
     /**
@@ -76,6 +81,34 @@ public class Timpanograma {
      */
     public void setValor2(String valor2) {
         this.valor2 = valor2;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the codigoLista
+     */
+    public String getCodigoLista() {
+        return codigoLista;
+    }
+
+    /**
+     * @param codigoLista the codigoLista to set
+     */
+    public void setCodigoLista(String codigoLista) {
+        this.codigoLista = codigoLista;
     }
     
 

@@ -11,17 +11,20 @@ package modelo;
  */
 public class CampoLibre {
     
+    private String codigo;
+    private String codigoLista;
     private String parametro;
     private String od;
     private String oi;
     private String campoLibre;
 
-    public CampoLibre(String parametro, String od, String oi, String campoLibre) {
+    public CampoLibre(String codigo, String codigoLista, String parametro) {
+        this.codigo = codigo;
+        this.codigoLista = codigoLista;
         this.parametro = parametro;
-        this.od = od;
-        this.oi = oi;
-        this.campoLibre = campoLibre;
     }
+
+    
 
     /**
      * @return the parametro
@@ -77,6 +80,34 @@ public class CampoLibre {
      */
     public void setCampoLibre(String campoLibre) {
         this.campoLibre = campoLibre;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the codigoLista
+     */
+    public String getCodigoLista() {
+        return codigoLista;
+    }
+
+    /**
+     * @param codigoLista the codigoLista to set
+     */
+    public void setCodigoLista(String codigoLista) {
+        this.codigoLista = codigoLista;
     }
     
     
