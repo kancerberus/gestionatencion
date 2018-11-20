@@ -47,7 +47,7 @@ and open the template in the editor.
                                         <p:column style="text-align: center">                                                                                        
                                             <!-- Atender -->
                                             <p:commandButton 
-                                                disabled="#{itemCita.listaProcedimientos.get(0).tipo eq 2 and itemCita.tieneValoracion ? true : false }"
+                                                disabled="#{itemCita.listaProcedimientos.get(0).tipo ne 1 and itemCita.tieneAtencion ? true : false }"
                                                 oncomplete="window.open('#{itemCita.listaProcedimientos.get(0).tipo eq 1 ? 'terapia.xhtml' : (itemCita.listaProcedimientos.get(0).tipo eq 2 ? 'valoracion.xhtml' : (itemCita.listaProcedimientos.get(0).tipo eq 4 ? 'estudioAudiologico.xhtml' : '')) }','','height=768,width=1024,scrollbars=1');"
                                                 icon="ui-icon-clipboard" title="Atender"  
                                                 actionListener="#{uiprofesional.configurarTipoCita(itemCita)}" />                                                                                        
@@ -59,7 +59,7 @@ and open the template in the editor.
                                             <!-- Exportar -->
                                             <p:commandButton id="btnExportar" icon="ui-icon-print"  title="Exportar" action="#{uiprofesional.consultarCodigoAtencionCita(itemCita)}" oncomplete="PF('dialogoExportarW').show()"  update=":frmResumenProfesional:dialogoExportar"/>
                                             <!-- Recetario -->
-                                            <p:commandButton id="btnRecetario" icon="ui-icon-document"  title="Recetario" action="#{uiprofesional.consultarCodigoAtencionCita(itemCita)}" oncomplete="PF('dialogoRecetarioW').show()"  update=":frmResumenProfesional:dialogoRecetario"/>
+                                            <p:commandButton id="btnRecetario" icon="ui-icon-document"  title="Recetario" action="#{uiprofesional.consultarCodigoAtencionCita(itemCita)}" oncomplete="PF('dialogoRecetarioW').show()"  update=":frmResumenProfesional:dialogoRecetario" disabled="#{itemCita.listaProcedimientos.get(0).tipo ne 1 ? true : false }" />
                                         </p:column>
                                     </p:dataTable>
                                     <p:poll  interval="5" listener="#{uiprofesional.consultarCitasProfesionalDia}" update="dtListaCitasProfesionalDia" />

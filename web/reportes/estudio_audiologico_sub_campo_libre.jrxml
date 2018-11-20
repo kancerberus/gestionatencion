@@ -8,7 +8,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[select
-label,valor1,valor2,valor3
+label,valor1,valor2,valor3,(select audiometro from estudio_audiologico where codigo=$P{codigo_estudio_sub_campo_libre}) audiometro
 from
 parametros_estudio_audiologico pest
 INNER join (lista l inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='CAMPO_LIBRE') )
@@ -23,6 +23,7 @@ order by orden asc]]>
 	<field name="valor1" class="java.lang.String"/>
 	<field name="valor2" class="java.lang.String"/>
 	<field name="valor3" class="java.lang.String"/>
+	<field name="audiometro" class="java.lang.String"/>
 	<columnHeader>
 		<band height="10" splitType="Stretch">
 			<staticText>
@@ -129,4 +130,25 @@ order by orden asc]]>
 			</textField>
 		</band>
 	</detail>
+	<summary>
+		<band height="13">
+			<textField isBlankWhenNull="true">
+				<reportElement x="56" y="0" width="114" height="12" uuid="f847730a-42d2-4a7a-9f2d-5b2abf42b966"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{audiometro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="56" height="12" uuid="18d5baa5-2c7e-4f10-8474-eb3d5910b6eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Audiómetro utilizado]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>

@@ -15,9 +15,6 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 
-
-
-
     </h:head>
     <h:body>
         <h:outputStylesheet name="general.css"  />
@@ -30,6 +27,7 @@ and open the template in the editor.
                                 <tr><td>
                                         <p:fieldset legend="DATOS PACIENTE" >
                                             <table>
+                                                <tr><td>Número de autorización</td><td><p:inputText id="numeroAutorizacion" value="#{uiestudioaudiologico.estudioAudiologico.numeroAutorizacion}" /></td><td></td><td></td><td></td><td></td></tr>
                                                 <tr><td>Fecha/Hora</td><td><p:calendar id="fecha" value="#{uiestudioaudiologico.estudioAudiologico.fecha}" locale="es" /><p:calendar id="hora" value="#{uiestudioaudiologico.estudioAudiologico.hora}" timeOnly="true" pattern="HH:mm" locale="es" style="width: 50px;" /></td><td>Primera vez</td><td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.primeraVez}" /></td><td>Control</td><td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.control}" /></td></tr>
                                                 <tr><td></td><td></td><td>Codigo RIPS</td><td><p:inputText id="codigoRIPS" value="#{uiestudioaudiologico.estudioAudiologico.codigoRIPS}" /></td><td></td><td></td></tr>
                                                 <tr><td colspan="6" align="center"><p:panelGrid id="tblDatosPaciente" columns="6" style=" font-size: 70%; width: 900px;">
@@ -60,17 +58,24 @@ and open the template in the editor.
                                 <tr><td><p:fieldset legend="ANTECEDENTES" ><p:inputTextarea rows="3" cols="145" value="#{uiestudioaudiologico.estudioAudiologico.antecedentes}" /></p:fieldset></td></tr>
                                 <tr><td><p:fieldset legend="DIAGNÓSTICO AUDIOLÓGICO" ><p:inputTextarea rows="6" cols="145" value="#{uiestudioaudiologico.estudioAudiologico.diagnosticoAudiologico}" /></p:fieldset></td></tr>
                                 <tr><td><p:fieldset legend="OBSERVACIONES Y/O SUGERENCIAS" ><p:inputTextarea rows="2" cols="145" value="#{uiestudioaudiologico.estudioAudiologico.observaciones}" /></p:fieldset></td></tr>
+                                <tr><td><p:fieldset legend="CONFIABILIDAD DE LA PRUEBA" >
+                                            <p:selectOneMenu value="#{uiestudioaudiologico.estudioAudiologico.confiabilidad}" id="cmbConfiabilidad">                                                
+                                                <f:selectItems value="#{uiestudioaudiologico.cmbListaConfiabilidad}"  />
+                                            </p:selectOneMenu></p:fieldset></td></tr>
 
                             </table>
                         </td>
-                        </tr><tr>
+                    </tr><tr>
                         <td>
                             <table>
                                 <tr>
                                     <td>
-                                        <table >
+                                        <table>
                                             <tr>
-                                                <td>
+                                                <td>OTOSCOPIA</td><td colspan="6"><p:inputText id="otoscopia" value="#{uiestudioaudiologico.estudioAudiologico.otoscopia}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2">
                                                     <p:dataTable id="dtAudiometriaTonosPurosOD" var="puntoATPOD" value="#{uiestudioaudiologico.puntosAudiometriaTonosPurosOD}" 
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
                                                         <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditTonosPurosOD}" update=":frmEstudioAudiologico:chAudiometriaTonosPurosOD" />
@@ -88,11 +93,11 @@ and open the template in the editor.
                                                         </p:column>
                                                     </p:dataTable>
                                                 </td>
-                                                <td>
+                                                <td rowspan="2">
                                                     <p:chart type="line" model="#{uiestudioaudiologico.audiometriaTonosPurosOD}" id="chAudiometriaTonosPurosOD" style="height:300px; width: 300px;"/>
                                                 </td>
-                                                <td style="width: 100px;"> </td>
-                                                <td>
+                                                <td style="width: 100px;" rowspan="2"> </td>
+                                                <td rowspan="2">
                                                     <p:dataTable id="dtAudiometriaTonosPurosOI" var="puntoATPOI" value="#{uiestudioaudiologico.puntosAudiometriaTonosPurosOI}" 
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
                                                         <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditTonosPurosOI}" update=":frmEstudioAudiologico:chAudiometriaTonosPurosOI" />
@@ -110,12 +115,36 @@ and open the template in the editor.
                                                         </p:column>
                                                     </p:dataTable>
                                                 </td>
-                                                <td><p:chart type="line" model="#{uiestudioaudiologico.audiometriaTonosPurosOI}" id="chAudiometriaTonosPurosOI" style="height:300px; width: 300px;"/></td>
-                                                <td style="width: 100px;"> </td>
+                                                <td rowspan="2"><p:chart type="line" model="#{uiestudioaudiologico.audiometriaTonosPurosOI}" id="chAudiometriaTonosPurosOI" style="height:300px; width: 300px;"/></td>
+                                                <td style="width: 100px;" rowspan="2"> </td>
                                                 <td style="width: 300px;"><p:graphicImage name="nomenclatura.png" /></td>
                                             </tr>
                                             <tr>
-                                                <td style="width: 209px;">                                                    
+                                                <td>
+                                                    <!-- tabla weber -->
+                                                    <table class="tablaGrilla" cellpadding="5" cellspacing="0">
+                                                        <tr>
+                                                            <td rowspan="2">Weber</td>
+                                                            <td rowspan="2">OD</td>
+                                                            <td>250</td>
+                                                            <td>500</td>
+                                                            <td>1K</td>
+                                                            <td>2K</td>
+                                                            <td>4K</td>                                                            
+                                                            <td rowspan="2">OI</td>
+                                                        </tr>
+                                                        <tr>                                                            
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber250}" id="chkWeber250"/></td>
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber500}" id="chkWeber500"/></td>
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber1k}" id="chkWeber1k"/></td>
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber2k}" id="chkWeber2k"/></td>
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber4k}" id="chkWeber4k"/></td>                                                            
+                                                        </tr>                                                        
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 209px;" rowspan="2">                                                    
                                                     <p:dataTable id="dtAudiometriaVocal1" var="puntoAV1" value="#{uiestudioaudiologico.puntosAudiometriaVocalS1}" 
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
                                                         <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditAudimetriaVocal1}" update=":frmEstudioAudiologico:chAudiometriaVocal" />
@@ -134,8 +163,8 @@ and open the template in the editor.
                                                     </p:dataTable>
 
                                                 </td>
-                                                <td><p:chart type="line" model="#{uiestudioaudiologico.audiometriaVocal}" id="chAudiometriaVocal" style="height:300px; width: 300px;"/></td>
-                                                <td>
+                                                <td rowspan="2"><p:chart type="line" model="#{uiestudioaudiologico.audiometriaVocal}" id="chAudiometriaVocal" style="height:300px; width: 300px;"/></td>
+                                                <td rowspan="2">
                                                     <p:dataTable id="dtAudiometriaVocal2" var="puntoAV2" value="#{uiestudioaudiologico.puntosAudiometriaVocalS2}" 
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
                                                         <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditAudimetriaVocal2}" update=":frmEstudioAudiologico:chAudiometriaVocal" />
@@ -153,7 +182,7 @@ and open the template in the editor.
                                                         </p:column>
                                                     </p:dataTable>                                                    
                                                 </td>
-                                                <td></td>
+                                                <td rowspan="2"></td>
                                                 <!-- campo libre -->
                                                 <td colspan="3" align="center">
                                                     <p:dataTable id="dtCampoLibre" var="campoLibreVar" value="#{uiestudioaudiologico.estudioAudiologico.tablaCampoLibre}" 
@@ -188,7 +217,10 @@ and open the template in the editor.
                                                 -->
                                             </tr>
                                             <tr>
-                                                <td colspan="4" align="center">
+                                                <td>Audiómetro utilizado</td><td colspan="2"><p:inputText id="audiometro" value="#{uiestudioaudiologico.estudioAudiologico.audiometro}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" align="center" rowspan="2">
                                                     <br/>
                                                     <h:outputText value="ACUFENOMETRIA"/><br/><br/>
                                                     <p:panelGrid columns="6" style="font-size: 70%; width: 500px;">
@@ -287,6 +319,9 @@ and open the template in the editor.
                                                         </p:column>
                                                     </p:dataTable>
                                                 </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Impedanciómetro utilizado</td><td colspan="2"><p:inputText id="impedanciometro" value="#{uiestudioaudiologico.estudioAudiologico.impedanciometro}" /></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="7" align="center"><p:commandButton value="Guardar" id="btnGuardar" update="mensajesEstudioAudiologico" actionListener="#{uiestudioaudiologico.guardarEstudio()}" oncomplete="window.close()" /></td>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estudio_audiologico_sub_inmitancia" language="groovy" pageWidth="216" pageHeight="752" columnWidth="216" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="23f1ae35-c213-4789-a9f1-1a9409a0cdd5">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="codigo_estudio_sub_inmitancia" class="java.lang.Integer">
@@ -8,7 +8,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[select
-label,valor1,valor2
+label,valor1,valor2,(select impedanciometro from estudio_audiologico where codigo=$P{codigo_estudio_sub_inmitancia}) impedanciometro
 from
 parametros_estudio_audiologico pest
 INNER join (lista l inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='INMITANCIA_ACUSTICA') )
@@ -22,6 +22,7 @@ order by orden asc]]>
 	<field name="label" class="java.lang.String"/>
 	<field name="valor1" class="java.lang.String"/>
 	<field name="valor2" class="java.lang.String"/>
+	<field name="impedanciometro" class="java.lang.String"/>
 	<columnHeader>
 		<band height="10" splitType="Stretch">
 			<staticText>
@@ -71,4 +72,25 @@ order by orden asc]]>
 			</textField>
 		</band>
 	</detail>
+	<summary>
+		<band height="21">
+			<textField isBlankWhenNull="true">
+				<reportElement x="72" y="10" width="133" height="10" uuid="bddac0fe-81fa-4088-8e6d-de5b5eef5728"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{impedanciometro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="10" width="72" height="10" uuid="becac3ea-92b8-4cd0-82c1-7babe6acefdc"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Impedanciómetro utilizado]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.model.SelectItem;
 import modelo.CampoLibre;
 import modelo.EstudioAudiologico;
 import modelo.Timpanograma;
@@ -103,7 +102,9 @@ public class EstudioAudiologicoDAO {
                     + " acu_pulsatil, acu_frecuencia, acu_ruido_blanco, "
                     + " acu_tono_puro, acu_tono_warble, acu_umbral, "
                     + " acu_intensidad, acu_enmascaramiento, motivo_consulta, "
-                    + " antecedentes, diagnostico_audiologico, observaciones, cod_cita)"
+                    + " antecedentes, diagnostico_audiologico, observaciones, cod_cita, "
+                    + " numero_autorizacion,confiabilidad,otoscopia,audiometro,impedanciometro, "
+                    + " weber_250, weber_500, weber_1k, weber_2k, weber_4k ) "
                     + " VALUES ('" + formatoFecha.format(estudioAudiologico.getFecha()) + "', '" + formatoHora.format(estudioAudiologico.getHora()) + "', "
                     + " " + estudioAudiologico.getPrimeraVez().toString() + ", " + estudioAudiologico.getControl().toString() + ", '" + estudioAudiologico.getCodigoRIPS() + "', "
                     + " '" + estudioAudiologico.getRemitidoPor() + "', '" + estudioAudiologico.getNombreAcompanante() + "', '" + estudioAudiologico.getDireccionAcompanante() + "', "
@@ -112,7 +113,9 @@ public class EstudioAudiologicoDAO {
                     + " '" + estudioAudiologico.getAcufenometria().getPulsatil() + "', '" + estudioAudiologico.getAcufenometria().getFrecuencia() + "', '" + estudioAudiologico.getAcufenometria().getRuidoBlanco() + "', "
                     + " '" + estudioAudiologico.getAcufenometria().getTonoPuro() + "', '" + estudioAudiologico.getAcufenometria().getTonoWarble() + "', '" + estudioAudiologico.getAcufenometria().getUmbralSenal() + "', "
                     + " '" + estudioAudiologico.getAcufenometria().getIntensidadAcufeno() + "', '" + estudioAudiologico.getAcufenometria().getEnmascaramiento() + "', '" + estudioAudiologico.getMotivoConsulta() + "', "
-                    + " '" + estudioAudiologico.getAntecedentes() + "', '" + estudioAudiologico.getDiagnosticoAudiologico() + "', '" + estudioAudiologico.getObservaciones() + "', " + estudioAudiologico.getCita().getCodigo() + ") returning codigo";
+                    + " '" + estudioAudiologico.getAntecedentes() + "', '" + estudioAudiologico.getDiagnosticoAudiologico() + "', '" + estudioAudiologico.getObservaciones() + "', " + estudioAudiologico.getCita().getCodigo() + ", "
+                    + " '" + estudioAudiologico.getNumeroAutorizacion() + "','" + estudioAudiologico.getConfiabilidad() + "','" + estudioAudiologico.getOtoscopia() + "','" + estudioAudiologico.getAudiometro() + "','" + estudioAudiologico.getImpedanciometro() + "', "
+                    + estudioAudiologico.getWeber250().toString() + ", " + estudioAudiologico.getWeber500().toString() + ", " + estudioAudiologico.getWeber1k().toString() + ", " + estudioAudiologico.getWeber2k().toString() + ", " + estudioAudiologico.getWeber4k().toString() + ") returning codigo";
             rs = consulta.ejecutar(sql);
             if (rs.next()) {
                 resultado = rs.getInt("codigo");

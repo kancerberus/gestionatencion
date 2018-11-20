@@ -6,12 +6,14 @@
 package vista;
 
 import controlador.GestorEstudioAudiologico;
+import controlador.GestorUtilidades;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.model.SelectItem;
 import modelo.EstudioAudiologico;
 
 import modelo.Punto;
@@ -46,19 +48,26 @@ public class UIEstudioAudiologico implements Serializable {
     private List<Punto> puntosAudiometriaTonosPurosOI;
     private List<PuntoL> puntosAudiometriaVocalS1;
     private List<PuntoL> puntosAudiometriaVocalS2;
+    
+    private List<SelectItem> cmbListaConfiabilidad;
 
     GestorEstudioAudiologico gestorEstudioAudiologico;
+    GestorUtilidades gestorUtilidades;
+    
     public Utilidades util = new Utilidades();
 
     public UIEstudioAudiologico() {
         try {
             estudioAudiologico = new EstudioAudiologico();
             gestorEstudioAudiologico = new GestorEstudioAudiologico();
+            gestorUtilidades = new GestorUtilidades();
+            cmbListaConfiabilidad = new ArrayList<>();
             puntosAudiometriaTonosPurosOD = new ArrayList<>();
             puntosAudiometriaTonosPurosOI = new ArrayList<>();
             puntosAudiometriaVocalS1 = new ArrayList<>();
             puntosAudiometriaVocalS2 = new ArrayList<>();
             inicializarTablas();
+            cargarListaConfiabilidad();
         } catch (Exception ex) {
             Logger.getLogger(UIEstudioAudiologico.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -322,6 +331,14 @@ public class UIEstudioAudiologico implements Serializable {
             Logger.getLogger(UIEstudioAudiologico.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }
+    
+    private void cargarListaConfiabilidad() {
+        try {
+            cmbListaConfiabilidad = gestorUtilidades.listarCombo("LISTA_CONFIABILIDAD", "VALUE");
+        } catch (Exception ex) {
+            Logger.getLogger(UIEstudioAudiologico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * @return the estudioAudiologico
@@ -435,6 +452,20 @@ public class UIEstudioAudiologico implements Serializable {
      */
     public void setPuntosAudiometriaVocalS2(List<PuntoL> puntosAudiometriaVocalS2) {
         this.puntosAudiometriaVocalS2 = puntosAudiometriaVocalS2;
+    }
+
+    /**
+     * @return the cmbListaConfiabilidad
+     */
+    public List<SelectItem> getCmbListaConfiabilidad() {
+        return cmbListaConfiabilidad;
+    }
+
+    /**
+     * @param cmbListaConfiabilidad the cmbListaConfiabilidad to set
+     */
+    public void setCmbListaConfiabilidad(List<SelectItem> cmbListaConfiabilidad) {
+        this.cmbListaConfiabilidad = cmbListaConfiabilidad;
     }
 
 }

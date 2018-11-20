@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estudio_audiologico_sub_izq" language="groovy" pageWidth="425" pageHeight="566" columnWidth="425" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6403edbc-22a9-42bf-b249-f170e65e792b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="192"/>
+	<property name="ireport.y" value="119"/>
 	<parameter name="codigo_estudio_sub_izq" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -21,6 +21,7 @@ p.ocupacion,
 p.grado_escolar,
 l_tipo_afiliacion.label tipo_afiliacion,
 l_tipo_identificacion.label tipo_identificacion,
+l_confiabilidad.label _confiabilidad,
 c.id_paciente
 from
 estudio_audiologico est
@@ -33,6 +34,10 @@ left join (lista l
 inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='TIPO_AFILIACION') ) l_tipo_afiliacion on (l_tipo_afiliacion.value=p.tipo_afiliacion)
 left join (lista l
 inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='TIPO_IDENTIFICACION') ) l_tipo_identificacion on (l_tipo_identificacion.value=p.tipo_identificacion)
+
+left join (lista l
+inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='LISTA_CONFIABILIDAD') ) l_confiabilidad on (l_confiabilidad.value=est.confiabilidad)
+
 where
 est.codigo=$P{codigo_estudio_sub_izq}]]>
 	</queryString>
@@ -64,6 +69,11 @@ est.codigo=$P{codigo_estudio_sub_izq}]]>
 	<field name="diagnostico_audiologico" class="java.lang.String"/>
 	<field name="observaciones" class="java.lang.String"/>
 	<field name="cod_cita" class="java.lang.Integer"/>
+	<field name="numero_autorizacion" class="java.lang.String"/>
+	<field name="confiabilidad" class="java.lang.String"/>
+	<field name="otoscopia" class="java.lang.String"/>
+	<field name="audiometro" class="java.lang.String"/>
+	<field name="impedanciometro" class="java.lang.String"/>
 	<field name="primera_vez_label" class="java.lang.String"/>
 	<field name="control_label" class="java.lang.String"/>
 	<field name="nombre_paciente" class="java.lang.String"/>
@@ -77,7 +87,29 @@ est.codigo=$P{codigo_estudio_sub_izq}]]>
 	<field name="grado_escolar" class="java.lang.String"/>
 	<field name="tipo_afiliacion" class="java.lang.String"/>
 	<field name="tipo_identificacion" class="java.lang.String"/>
+	<field name="_confiabilidad" class="java.lang.String"/>
 	<field name="id_paciente" class="java.lang.String"/>
+	<group name="confiabilidad">
+		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
+		<groupFooter>
+			<band height="15">
+				<textField isBlankWhenNull="true">
+					<reportElement x="129" y="0" width="100" height="15" uuid="6b6e47b8-9182-4048-8979-70236ff3d113"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{_confiabilidad}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="3" y="0" width="126" height="15" uuid="669281bc-a6c2-413c-90b4-b97d4ca8f5fa"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[CONFIABILIDAD DE LA PRUEBA]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
 	<group name="observaciones">
 		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
 		<groupFooter>
@@ -471,6 +503,20 @@ est.codigo=$P{codigo_estudio_sub_izq}]]>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{parentesco_acompanante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="0" width="100" height="15" uuid="b5f9326f-d195-4f1f-8f33-0b9da7be2643"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Numero de autorización]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="112" y="0" width="100" height="15" uuid="1ad0a592-e805-44a8-b1d1-090eebcfb3f8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_autorizacion}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

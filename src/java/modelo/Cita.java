@@ -34,7 +34,7 @@ public class Cita {
     private Date fechaRegistroEstado;
     private String responsable;
     private String medio;
-    private Boolean tieneValoracion;
+    private Boolean tieneAtencion;
     private String duracionExtendida;
     
 
@@ -317,20 +317,6 @@ public class Cita {
     }
 
     /**
-     * @return the tieneValoracion
-     */
-    public Boolean getTieneValoracion() {
-        return tieneValoracion;
-    }
-
-    /**
-     * @param tieneValoracion the tieneValoracion to set
-     */
-    public void setTieneValoracion(Boolean tieneValoracion) {
-        this.tieneValoracion = tieneValoracion;
-    }
-
-    /**
      * @return the duracionExtendida
      */
     public String getDuracionExtendida() {
@@ -342,5 +328,19 @@ public class Cita {
      */
     public void setDuracionExtendida(String duracionExtendida) {
         this.duracionExtendida = duracionExtendida;
+    }
+
+    /**
+     * @return the tieneAtencion
+     */
+    public Boolean getTieneAtencion() {
+        return tieneAtencion;
+    }
+
+    /**
+     * @param tieneAtencion the tieneAtencion to set
+     */
+    public void setTieneAtencion(Boolean tieneAtencion) {
+        this.tieneAtencion = tieneAtencion;
     }
 }

@@ -41,6 +41,17 @@ public class EstudioAudiologico implements Serializable {
     private String impedanciometro;    
     private Acufenometria acufenometria;
     
+    private String numeroAutorizacion;
+    private String confiabilidad;
+    private String otoscopia;
+    private String audiometro;
+    
+    private Boolean weber250;
+    private Boolean weber500;
+    private Boolean weber1k;
+    private Boolean weber2k;
+    private Boolean weber4k;
+    
     
    
 
@@ -345,6 +356,132 @@ public class EstudioAudiologico implements Serializable {
      */
     public void setAcufenometria(Acufenometria acufenometria) {
         this.acufenometria = acufenometria;
+    }
+
+    /**
+     * @return the numeroAutorizacion
+     */
+    public String getNumeroAutorizacion() {
+        return numeroAutorizacion;
+    }
+
+    /**
+     * @param numeroAutorizacion the numeroAutorizacion to set
+     */
+    public void setNumeroAutorizacion(String numeroAutorizacion) {
+        this.numeroAutorizacion = numeroAutorizacion;
+    }
+
+    /**
+     * @return the confiabilidad
+     */
+    public String getConfiabilidad() {
+        return confiabilidad;
+    }
+
+    /**
+     * @param confiabilidad the confiabilidad to set
+     */
+    public void setConfiabilidad(String confiabilidad) {
+        this.confiabilidad = confiabilidad;
+    }
+
+    /**
+     * @return the otoscopia
+     */
+    public String getOtoscopia() {
+        return otoscopia;
+    }
+
+    /**
+     * @param otoscopia the otoscopia to set
+     */
+    public void setOtoscopia(String otoscopia) {
+        this.otoscopia = otoscopia;
+    }
+
+    /**
+     * @return the audiometro
+     */
+    public String getAudiometro() {
+        return audiometro;
+    }
+
+    /**
+     * @param audiometro the audiometro to set
+     */
+    public void setAudiometro(String audiometro) {
+        this.audiometro = audiometro;
+    }
+
+    /**
+     * @return the weber250
+     */
+    public Boolean getWeber250() {
+        return weber250;
+    }
+
+    /**
+     * @param weber250 the weber250 to set
+     */
+    public void setWeber250(Boolean weber250) {
+        this.weber250 = weber250;
+    }
+
+    /**
+     * @return the weber500
+     */
+    public Boolean getWeber500() {
+        return weber500;
+    }
+
+    /**
+     * @param weber500 the weber500 to set
+     */
+    public void setWeber500(Boolean weber500) {
+        this.weber500 = weber500;
+    }
+
+    /**
+     * @return the weber1k
+     */
+    public Boolean getWeber1k() {
+        return weber1k;
+    }
+
+    /**
+     * @param weber1k the weber1k to set
+     */
+    public void setWeber1k(Boolean weber1k) {
+        this.weber1k = weber1k;
+    }
+
+    /**
+     * @return the weber2k
+     */
+    public Boolean getWeber2k() {
+        return weber2k;
+    }
+
+    /**
+     * @param weber2k the weber2k to set
+     */
+    public void setWeber2k(Boolean weber2k) {
+        this.weber2k = weber2k;
+    }
+
+    /**
+     * @return the weber4k
+     */
+    public Boolean getWeber4k() {
+        return weber4k;
+    }
+
+    /**
+     * @param weber4k the weber4k to set
+     */
+    public void setWeber4k(Boolean weber4k) {
+        this.weber4k = weber4k;
     }
     
     

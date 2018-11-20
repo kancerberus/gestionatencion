@@ -511,7 +511,7 @@ public class CitaDAO {
                     + " l_condicion.value condicion, "
                     + " proc.codigo codigo_procedimiento, proc.nombre nombre_procedimiento, rpc.fecha fecha_procedimiento, "
                     + " rpc.hora hora_procedimiento, proc.tipo tipo_procedimiento, "
-                    + " case when v.codigo is null then false else true end tiene_valoracion"
+                    + " case when v.codigo is null and est.codigo is null then false else true end tiene_atencion"
                     + " from "
                     + " citas c "
                     + " inner join rel_procedimientos_cita rpc on (c.codigo=rpc.codigo_cita) "
@@ -521,6 +521,7 @@ public class CitaDAO {
                     + " inner join pacientes pac on (pac.identificacion=c.id_paciente) "
                     + " left join entidades ent ON (ent.codigo=pac.entidad) "
                     + " left join valoracion v on (c.codigo=v.cod_cita) " //inactivacion boton atender
+                    + " left join estudio_audiologico est on (c.codigo=est.cod_cita) " //inactivacion boton atender
                     + " left join (lista l "
                     + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='ESTADOS_CITA') ) l_estados_cita on (l_estados_cita.value=c.estado) "
                     + " left join (lista l  "
@@ -581,7 +582,7 @@ public class CitaDAO {
                 listaProcedimientos = new ArrayList<>();
                 listaProcedimientos.add(new Procedimiento(rs.getString("codigo_procedimiento"), rs.getString("nombre_procedimiento"), rs.getDate("fecha_procedimiento"), rs.getTime("hora_procedimiento"), rs.getInt("tipo_procedimiento")));
                 cita.setListaProcedimientos(listaProcedimientos);
-                cita.setTieneValoracion(rs.getBoolean("tiene_valoracion"));
+                cita.setTieneAtencion(rs.getBoolean("tiene_atencion"));
 
                 listaCitas.add(cita);
             }

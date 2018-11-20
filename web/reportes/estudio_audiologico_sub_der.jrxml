@@ -10,12 +10,25 @@
 		<defaultValueExpression><![CDATA["D:\\Desarrollo\\github\\gestionatencion\\web\\reportes\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select '' aux]]>
+		<![CDATA[select
+otoscopia,
+case when weber_250 then 'S' else 'N' end weber250,
+case when weber_500 then 'S' else 'N' end weber500,
+case when weber_1k then 'S' else 'N' end weber1k,
+case when weber_2k then 'S' else 'N' end weber2k,
+case when weber_4k  then 'S' else 'N' end weber4k
+from estudio_audiologico where codigo=$P{codigo_estudio_sub_der}]]>
 	</queryString>
+	<field name="otoscopia" class="java.lang.String"/>
+	<field name="weber250" class="java.lang.String"/>
+	<field name="weber500" class="java.lang.String"/>
+	<field name="weber1k" class="java.lang.String"/>
+	<field name="weber2k" class="java.lang.String"/>
+	<field name="weber4k" class="java.lang.String"/>
 	<title>
 		<band height="519" splitType="Stretch">
 			<subreport>
-				<reportElement x="271" y="193" width="121" height="47" uuid="05ca6711-2b8c-4795-bfdb-c2408cc8e7ff"/>
+				<reportElement x="271" y="181" width="121" height="47" uuid="05ca6711-2b8c-4795-bfdb-c2408cc8e7ff"/>
 				<subreportParameter name="codigo_estudio_sub_campo_libre">
 					<subreportParameterExpression><![CDATA[$P{codigo_estudio_sub_der}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -56,6 +69,192 @@
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estudio_audiologico_sub_acufenometria.jasper"]]></subreportExpression>
 			</subreport>
+			<textField isBlankWhenNull="true">
+				<reportElement x="51" y="0" width="374" height="15" uuid="0a2aa123-e25a-411d-9f0c-3fbf149241d1"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otoscopia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="51" height="15" uuid="5ff10310-21aa-40ab-8c45-f3ee968993a8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[OTOSCOPIA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="329" y="136" width="15" height="10" uuid="e5c64e1f-79ea-4509-ad81-a7f65159ac93"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weber250}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="344" y="136" width="15" height="10" uuid="fd5500e4-51ca-46c1-8f77-09eccdb38c2a"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weber500}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="359" y="136" width="15" height="10" uuid="e144819a-49d6-4b12-9912-4486240fdb2c"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weber1k}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="374" y="136" width="15" height="10" uuid="5a475ac2-4c11-4aae-ac2b-a41d2ae3da78"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weber2k}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="389" y="136" width="15" height="10" uuid="e6db0f7f-02b3-4f6b-8ade-91e69bc5bd9f"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weber4k}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="329" y="126" width="15" height="10" uuid="851089f7-6cbd-40e2-b9e3-d21ccc799674"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[250]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="344" y="126" width="15" height="10" uuid="83810774-3672-4a87-9963-8e6813416ae4"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[500]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="126" width="15" height="10" uuid="ecf1c337-7a80-4b56-a9d4-67569c3b42e3"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[1K]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="126" width="15" height="10" uuid="9601d790-5c74-4e39-86f7-c8fee1652c72"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[2K]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="126" width="15" height="10" uuid="a826f15e-eb10-4d26-bc5a-4b13cdc6d50d"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[4K]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="126" width="15" height="20" uuid="b0d8bb84-1f31-4850-97f2-050d5bf05fe4"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="126" width="22" height="20" uuid="cdc325a0-3d4e-45f5-96cb-9e33835e3665"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Weber]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="126" width="15" height="20" uuid="7835322a-0dea-44fa-a5d5-571cb6220c85"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[OI]]></text>
+			</staticText>
 		</band>
 	</title>
 </jasperReport>
