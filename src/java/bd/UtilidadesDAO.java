@@ -36,7 +36,7 @@ public class UtilidadesDAO {
                     + " from"
                     + " lista l"
                     + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista)"
-                    + " where nombre = '" + nombreLista + "'";
+                    + " where nombre = '" + nombreLista + "' order by 2,1";
             rs = consulta.ejecutar(sql);
             while (rs.next()) {
                 if (modo.equalsIgnoreCase("VALUE")) {

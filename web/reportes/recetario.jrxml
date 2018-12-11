@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recetario" language="groovy" pageWidth="612" pageHeight="792" columnWidth="532" leftMargin="50" rightMargin="30" topMargin="30" bottomMargin="20" uuid="a63e25e0-7304-4be9-9e75-b6319a2e16c5">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="96"/>
 	<parameter name="codigoValoracion" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select
@@ -38,7 +38,7 @@ v.codigo=$P{codigoValoracion}]]>
 				<staticText>
 					<reportElement x="17" y="0" width="53" height="30" uuid="93eaaf13-6aa5-497f-a7cf-6731b33c1d08"/>
 					<textElement>
-						<font fontName="Edwardian Script ITC" size="20" isBold="true"/>
+						<font fontName="Arial" size="20" isBold="true"/>
 					</textElement>
 					<text><![CDATA[R/]]></text>
 				</staticText>

@@ -11,14 +11,14 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>SICEHC - Historia clinica por valoracion</title>
+        <title>SICEHC - Historia clínica por valoracion</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
         <h:outputStylesheet name="general.css"  />
         <h:form id="frmResumenProfesional">
             <p:growl id="mensajesValoracion" showDetail="true" life="5000"  />
-            <p:panel header="FORMULARIO VALORACION" style="width: 100%;" id="pnlHistoriaClinicaValoracion">
+            <p:panel header="FORMULARIO VALORACIÓN" style="width: 100%;" id="pnlHistoriaClinicaValoracion">
                 <table cellpadding="5" class="" border="0">
                     <tr><td>Fecha/Hora</td><td><p:calendar id="fecha" value="#{uivaloracion.valoracion.fecha}" locale="es" />
                                                <p:calendar id="hora" value="#{uivaloracion.valoracion.hora}" timeOnly="true" pattern="HH:mm" locale="es" style="width: 50%;" /></td>
