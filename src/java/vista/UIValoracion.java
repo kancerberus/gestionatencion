@@ -7,10 +7,11 @@ package vista;
 
 import controlador.GestorPaciente;
 import controlador.GestorProcedimiento;
-import controlador.GestorReporte;
+//import controlador.GestorReporte;
 import controlador.GestorUtilidades;
 import controlador.GestorValoracion;
-import java.io.IOException;
+import controlador.GestorDiagnostico;
+//import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.faces.model.SelectItem;
 import modelo.Cita;
 import modelo.Terapia;
 import modelo.Valoracion;
+import modelo.Diagnostico;
 import org.primefaces.event.CellEditEvent;
 import util.Utilidades;
 
@@ -30,8 +32,11 @@ import util.Utilidades;
 public class UIValoracion implements Serializable {
 
     private Valoracion valoracion;
+    private Diagnostico diagnostico1;
+    private Diagnostico diagnostico2;
     private List<SelectItem> listaTerapias;
     private GestorValoracion gestorValoracion;
+    private GestorDiagnostico gestorDiagnostico;
     public Utilidades util = new Utilidades();
     private GestorUtilidades gestorUtilidades;
 
@@ -43,14 +48,17 @@ public class UIValoracion implements Serializable {
     private List<SelectItem> comboConfirmacion;
 
     private List<SelectItem> listaCodigosDiagnostico;
-    private List<SelectItem> listaCodigosDiagnostico2;
+    private List<SelectItem> listaCodigosDiagnostico2;    
 
     private Boolean enviaTerapia;
 
     public UIValoracion() throws Exception {
         this.valoracion = new Valoracion();
-        this.valoracion.setCita(new Cita());
+        this.valoracion.setCita(new Cita());      
+        diagnostico1 = new Diagnostico();
+        diagnostico2 = new Diagnostico();
         gestorUtilidades = new GestorUtilidades();
+        gestorDiagnostico = new GestorDiagnostico();
         guardado = Boolean.FALSE;
         consultarTerapias();
         cargarListaTipoFormato();
@@ -132,17 +140,28 @@ public class UIValoracion implements Serializable {
 
     private void cargarListaCodigosDiagnostico() {
         try {
+
             setListaCodigosDiagnostico(getGestorUtilidades().listarCombo("DIAGNOSTICO_CIE10", "COMBINADO"));
             setListaCodigosDiagnostico2(getGestorUtilidades().listarCombo("DIAGNOSTICO_CIE10", "COMBINADO"));
         } catch (Exception ex) {
             Logger.getLogger(UICita.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+         public List<String> listarDiagnosticos(String query) throws Exception {
+            ArrayList<Diagnostico> listaDiagnosticos;
+            listaDiagnosticos = gestorDiagnostico.listarDiagnosticos(query);
+            List<String> listaDiag = new ArrayList<>();
+            for (Diagnostico d : listaDiagnosticos) {
+                listaDiag.add(d.getCodigo_diagnostico() + " - " + d.getNombre_diagostico());
+            }
+            return listaDiag;
+        }
+     
     public void guardarValoracion() {
         try {
             gestorValoracion = new GestorValoracion();
-            codigoValoracion = gestorValoracion.guardarValoracion(valoracion, enviaTerapia);
+            codigoValoracion = gestorValoracion.guardarValoracion(valoracion, enviaTerapia, diagnostico1, diagnostico2);
 
             if (codigoValoracion > 0) {
                 guardado = Boolean.TRUE;
@@ -317,6 +336,31 @@ public class UIValoracion implements Serializable {
      */
     public void setComboConfirmacion(List<SelectItem> comboConfirmacion) {
         this.comboConfirmacion = comboConfirmacion;
+    }       
+
+    public GestorDiagnostico getGestorDiagnostico() {
+        return gestorDiagnostico;
     }
 
+    public void setGestorDiagnostico(GestorDiagnostico gestorDiagnostico) {
+        this.gestorDiagnostico = gestorDiagnostico;
+    }   
+
+    public Diagnostico getDiagnostico1() {
+        return diagnostico1;
+    }
+
+    public void setDiagnostico1(Diagnostico diagnostico1) {
+        this.diagnostico1 = diagnostico1;
+    }
+
+    public Diagnostico getDiagnostico2() {
+        return diagnostico2;
+    }
+
+    public void setDiagnostico2(Diagnostico diagnostico2) {
+        this.diagnostico2 = diagnostico2;
+    }
+
+      
 }

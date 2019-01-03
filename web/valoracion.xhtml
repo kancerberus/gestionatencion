@@ -27,19 +27,24 @@ and open the template in the editor.
 
                     <tr><td>Especialidad</td><td><h:outputText id="especialidad" value="#{uivaloracion.valoracion.cita.especialidad.nombre}" /></td>
                         <td>Procedimiento</td><td><h:outputText id="procedimiento" value="#{uivaloracion.valoracion.cita.listaProcedimientos.get(0).nombre}" /></td>                        
-                        <td>Codigo RIPS</td><td><p:inputText id="codigoRIPS" value="#{uivaloracion.valoracion.codigoRIPS}" /></td></tr>
-
-                    <tr><td>Código Diagnóstico Principal</td><td colspan="5">
-                            <p:selectOneMenu value="#{uivaloracion.valoracion.codigoDiagnostico}" id="codigoDiagnostico" style="width: 80%">
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItems value="#{uivaloracion.listaCodigosDiagnostico}"  />
-                            </p:selectOneMenu></td></tr>
-
-                    <tr><td>Código Diagnóstico Secundario</td><td colspan="5">
-                            <p:selectOneMenu value="#{uivaloracion.valoracion.codigoDiagnostico2}" id="codigoDiagnostico2" style="width: 80%">
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItems value="#{uivaloracion.listaCodigosDiagnostico2}"  />
-                            </p:selectOneMenu></td></tr>
+                        <td>Codigo RIPS</td><td><p:inputText id="codigoRIPS" value="#{uivaloracion.valoracion.codigoRIPS}" /></td></tr>                       
+                    
+                    <tr>
+                            <td>Código Diagnóstico Primario</td><td colspan="5">                            
+                            <p:autoComplete id="cod_diagnostico1" dropdown="true" value="#{uivaloracion.diagnostico1.nombre_diagostico}" 
+                                                                                                completeMethod="#{uivaloracion.listarDiagnosticos}"  scrollHeight="100"
+                                                                                                style="width:70%" size="120" onkeyup="this.value = this.value.toUpperCase();"
+                                                                                                forceSelection="true">                                                 
+                                                </p:autoComplete></td>                            
+                    </tr>     
+                    
+                    <tr>
+                            <td>Código Diagnóstico Secundario</td><td>                            
+                            <p:autoComplete id="cod_diagnostico2" dropdown="true" value="#{uivaloracion.diagnostico2.nombre_diagostico}" 
+                                                                                        completeMethod="#{uivaloracion.listarDiagnosticos}"  scrollHeight="100" 
+                                                                                        style="width:70%" size="120" onkeyup="this.value = this.value.toUpperCase();"
+                                                                                        forceSelection="true" /></td>                            
+                    </tr> 
 
                     <tr><td colspan="6" align="center"><p:panelGrid id="tblDatosPaciente" columns="6" style=" font-size: 70%; width: 90%;">
                                 <f:facet name="header">
@@ -61,8 +66,17 @@ and open the template in the editor.
                                 <h:outputText value="Telefono2" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.telefono2}" />
 
                             </p:panelGrid></td></tr>
-                    <tr><td>Nombre Acompañante</td><td><p:inputText id="nombreAcompanante" value="#{uivaloracion.valoracion.nombreAcompanante}" /></td><td>Parentesco</td><td><p:inputText id="parentescoAcompanante" value="#{uivaloracion.valoracion.parentescoAcompanante}" /></td><td>Remitido por</td><td><p:inputText id="remitidoPor" value="#{uivaloracion.valoracion.remitidoPor}" /></td></tr>
-                    <tr><td>Dirección</td><td><p:inputText id="direccionAcompanante" value="#{uivaloracion.valoracion.direccionAcompanante}" /></td><td>Teléfono</td><td><p:inputText id="telefonoAcompanante" value="#{uivaloracion.valoracion.telefonoAcompanante}" /></td><td>Tipo Formato</td><td><p:selectOneMenu value="#{uivaloracion.valoracion.tipoFormato}" id="tipoFormato">
+                    <tr><td>Nombre Acompañante</td>
+                        <td><p:inputText id="nombreAcompanante" value="#{uivaloracion.valoracion.nombreAcompanante}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                        <td>Parentesco</td>
+                        <td><p:inputText id="parentescoAcompanante" value="#{uivaloracion.valoracion.parentescoAcompanante}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                        <td>Remitido por</td>
+                        <td><p:inputText id="remitidoPor" value="#{uivaloracion.valoracion.remitidoPor}" onkeyup="this.value = this.value.toUpperCase();"/></td></tr>
+                    <tr><td>Dirección</td>
+                        <td><p:inputText id="direccionAcompanante" value="#{uivaloracion.valoracion.direccionAcompanante}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                        <td>Teléfono</td>
+                        <td><p:inputText id="telefonoAcompanante" value="#{uivaloracion.valoracion.telefonoAcompanante}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                        <td>Tipo Formato</td><td><p:selectOneMenu value="#{uivaloracion.valoracion.tipoFormato}" id="tipoFormato">
                                 <f:selectItem itemLabel="" itemValue="-1" />
                                 <f:selectItems value="#{uivaloracion.listaTipoFormato}"  />
                             </p:selectOneMenu></td></tr>

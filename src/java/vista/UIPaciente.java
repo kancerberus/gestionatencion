@@ -124,7 +124,7 @@ public class UIPaciente implements Serializable {
         }
         return listaMun;
     }
-
+    
     public void guardarPaciente() {
         Boolean invalido = false;
         /*

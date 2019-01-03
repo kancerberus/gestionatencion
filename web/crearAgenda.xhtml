@@ -22,20 +22,17 @@ and open the template in the editor.
                             <h:panelGrid columns="4" cellpadding="5">
                                 <p:outputLabel value="Especialidad" for="especialidadAm" />
                                 <p:autoComplete id="especialidadAm" dropdown="true" value="#{uiagenda.especialidadAm.nombre}" 
-                                                completeMethod="#{uiagenda.listarEspecialidadesPatron}" forceSelection="true" 
-                                                >
-                                    <p:ajax event="itemSelect" listener="#{uiagenda.limpiarProfesionales}" 
-                                            update="profesional" />	
+                                                                                                 completeMethod="#{uiagenda.listarEspecialidadesPatron}" forceSelection="true">
+                                                <p:ajax event="itemSelect" listener="#{uiagenda.limpiarProfesionales}" 
+                                                                                                update="profesional" />	
                                 </p:autoComplete>
                                 <h:outputText value="" />
                                 <h:outputText value="" />
 
                                 <p:outputLabel value="Profesional" for="profesional" />
-                                <p:autoComplete id="profesional" dropdown="true"
-                                                value="#{uiagenda.profesional.nombre}" 
-                                                completeMethod="#{uiagenda.listarProfesionalesEspecialidadPatron}"
-                                                forceSelection="true" >
-
+                                <p:autoComplete id="profesional" dropdown="true" value="#{uiagenda.profesional.nombre}" 
+                                                                                                completeMethod="#{uiagenda.listarProfesionalesEspecialidadPatron}"
+                                                                                                forceSelection="true" >
                                 </p:autoComplete>
 
                                 <h:outputText value="" />
