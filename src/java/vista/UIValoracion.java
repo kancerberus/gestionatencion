@@ -63,7 +63,6 @@ public class UIValoracion implements Serializable {
         consultarTerapias();
         cargarListaTipoFormato();
         cargarListaCondicion();
-        cargarListaCodigosDiagnostico();
         enviaTerapia = Boolean.TRUE;
     }
 
@@ -137,17 +136,7 @@ public class UIValoracion implements Serializable {
             Logger.getLogger(UICita.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    private void cargarListaCodigosDiagnostico() {
-        try {
-
-            setListaCodigosDiagnostico(getGestorUtilidades().listarCombo("DIAGNOSTICO_CIE10", "COMBINADO"));
-            setListaCodigosDiagnostico2(getGestorUtilidades().listarCombo("DIAGNOSTICO_CIE10", "COMBINADO"));
-        } catch (Exception ex) {
-            Logger.getLogger(UICita.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
+   
          public List<String> listarDiagnosticos(String query) throws Exception {
             ArrayList<Diagnostico> listaDiagnosticos;
             listaDiagnosticos = gestorDiagnostico.listarDiagnosticos(query);
