@@ -88,8 +88,10 @@ public class ValoracionDAO {
                             + " cantidad_atendida, activa, codigo_valoracion, nombre_acompanante,  "
                             + " parentesco_acompanante, codigo_rips, codigo_diagnostico, primera_vez,  "
                             + " control, diagnostico, plan_tratamiento, evolucion) "
-                            + " VALUES ( '" + valoracion.getCita().getPaciente().getIdentificacion() + "', '" + valoracion.getCita().getProfesional().getCedula() + "', '" + t.getProcedimiento().getCodigo() + "', current_date,  "
-                            + " " + t.getCantidadFormulada() + ", " + (t.getAutorizada().getCodigo().equalsIgnoreCase("2") ? t.getCantidadFormulada() : "0") + ", " + (t.getAutorizada().getCodigo().equalsIgnoreCase("2") ? t.getCantidadFormulada() : "0") + ", "
+                            + " VALUES ( '" + valoracion.getCita().getPaciente().getIdentificacion() + "', '" + valoracion.getCita().getProfesional().getCedula() + "',"
+                            + " '" +  t.getProcedimiento().getCodigo() + "', current_date,  "
+                            + " " +  t.getCantidadFormulada() + ", " + (t.getAutorizada().getCodigo().equalsIgnoreCase("2") ? t.getCantidadFormulada() : "0") + ", "
+                            + " " + (t.getCantidadFormulada()-1) + ", "
                             + " 1, true, '" + resultado + "', '',  "
                             + " '', '', '', null,  "
                             + " null, '', '', '') returning codigo;";

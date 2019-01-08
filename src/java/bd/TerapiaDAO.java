@@ -361,6 +361,7 @@ group by 1
             sql = "begin";
             consulta.actualizar(sql);
 
+
             sql = " UPDATE terapia "
                     + " SET nombre_acompanante='" + terapia.getNombreAcompanante() + "', "
                     + " parentesco_acompanante='" + terapia.getParentescoAcompanante() + "', codigo_rips='" + terapia.getCodigoRIPS() + "', "
@@ -370,7 +371,8 @@ group by 1
                     + " control=" + terapia.getControl() + ", diagnostico='" + terapia.getDiagnostico() + "', "
                     + " plan_tratamiento='" + terapia.getPlanTratamiento() + "', evolucion='" + terapia.getEvolucion() + "', "
                     + " cantidad_atendida=cantidad_atendida+" + terapia.getCantSesiones() + ","
-                    + " cantidad_pendiente=cantidad_pendiente-" + terapia.getCantSesiones() + ", "
+                    + " cantidad_pendiente=cantidad_pendiente-" + terapia.getCantSesiones() + ","
+                    //+ " cantidad_pendiente=" + terapia.getCantSesiones() + "-cantidad_pendiente, "
                     + " recomendacion = '" + terapia.getRecomendacion() + "' "
                     + " WHERE codigo=" + terapia.getCodigo();
             consulta.actualizar(sql);
