@@ -17,6 +17,7 @@ public class Procedimiento {
     private Date fecha;
     private Date hora;
     private Integer tipo;
+    private Integer duracion;
     
     public Procedimiento() {
         
@@ -103,6 +104,20 @@ public class Procedimiento {
      */
     public void setTipo(Integer tipo) {
         this.tipo = tipo;
+    }
+
+    /**
+     * @return the duracion
+     */
+    public Integer getDuracion() {
+        return duracion;
+    }
+
+    /**
+     * @param duracion the duracion to set
+     */
+    public void setDuracion(Integer duracion) {
+        this.duracion = duracion;
     }
     
 }

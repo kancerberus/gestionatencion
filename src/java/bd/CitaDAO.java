@@ -19,6 +19,8 @@ import modelo.Objeto;
 import modelo.Paciente;
 import modelo.Procedimiento;
 import modelo.Profesional;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
 
 /**
  *
@@ -182,7 +184,7 @@ public class CitaDAO {
 
                         sql = "insert into agenda values('" + cita.getProfesional().getCedula() + "','" + cita.getEspecialidad().getCodigo() + "','" + formatoFecha.format(c.getFecha()) + "','" + formatoHora.format(c.getHora()) + "'," + c.getDuracionExtendida() + "," + resultado + ")";
                         consulta.actualizar(sql);
-                        
+
                         //}
                     }
                     sql = " commit;";
@@ -365,7 +367,7 @@ public class CitaDAO {
                     consulta.actualizar(sql);
                 }
                 //elimina el detalle_terapia si la cita es de terapia
-                if(cita.getListaProcedimientos().get(0).getTipo() == 1) {
+                if (cita.getListaProcedimientos().get(0).getTipo() == 1) {
                     sql = "delete from detalle_terapia where cod_cita = " + cita.getCodigo();
                     consulta.actualizar(sql);
                 }
@@ -475,6 +477,250 @@ public class CitaDAO {
             throw ex;
         } finally {
             consulta.desconectar();
+        }
+    }
+
+    public List<Cita> consultarCitasTerapia(Profesional profesional, Date fecha) throws SQLException {
+        Cita cita;
+        Profesional pro;
+        Especialidad e;        
+        Paciente pac;
+        Procedimiento proc;
+        List<Cita> listaCitas = new ArrayList<>();
+        Consulta consulta = null;
+        //Integer resultado = 0;
+        String sql;
+        ResultSet rs;
+        //Boolean primero = Boolean.TRUE;
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        //SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat formatoFechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String filtro = "";
+        /*
+        if (fecha != null) {
+            filtro = " c.fecha='" + formatoFecha.format(fecha) + "'";
+        }
+        if (!paciente.getIdentificacion().equalsIgnoreCase("")) {
+            filtro = filtro.equalsIgnoreCase("") ? " c.id_paciente='" + paciente.getIdentificacion() + "'" : filtro + " AND c.id_paciente='" + paciente.getIdentificacion() + "' ";
+        } else if (paciente.getNombreCompleto() != null) {
+            filtro = filtro.equalsIgnoreCase("") ? " pac.nombre||(case when character_length(coalesce(pac.segundo_nombre,''))=0 then '' else ' '||pac.segundo_nombre end)||(case when character_length(coalesce(pac.primer_apellido,''))=0 then '' else ' '||pac.primer_apellido end)||(case when character_length(coalesce(pac.segundo_apellido,''))=0 then '' else ' '||pac.segundo_apellido end)='" + paciente.getNombreCompleto() + "'" : filtro + " AND pac.nombre||(case when character_length(coalesce(pac.segundo_nombre,''))=0 then '' else ' '||pac.segundo_nombre end)||(case when character_length(coalesce(pac.primer_apellido,''))=0 then '' else ' '||pac.primer_apellido end)||(case when character_length(coalesce(pac.segundo_apellido,''))=0 then '' else ' '||pac.segundo_apellido end)='" + paciente.getNombreCompleto() + "' ";
+        }
+         */
+        try {
+            consulta = new Consulta(getConexion());
+            sql = "select "
+                    + " pac.nombre||(case when character_length(coalesce(pac.segundo_nombre,''))=0 then '' else ' '||pac.segundo_nombre end)||(case when character_length(coalesce(pac.primer_apellido,''))=0 then '' else ' '||pac.primer_apellido end)||(case when character_length(coalesce(pac.segundo_apellido,''))=0 then '' else ' '||pac.segundo_apellido end) nombre_completo, "
+                    + " c.codigo codigo_cita,c.id_paciente,pac.nombre nombre_paciente,"
+                    + " c.fecha,c.hora,c.codigo_especialidad,e.nombre nombre_especialidad,"
+                    + " c.id_profesional,pro.nombre nombre_profesional, dl.value codigo_estado,dl.label nombre_estado,"
+                    + " c.motivo, c.fecha_registro_estado, c.medio, c.responsable, c.numero_autorizacion, c.codigo_entidad, c.observaciones "
+                    + " from"
+                    + " citas c "
+                    + " inner join "
+                    + "     (select ci.codigo "
+                    + "     from "
+                    + "     citas ci "
+                    + "     inner join rel_procedimientos_cita rel on (ci.codigo=rel.codigo_cita) "
+                    + "     inner join procedimientos proc on (rel.codigo_procedimiento=proc.codigo) "
+                    + "     where "
+                    + "     proc.tipo=1 and ci.fecha='" + formatoFecha.format(fecha) + "' group by 1) sub on (c.codigo=sub.codigo) "
+                    + " inner join especialidades e on (e.codigo=c.codigo_especialidad)"
+                    + " inner join profesionales pro on (pro.cedula=c.id_profesional)"
+                    + " inner join pacientes pac on (pac.identificacion=c.id_paciente)"
+                    + " inner join detalle_lista dl on (dl.value=c.estado)"
+                    + " inner join lista l on (l.codigo=dl.codigo_lista and l.nombre='ESTADOS_CITA')"
+                    + " where "
+                    + " c.fecha='" + formatoFecha.format(fecha) + "' "
+                    + " and pro.cedula='" + profesional.getCedula() + "' "
+                    //+ filtro
+                    + " order by c.fecha asc,c.hora asc ";
+
+            rs = consulta.ejecutar(sql);
+            while (rs.next()) {
+                cita = new Cita();
+                pro = new Profesional();
+                e = new Especialidad();
+                
+                pac = new Paciente();
+                cita.setListaProcedimientos(new ArrayList<Procedimiento>());
+                pro.setCedula(rs.getString("id_profesional"));
+                pro.setNombre(rs.getString("nombre_profesional"));
+                e.setCodigo(rs.getString("codigo_especialidad"));
+                e.setNombre(rs.getString("nombre_especialidad"));
+                pac.setIdentificacion(rs.getString("id_paciente"));
+                pac.setNombre(rs.getString("nombre_paciente"));
+                pac.setNombreCompleto(rs.getString("nombre_completo"));
+                pac.setEntidad(new Entidad(rs.getString("codigo_entidad"), ""));
+                cita.setCodigo(rs.getInt("codigo_cita"));
+                cita.setPaciente(pac);
+                cita.setFecha(rs.getDate("fecha"));
+                cita.setHora(rs.getTime("hora"));
+                cita.setEspecialidad(e);
+                cita.setProfesional(pro);
+                cita.setEstado(new Objeto(rs.getString("codigo_estado"), rs.getString("nombre_estado")));
+                //c.motivo, c.fecha_registro_estado, c.medio, c.responsable, c.numero_autorizacion
+                cita.setMotivo(rs.getString("motivo"));
+                cita.setFechaRegistroEstado(rs.getDate("fecha_registro_estado"));
+                cita.setMedio(rs.getString("medio"));
+                cita.setResponsable(rs.getString("responsable"));
+                cita.setNumeroAutorizacion(rs.getString("numero_autorizacion"));
+                cita.setObservaciones(rs.getString("observaciones"));
+
+                listaCitas.add(cita);
+            }
+
+            for (Cita c : listaCitas) {
+                sql = "select p.*,r.fecha,r.hora, a.duracion "
+                        + " from"
+                        + " citas c "
+                        + " inner join rel_procedimientos_cita r on (c.codigo = r.codigo_cita) "
+                        + " inner join procedimientos p on (r.codigo_procedimiento=p.codigo)"
+                        + " inner join agenda a on (c.id_profesional=a.cedula_profesional and r.fecha=a.fecha and r.hora=a.hora) "
+                        + " where c.codigo = '" + c.getCodigo() + "' and p.tipo = 1 "
+                        + " order by c.hora asc";
+                rs = consulta.ejecutar(sql);
+                while (rs.next()) {
+                    proc = new Procedimiento(rs.getString("codigo"), rs.getString("nombre"), rs.getDate("fecha"), rs.getTime("hora"), rs.getInt("tipo"));
+                    proc.setDuracion(rs.getInt("duracion"));
+                    c.getListaProcedimientos().add(proc);
+                }
+            }
+
+            return listaCitas;
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            consulta.desconectar();
+        }
+    }
+
+    public Integer guardarCitasReplicar(ScheduleModel modeloFechas, List<Cita> listaCitas) throws SQLException {
+        Consulta consulta;
+        String sql;
+        ResultSet rs;
+        Boolean valido = Boolean.TRUE;
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+        try {
+            consulta = new Consulta(getConexion());
+            //verificacion de agenda para cada item de la lista
+            for (ScheduleEvent dia : modeloFechas.getEvents()) {
+                for (Cita c : listaCitas) {
+                    if (c.getTieneAtencion()) {
+                        for (Procedimiento p : c.getListaProcedimientos()) {
+                            sql = " SELECT count(*) as cantidad "
+                                    + " FROM agenda "
+                                    + " where "
+                                    + " cedula_profesional='" + c.getProfesional().getCedula() + "' "
+                                    + " and codigo_especialidad='" + c.getEspecialidad().getCodigo() + "' "
+                                    + " and fecha='" + formatoFecha.format(dia.getStartDate()) + "' "
+                                    + " and hora='" + formatoHora.format(p.getHora()) + "' "
+                                    + " and duracion=" + p.getDuracion() + " "
+                                    + " and codigo_cita is null ";
+                            rs = consulta.ejecutar(sql);
+                            if (rs.next()) {
+                                if (rs.getInt("cantidad") == 0) {
+                                    valido = Boolean.FALSE;
+                                    return -1;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            Integer codigoTerapia = 0, resultado = 0;
+
+            if (valido) {
+                consulta.actualizar("begin");
+                for (ScheduleEvent dia : modeloFechas.getEvents()) {
+                    for (Cita c : listaCitas) {
+                        if (c.getTieneAtencion()) {
+                            //una cita por cada cita
+                            sql = " INSERT INTO citas("
+                                    + " id_paciente, fecha, hora,  codigo_especialidad, "
+                                    + " id_profesional, codigo_entidad, numero_autorizacion, observaciones, "
+                                    + " usuario, estado, codigo_observacion)"
+                                    + " VALUES "
+                                    + " ( '" + c.getPaciente().getIdentificacion() + "', '" + formatoFecha.format(dia.getStartDate()) + "',"
+                                    + " '" + formatoHora.format(c.getListaProcedimientos().get(0).getHora()) + "', '" + c.getEspecialidad().getCodigo() + "', "
+                                    + " '" + c.getProfesional().getCedula() + "', '" + c.getPaciente().getEntidad().getCodigo() + "', "
+                                    + " '', '" + c.getObservaciones() + "', "
+                                    + " 'REPLICA','1','') returning codigo;";
+                            rs = consulta.ejecutar(sql);
+                            if (rs.next()) {
+                                resultado = rs.getInt("codigo");
+                            }
+
+                            for (Procedimiento p : c.getListaProcedimientos()) {
+                                //-------------------------------------
+                                //se supone que el procedimiento es de tipo terapia
+                                //if (c.getListaProcedimientos().get(0).getTipo() == 1) {
+
+                                sql = "select coalesce(codigo,-1) codigo from ( "
+                                        + " select codigo,1 j from terapia where id_paciente='" + c.getPaciente().getIdentificacion() + "' and codigo_procedimiento='" + p.getCodigo() + "' and activa=true and cantidad_pendiente>=0 "
+                                        + " ) c right join (select 1 j) sc using (j)";
+                                rs = consulta.ejecutar(sql);
+                                if (rs.next()) {
+                                    codigoTerapia = rs.getInt("codigo");
+                                }
+                                if (codigoTerapia == -1) {//si el paciente en cuestion no tiene terapia activa, no se realiza ningun cambio
+                                    sql = " rollback;";
+                                    consulta.actualizar(sql);
+                                    return -2;
+                                }
+                                //}
+
+                                //PENDIENTE validar duplicidad (fecha, hora, profesional, estado)
+//                            sql = " select count(*) cantidad from citas c "
+//                                    + " inner join (lista l inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='ESTADOS_CITA')) ec on (c.estado=ec.value) "
+//                                    + " where "
+//                                    + " fecha='" + formatoFecha.format(c.getFecha()) + "' "
+//                                    + " and hora='" + formatoHora.format(c.getHora()) + "' "
+//                                    + " and id_profesional='" + cita.getProfesional().getCedula() + "' and ec.label='Programada' ";
+//                            rs = consulta.ejecutar(sql);
+//                            if (rs.next()) {
+//                                cantidad = rs.getInt("cantidad");
+//                            }
+//                            if (cantidad > 0) {//ya existe una cita
+//                                sql = " rollback;";
+//                                consulta.actualizar(sql);
+//                                return -2;
+//                            }
+                                // =0 viene sin modificar o reseteado del ultimo ciclo, supone que no es procedimiento tipo 1  >0 procedimiento tipo 1 <0 deberia haber retornado -1
+                                sql = " insert into detalle_terapia(consecutivo, codigo_terapia, cod_cita) "
+                                        + " select coalesce(max(consecutivo),0)+1," + codigoTerapia + "," + resultado + " consecutivo "
+                                        + " from detalle_terapia where codigo_terapia=" + codigoTerapia;
+                                consulta.actualizar(sql);
+
+                                //for (Procedimiento pro : cita.getListaProcedimientos()) {
+                                sql = " INSERT INTO rel_procedimientos_cita("
+                                        + " codigo_procedimiento, fecha, hora, codigo_cita)"
+                                        + " VALUES( "
+                                        + " '" + p.getCodigo() + "', "
+                                        + " '" + formatoFecha.format(dia.getStartDate()) + "', "
+                                        + " '" + formatoHora.format(p.getHora()) + "', "
+                                        + " " + resultado + ");";
+                                consulta.actualizar(sql);
+
+                                sql = "update agenda set codigo_cita='" + resultado + "' "
+                                        + " where "
+                                        + " cedula_profesional ='" + c.getProfesional().getCedula() + "' and "
+                                        + " fecha='" + formatoFecha.format(dia.getStartDate()) + "' and "
+                                        + " hora='" + formatoHora.format(p.getHora()) + "'; ";
+                                consulta.actualizar(sql);
+                                //-------------------------------------
+                            }
+                        }
+                    }
+                }
+                consulta.actualizar("commit");
+            }
+            return 1;
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+
         }
     }
 

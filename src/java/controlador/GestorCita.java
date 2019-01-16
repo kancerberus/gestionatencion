@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import modelo.Cita;
 import modelo.Paciente;
+import modelo.Profesional;
+import org.primefaces.model.ScheduleModel;
 
 /**
  *
@@ -46,6 +48,26 @@ public class GestorCita extends Gestor {
             abrirConexion();
             CitaDAO citaDAO = new CitaDAO(conexion);
             return citaDAO.consultarCitas(paciente, fecha, limite);
+        } finally {
+            cerrarConexion();
+        }
+    }
+    
+    public List<Cita> consultarCitasTerapia(Profesional profesional, Date fecha) throws Exception {
+        try {
+            abrirConexion();
+            CitaDAO citaDAO = new CitaDAO(conexion);
+            return citaDAO.consultarCitasTerapia(profesional, fecha);
+        } finally {
+            cerrarConexion();
+        }
+    }
+    
+    public Integer guardarCitasReplicar(ScheduleModel modeloFechas, List<Cita> listaCitas) throws Exception {
+        try {
+            abrirConexion();
+            CitaDAO citaDAO = new CitaDAO(conexion);
+            return citaDAO.guardarCitasReplicar(modeloFechas, listaCitas);
         } finally {
             cerrarConexion();
         }

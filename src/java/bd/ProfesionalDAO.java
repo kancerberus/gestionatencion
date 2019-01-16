@@ -215,7 +215,7 @@ public class ProfesionalDAO {
             consulta = new Consulta(getConexion());
             String sql
                     = " SELECT cedula, nombre, direccion, telefono, activo "
-                    + " FROM profesionales order by nombre";
+                    + " FROM profesionales where activo order by nombre";
 
             rs = consulta.ejecutar(sql);
 

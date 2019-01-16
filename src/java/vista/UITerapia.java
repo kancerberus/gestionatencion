@@ -5,6 +5,7 @@
  */
 package vista;
 
+import controlador.GestorCita;
 import controlador.GestorEntidad;
 import controlador.GestorPaciente;
 import controlador.GestorProcedimiento;
@@ -12,6 +13,7 @@ import controlador.GestorProfesional;
 import controlador.GestorTerapia;
 import controlador.GestorUtilidades;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,11 +22,17 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
+import modelo.Cita;
 import modelo.DetalleTerapia;
 import modelo.Entidad;
 import modelo.Paciente;
 import modelo.Profesional;
 import modelo.Terapia;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
 import util.Utilidades;
 
 /**
@@ -55,6 +63,7 @@ public class UITerapia implements Serializable {
     private List<SelectItem> cmbEntidades;
     private GestorTerapia gestorTerapia;
     private GestorProfesional gestorProfesional;
+    private GestorCita gestorCita;
     private DetalleTerapia detalleTerapia;
     private Boolean guardado;
     private List<SelectItem> listaCondicion;
@@ -62,8 +71,11 @@ public class UITerapia implements Serializable {
     private List<SelectItem> cmbProfesionales;
     private Boolean sinProximaCita;
     private String rutaExportar;
-    
+
     private List<SelectItem> listaCodigosDiagnostico;
+
+    private List<Cita> listaCitasReplicar;
+    private ScheduleModel eventModelReplicar;
 
     public UITerapia() throws Exception {
         activa = Boolean.TRUE;
@@ -72,11 +84,14 @@ public class UITerapia implements Serializable {
         gestorPaciente = new GestorPaciente();
         gestorTerapia = new GestorTerapia();
         gestorUtilidades = new GestorUtilidades();
+        gestorCita = new GestorCita();
         gestorProfesional = new GestorProfesional();
         cmbProfesionales = new ArrayList();
+        listaCitasReplicar = new ArrayList<>();
         guardado = Boolean.FALSE;
         detalleTerapia = new DetalleTerapia();
         paciente = new Paciente();
+        eventModelReplicar = new DefaultScheduleModel();
         cargarListaCondicion();
         consultarTerapias();
         listarEntidades();
@@ -119,7 +134,7 @@ public class UITerapia implements Serializable {
             Logger.getLogger(UITerapia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void actualizarPacienteTerapia() {
         Integer resultado;
         try {
@@ -134,7 +149,7 @@ public class UITerapia implements Serializable {
             Logger.getLogger(UITerapia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void actualizarTerapiaInformeTerapeutico() {
         Integer resultado;
         try {
@@ -269,17 +284,104 @@ public class UITerapia implements Serializable {
             Logger.getLogger(UICita.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void cargarListaCodigosDiagnostico() {
         try {
-            setListaCodigosDiagnostico(getGestorUtilidades().listarCombo("DIAGNOSTICO_CIE10", "COMBINADO"));            
+            setListaCodigosDiagnostico(getGestorUtilidades().listarCombo("DIAGNOSTICO_CIE10", "COMBINADO"));
         } catch (Exception ex) {
             Logger.getLogger(UICita.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public void consultarCitasTerapia() {
+        try {
+            listaCitasReplicar.clear();
+            listaCitasReplicar = getGestorCita().consultarCitasTerapia(terapia.getProfesionalPrescribe(), fechaInicial);
+            if (listaCitasReplicar.isEmpty()) {
+                util.mostrarMensaje("La consulta no recuperó registros.");
+            }
+        } catch (Exception ex) {
+            util.mostrarMensaje(ex.getMessage());
+        }
+    }
+
+    public void guardarCitasReplicar() {
+        try {
+            Boolean valido = Boolean.FALSE;
+            for (Cita c : listaCitasReplicar) {
+                if (c.getTieneAtencion()) {
+                    valido = Boolean.TRUE;
+                }
+            }
+
+            if (valido) {
+                if (!eventModelReplicar.getEvents().isEmpty()) {
+                    Integer resultado = gestorCita.guardarCitasReplicar(eventModelReplicar, listaCitasReplicar);
+
+                    if (null != resultado) {
+                        switch (resultado) {
+                            case -2:
+                                util.mostrarMensaje("Uno o mas pacientes no tienen terapia activa.");
+                                break;
+                            case -1:
+                                util.mostrarMensaje("El profesional no tiene la agenda adecuada para copiar la citas seleccionadas.");
+                                break;
+                            case 1:
+                                util.mostrarMensaje("Citas copiadas.");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                } else {
+                    util.mostrarMensaje("Seleccione al menos una día en el calendario.");
+                }
+            } else {
+                util.mostrarMensaje("Seleccione al menos una cita.");
+            }
+
+        } catch (Exception ex) {
+            util.mostrarMensaje(ex.getMessage());
+        }
+    }
+
+    public void onEventSelectReplicar(SelectEvent selectEvent) {
+        DefaultScheduleEvent eventoCapturado = (DefaultScheduleEvent) selectEvent.getObject();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        ScheduleEvent evento = new DefaultScheduleEvent("", new Date(), new Date());
+
+        for (ScheduleEvent se : eventModelReplicar.getEvents()) {
+            if (formatoFecha.format(se.getStartDate()).equalsIgnoreCase(formatoFecha.format(eventoCapturado.getStartDate()))) {
+                evento = se;
+                break;
+            }
+        }
+        eventModelReplicar.deleteEvent(evento);
+    }
+
+    public void onDateSelectReplicar(SelectEvent selectEvent) {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        Boolean encontrado = Boolean.FALSE;
+        ScheduleEvent evento = new DefaultScheduleEvent("", new Date(), new Date());
+        Date fechaCapturada = (Date) selectEvent.getObject();
+
+        for (ScheduleEvent se : eventModelReplicar.getEvents()) {
+            if (formatoFecha.format(se.getStartDate()).equalsIgnoreCase(formatoFecha.format(fechaCapturada))) {
+                encontrado = Boolean.TRUE;
+                evento = se;
+                break;
+            }
+        }
+
+        if (encontrado) {
+            eventModelReplicar.deleteEvent(evento);
+        } else {
+            eventModelReplicar.addEvent(new DefaultScheduleEvent("", fechaCapturada, fechaCapturada));
+        }
+    }
+
     public void configurarRutaInformeTerapeutico() {
-        rutaExportar = "window.open('.././exportar?nomReporte=informeTerapeutico&parametros=codigoTerapia&valores=" + terapiaSeleccionada.getCodigo() + "&tipos=I');";        
+        rutaExportar = "window.open('.././exportar?nomReporte=informeTerapeutico&parametros=codigoTerapia&valores=" + terapiaSeleccionada.getCodigo() + "&tipos=I');";
     }
 
     /**
@@ -602,6 +704,48 @@ public class UITerapia implements Serializable {
      */
     public void setRutaExportar(String rutaExportar) {
         this.rutaExportar = rutaExportar;
+    }
+
+    /**
+     * @return the listaCitasReplicar
+     */
+    public List<Cita> getListaCitasReplicar() {
+        return listaCitasReplicar;
+    }
+
+    /**
+     * @param listaCitasReplicar the listaCitasReplicar to set
+     */
+    public void setListaCitasReplicar(List<Cita> listaCitasReplicar) {
+        this.listaCitasReplicar = listaCitasReplicar;
+    }
+
+    /**
+     * @return the gestorCita
+     */
+    public GestorCita getGestorCita() {
+        return gestorCita;
+    }
+
+    /**
+     * @param gestorCita the gestorCita to set
+     */
+    public void setGestorCita(GestorCita gestorCita) {
+        this.gestorCita = gestorCita;
+    }
+
+    /**
+     * @return the eventModelReplicar
+     */
+    public ScheduleModel getEventModelReplicar() {
+        return eventModelReplicar;
+    }
+
+    /**
+     * @param eventModelReplicar the eventModelReplicar to set
+     */
+    public void setEventModelReplicar(ScheduleModel eventModelReplicar) {
+        this.eventModelReplicar = eventModelReplicar;
     }
 
 }

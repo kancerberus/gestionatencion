@@ -33,6 +33,7 @@ public class GestorPrincipal implements Serializable {
 
     private boolean exportarPacientes = false;
     private boolean listarPacientes = false;
+    private boolean replicarTerapia = false;
 
 
     public GestorPrincipal() {
@@ -62,6 +63,7 @@ public class GestorPrincipal implements Serializable {
 
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
 
                 break;
             case "crear_agenda":
@@ -83,6 +85,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "crear_paciente":
                 setNuevaCita(false);
@@ -103,6 +106,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "consultar_cita":
                 setNuevaCita(false);
@@ -123,6 +127,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "agendas":
                 setNuevaCita(false);
@@ -143,6 +148,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "exportar":
                 setNuevaCita(false);
@@ -163,6 +169,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "resumen_profesional":
                 setNuevaCita(false);
@@ -183,6 +190,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "crear_terapia":
                 setNuevaCita(false);
@@ -203,6 +211,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "consultar_terapia":
                 setNuevaCita(false);
@@ -223,6 +232,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
 
             case "crear_entidad":
@@ -244,6 +254,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "consultar_entidad":
                 setNuevaCita(false);
@@ -264,6 +275,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "crear_profesional":
                 setNuevaCita(false);
@@ -284,6 +296,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "consultar_profesional":
                 setNuevaCita(false);
@@ -304,6 +317,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "crear_usuario":
                 setNuevaCita(false);
@@ -324,6 +338,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "consultar_usuario":
                 setNuevaCita(false);
@@ -344,6 +359,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(true);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
             case "exportar_paciente":
                 setNuevaCita(false);
@@ -364,6 +380,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(true);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
                 break;
                 case "consultar_paciente":
                 setNuevaCita(false);
@@ -384,6 +401,7 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(true);
+                setReplicarTerapia(false);
                 break;
                 
                 case "exportar_informe":
@@ -405,6 +423,29 @@ public class GestorPrincipal implements Serializable {
                 setConsultarUsuario(false);
                 setExportarPacientes(false);
                 setListarPacientes(false);
+                setReplicarTerapia(false);
+                break;
+                
+                case "replicar_terapia":
+                setNuevaCita(false);
+                setCrearAgenda(false);
+                setAgendas(false);
+                setCrearPaciente(false);
+                setConsultarCitas(false);
+                setExportarAgenda(false);
+                setExportarInforme(false);
+                setResumenProfesional(false);
+                setCrearTerapia(false);
+                setConsultarTerapia(false);
+                setCrearEntidad(false);
+                setConsultarEntidad(false);
+                setCrearProfesional(false);
+                setConsultarProfesional(false);
+                setCrearUsuario(false);
+                setConsultarUsuario(false);
+                setExportarPacientes(false);
+                setListarPacientes(false);
+                setReplicarTerapia(true);
                 break;
         }
 
@@ -661,6 +702,20 @@ public class GestorPrincipal implements Serializable {
      */
     public void setListarPacientes(boolean listarPacientes) {
         this.listarPacientes = listarPacientes;
+    }
+
+    /**
+     * @return the replicarTerapia
+     */
+    public boolean isReplicarTerapia() {
+        return replicarTerapia;
+    }
+
+    /**
+     * @param replicarTerapia the replicarTerapia to set
+     */
+    public void setReplicarTerapia(boolean replicarTerapia) {
+        this.replicarTerapia = replicarTerapia;
     }
 
 }

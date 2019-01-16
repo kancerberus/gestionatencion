@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmReplicarTerapia">
+                <p:growl id="growlReplicarTerapia" showDetail="true" life="5000" />
+                <p:panel header="REPLICAR TERAPIA" id="pnlReplicarTerapia">
+                    <table border="1">
+                        <tr><td>
+                                <table>
+
+                                    <tr><td>Profesional</td><td><p:selectOneMenu value="#{uiterapia.terapia.profesionalPrescribe.cedula}" id="profesionalValora">
+                                                <f:selectItem itemLabel="" itemValue="-1" />
+                                                <f:selectItems value="#{uiterapia.cmbProfesionales}"  />
+                                            </p:selectOneMenu></td>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p:outputLabel value="Fecha:"/></td>
+                                        <td><p:calendar value="#{uiterapia.fechaInicial}" mode="popup" pattern="dd/MM/yyyy" locale="es"/></td>
+                                        <td><p:commandButton icon="ui-icon-search" value="Consultar Citas" style="height: 26px; width: 150px; font-size: 80%;"
+                                                             actionListener="#{uiterapia.consultarCitasTerapia}" update="dtListaCitasReplicar,growlReplicarTerapia,calendarioReplicar" /></td>
+                                        <td><p:commandButton icon="ui-icon-search" value="Copiar" style="height: 26px; width: 100px; font-size: 80%;"
+                                                             actionListener="#{uiterapia.guardarCitasReplicar}" update="dtListaCitasReplicar,growlReplicarTerapia,calendarioReplicar" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td rowspan="2" style="width:300px">
+                                <p:schedule id="calendarioReplicar" value="#{uiterapia.eventModelReplicar}" initialDate="#{uiterapia.fechaInicial}" locale="es"
+                                            view="month" showHeader="true" slotMinutes="15" minTime="6" maxTime="20" timeZone="GMT-5"
+                                            centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="prev,next" resizable="false"
+                                            draggable="false">
+
+                                    <p:ajax event="eventSelect"  listener="#{uiterapia.onEventSelectReplicar}"  update="calendarioReplicar" />
+                                    <p:ajax event="dateSelect"  listener="#{uiterapia.onDateSelectReplicar}"  update="calendarioReplicar" />
+
+                                </p:schedule>
+                            </td>
+                        </tr>
+                        <tr><td>
+                                <p:dataTable var="itemCita" value="#{uiterapia.listaCitasReplicar}" id="dtListaCitasReplicar" style="font-size: 65%;"
+                                             rows="10" paginator="true" >
+
+                                    <p:column headerText="Cod. cita" >
+                                        <h:outputText value="#{itemCita.codigo}" />
+                                    </p:column>
+                                    <p:column headerText="Id. Paciente">
+                                        <h:outputText value="#{itemCita.paciente.identificacion}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre" >
+                                        <h:outputText value="#{itemCita.paciente.nombreCompleto}" />
+                                    </p:column>
+                                    <p:column headerText="Fecha" style="width:40px">
+                                        <h:outputText value="#{itemCita.fecha}" />
+                                    </p:column>
+                                    <p:column headerText="Hora" style="width:25px">
+                                        <h:outputText value="#{itemCita.hora}" >
+                                            <f:convertDateTime pattern="HH:mm" timeZone="GMT-5" locale="es" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Especialidad">
+                                        <h:outputText value="#{itemCita.especialidad.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Procedimientos" style="width:200px">
+                                        <p:dataList value="#{itemCita.listaProcedimientos}" var="dlListaPro" style="margin-left: 0pt; padding: 0px 0px 0px 0px;">
+                                            #{dlListaPro.nombre} -
+                                            <h:outputText value="#{dlListaPro.hora}" >
+                                                <f:convertDateTime pattern="HH:mm" timeZone="GMT-5" locale="es" />
+                                            </h:outputText>
+                                        </p:dataList>
+                                    </p:column>
+                                    <p:column headerText="Profesional">
+                                        <h:outputText value="#{itemCita.profesional.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="">
+                                        <p:selectBooleanCheckbox value="#{itemCita.tieneAtencion}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </td></tr>
+                    </table>
+                </p:panel>
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>
