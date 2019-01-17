@@ -24,6 +24,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 import modelo.Cita;
 import modelo.DetalleTerapia;
+import modelo.Diagnostico;
 import modelo.Entidad;
 import modelo.Paciente;
 import modelo.Profesional;
@@ -33,6 +34,7 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+import controlador.GestorDiagnostico;
 import util.Utilidades;
 
 /**
@@ -45,6 +47,8 @@ public class UITerapia implements Serializable {
 
     //private String identificacion;
     //private String nombrePaciente;
+    private Diagnostico diagnostico1;
+    private Diagnostico diagnostico2;
     private Paciente paciente;
     private Boolean activa;
     private Boolean autorizadas;
@@ -62,6 +66,7 @@ public class UITerapia implements Serializable {
     private List<SelectItem> cmbTerapias;
     private List<SelectItem> cmbEntidades;
     private GestorTerapia gestorTerapia;
+    private GestorDiagnostico gestorDiagnostico;
     private GestorProfesional gestorProfesional;
     private GestorCita gestorCita;
     private DetalleTerapia detalleTerapia;
@@ -81,6 +86,9 @@ public class UITerapia implements Serializable {
         activa = Boolean.TRUE;
         terapiaSeleccionada = new Terapia();
         terapia = new Terapia();
+        diagnostico1 = new Diagnostico();
+        diagnostico2 = new Diagnostico();
+        gestorDiagnostico = new GestorDiagnostico();
         gestorPaciente = new GestorPaciente();
         gestorTerapia = new GestorTerapia();
         gestorUtilidades = new GestorUtilidades();
@@ -96,7 +104,6 @@ public class UITerapia implements Serializable {
         consultarTerapias();
         listarEntidades();
         listarProfesionales();
-        cargarListaCodigosDiagnostico();
     }
 
     public void consultarTerapiasPaciente() {
@@ -246,7 +253,7 @@ public class UITerapia implements Serializable {
         Integer resultado;
         Integer codigoTerapia;
         try {
-            resultado = gestorTerapia.actualizarTerapiaCita(terapia, detalleTerapia);
+            resultado = gestorTerapia.actualizarTerapiaCita(terapia, detalleTerapia, diagnostico1, diagnostico2);
             if (resultado != null) {
                 guardado = Boolean.TRUE;
                 util.mostrarMensaje("La terapia Nro." + terapia.getCodigo() + " se guardo exitosamente.");
@@ -380,6 +387,17 @@ public class UITerapia implements Serializable {
         }
     }
 
+    
+        public List<String> listarDiagnosticos(String query) throws Exception {
+            ArrayList<Diagnostico> listaDiagnosticos;
+            listaDiagnosticos = gestorDiagnostico.listarDiagnosticos(query);
+            List<String> listaDiag = new ArrayList<>();
+            for (Diagnostico d : listaDiagnosticos) {
+                listaDiag.add(d.getCodigo_diagnostico() + " - " + d.getNombre_diagostico());
+            }
+            return listaDiag;
+        }
+    
     public void configurarRutaInformeTerapeutico() {
         rutaExportar = "window.open('.././exportar?nomReporte=informeTerapeutico&parametros=codigoTerapia&valores=" + terapiaSeleccionada.getCodigo() + "&tipos=I');";
     }
@@ -748,4 +766,28 @@ public class UITerapia implements Serializable {
         this.eventModelReplicar = eventModelReplicar;
     }
 
+    public GestorDiagnostico getGestorDiagnostico() {
+        return gestorDiagnostico;
+    }
+
+    public void setGestorDiagnostico(GestorDiagnostico gestorDiagnostico) {
+        this.gestorDiagnostico = gestorDiagnostico;
+    }
+
+    public Diagnostico getDiagnostico1() {
+        return diagnostico1;
+    }
+
+    public void setDiagnostico1(Diagnostico diagnostico1) {
+        this.diagnostico1 = diagnostico1;
+    }
+
+    public Diagnostico getDiagnostico2() {
+        return diagnostico2;
+    }
+
+    public void setDiagnostico2(Diagnostico diagnostico2) {
+        this.diagnostico2 = diagnostico2;
+    }
+            
 }

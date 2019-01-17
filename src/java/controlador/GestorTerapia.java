@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import modelo.Cita;
 import modelo.DetalleTerapia;
+import modelo.Diagnostico;
 import modelo.Paciente;
 import modelo.Terapia;
 
@@ -63,11 +64,11 @@ public class GestorTerapia extends Gestor {
         }
     }
 
-    public Integer actualizarTerapiaCita(Terapia terapia, DetalleTerapia detalleTerapia) throws Exception {
+    public Integer actualizarTerapiaCita(Terapia terapia, DetalleTerapia detalleTerapia, Diagnostico diagnostico1, Diagnostico diagnostico2) throws Exception {
         try {
             abrirConexion();
             TerapiaDAO terapiaDAO = new TerapiaDAO(conexion);
-            return terapiaDAO.actualizarTerapiaCita(terapia, detalleTerapia);
+            return terapiaDAO.actualizarTerapiaCita(terapia, detalleTerapia, diagnostico1, diagnostico2);
         } finally {
             cerrarConexion();
         }

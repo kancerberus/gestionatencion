@@ -5,6 +5,7 @@
  */
 package bd;
 
+import static com.sun.faces.facelets.tag.jstl.fn.JstlFunction.trim;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +24,7 @@ import modelo.Procedimiento;
 import modelo.Profesional;
 import modelo.Terapia;
 import modelo.Valoracion;
+import modelo.Diagnostico;
 
 /**
  *
@@ -333,7 +335,7 @@ group by 1
         return resultado;
     }
 
-    public Integer actualizarTerapiaCita(Terapia terapia, DetalleTerapia detalleTerapia) {
+    public Integer actualizarTerapiaCita(Terapia terapia, DetalleTerapia detalleTerapia, Diagnostico diagnostico1, Diagnostico diagnostico2) {
         Consulta consulta = null;
         String sql, consecutivo = "";
         ResultSet rs;
@@ -342,8 +344,23 @@ group by 1
         SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
         try {
             consulta = new Consulta(getConexion());
+            
+            //Consultar códigos de diagnostico
+            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
+            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();                                    
+            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
+            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
+            
+            // En este momento tenemos un array en el que cada elemento es un color.
+            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));                            
+            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));            
+            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));                            
+            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));            
+            
+            
             sql = "begin";
             consulta.actualizar(sql);
+
 
             sql = " UPDATE terapia "
                     + " SET nombre_acompanante='" + terapia.getNombreAcompanante() + "', "
@@ -354,7 +371,8 @@ group by 1
                     + " control=" + terapia.getControl() + ", diagnostico='" + terapia.getDiagnostico() + "', "
                     + " plan_tratamiento='" + terapia.getPlanTratamiento() + "', evolucion='" + terapia.getEvolucion() + "', "
                     + " cantidad_atendida=cantidad_atendida+" + terapia.getCantSesiones() + ","
-                    + " cantidad_pendiente=cantidad_pendiente-" + terapia.getCantSesiones() + ", "
+                    + " cantidad_pendiente=cantidad_pendiente-" + terapia.getCantSesiones() + ","
+                    //+ " cantidad_pendiente=" + terapia.getCantSesiones() + "-cantidad_pendiente, "
                     + " recomendacion = '" + terapia.getRecomendacion() + "' "
                     + " WHERE codigo=" + terapia.getCodigo();
             consulta.actualizar(sql);
