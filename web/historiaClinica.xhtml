@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+
+            <h:form id="frmHistoriaClinica">
+                <p:growl id="growl1" showDetail="true" life="5000" widgetVar="mensajesCS" />
+                <p:panel header="HISTORIA CLINICA" style="width: 100%;" id="pnlResumenProfesional">
+
+
+
+                    <table>
+                        <tr>
+                            <td align="right"><h:outputLabel for="cedulaPaciente" value="Identificación:" /></td>
+                            <td><p:inputText id="cedulaPaciente" value="#{uihistoriaclinica.cita.paciente.identificacion}" >
+                                    <p:ajax event="blur" listener="#{uihistoriaclinica.consultarPacientePorId}"
+                                            update="growl1,nombrePaciente,dtListaCitasPaciente"/>
+                                </p:inputText></td>
+
+                            <td align="right"><h:outputLabel for="nombrePaciente" value="Nombre:" /></td>
+                            <td><p:autoComplete id="nombrePaciente" dropdown="false" value="#{uihistoriaclinica.cita.paciente.nombreCompleto}"
+                                                completeMethod="#{uihistoriaclinica.listarPacientesPatron}"  scrollHeight="200"
+                                                maxResults="10" minQueryLength="3"
+                                                style="width: 200px;">
+                                    <p:ajax event="itemSelect" listener="#{uihistoriaclinica.consultarPacientePorNombreCompleto()}"
+                                            update="growl1,cedulaPaciente,dtListaCitasPaciente"/>
+                                    <p:ajax event="blur" listener="#{uihistoriaclinica.consultarPacientePorNombreCompleto()}"
+                                            update="growl1,cedulaPaciente,dtListaCitasPaciente"/>
+                                </p:autoComplete></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p:dataTable var="itemCitaPaciente" value="#{uihistoriaclinica.listaCitasPaciente}" id="dtListaCitasPaciente"
+                                             style="font-size: 65%; width: 500px;" rows="10" paginator="true" >
+                                    <p:column headerText="Fecha" >
+                                        <h:outputText value="#{itemCitaPaciente.fecha} #{itemCitaPaciente.hora}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-5" locale="es" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Paciente" >
+                                        <h:outputText value="#{itemCitaPaciente.paciente.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Especialidad" >
+                                        <h:outputText value="#{itemCitaPaciente.especialidad.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Profesional" >
+                                        <h:outputText value="#{itemCitaPaciente.profesional.nombre}" />
+                                    </p:column>
+                                    <p:column headerText="Estado" >
+                                        <h:outputText value="#{itemCitaPaciente.estado.nombre}" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton id="btnExportar" icon="ui-icon-print"  title="Exportar" action="#{uihistoriaclinica.consultarCodigoAtencionCita(itemCitaPaciente)}" oncomplete="PF('dialogoExportarW').show()"  update=":frmHistoriaClinica:dialogoExportar"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+
+                <p:dialog  id="dialogoExportar" header="Exportando" widgetVar="dialogoExportarW" onShow="#{uihistoriaclinica.codigoAtencion} PF('dialogoExportarW').hide();" >
+                </p:dialog>                
+
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>
