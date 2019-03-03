@@ -174,9 +174,13 @@ and open the template in the editor.
                                             <f:setPropertyActionListener value="#{itemTerapia}" target="#{uiterapia.terapiaSeleccionada}" />
                                         </p:commandButton>
 
-
-
                                     </p:column>
+                                    <p:column headerText="Recetario" style="width:32px; text-align: center">
+                                        <p:commandButton id="btnRecetario" icon="ui-icon-document"  title="Recetario" action="#{uiterapia.configurarRutaRecetario()}" oncomplete="PF('dialogoRecetarioW').show()"  update=":frmConsultaTerapia:dialogoRecetario" >
+                                            <f:setPropertyActionListener value="#{itemTerapia}" target="#{uiterapia.terapiaSeleccionada}" />
+                                        </p:commandButton>
+                                    </p:column>
+
                                 </p:dataTable>
                             </td></tr>
                         <tr>
@@ -234,6 +238,8 @@ and open the template in the editor.
                 </p:dialog>
 
                 <p:dialog  id="dialogoInformeTerapeutico" header="Exportando" widgetVar="dialogoInformeTerapeuticoW" onShow="#{uiterapia.rutaExportar} PF('dialogoInformeTerapeuticoW').hide();" >
+                </p:dialog>
+                <p:dialog  id="dialogoRecetario" header="Exportando" widgetVar="dialogoRecetarioW" onShow="#{uiterapia.rutaRecetario} PF('dialogoRecetarioW').hide();" >
                 </p:dialog>
 
             </h:form>

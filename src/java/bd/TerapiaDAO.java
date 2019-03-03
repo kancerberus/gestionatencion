@@ -269,7 +269,7 @@ group by 1
         }
         return resultado;
     }
-    
+
     public Integer actualizarTerapiaInformeTerapeutico(Terapia terapia) {
         Consulta consulta = null;
         String sql, fechaSolicitud = "";
@@ -278,11 +278,11 @@ group by 1
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         try {
             consulta = new Consulta(getConexion());
-            
+
             sql = "update terapia set "
                     + " informe_terapeutico = '" + terapia.getInformeTerapeutico() + "', "
                     + " activa = false, "
-                    + " fecha_informe_terapeutico = current_date "                    
+                    + " fecha_informe_terapeutico = current_date "
                     + " where codigo=" + terapia.getCodigo();
             resultado = consulta.actualizar(sql);
 
@@ -317,12 +317,12 @@ group by 1
                         + " cantidad_formulada, cantidad_autorizada, cantidad_pendiente,  "
                         + " cantidad_atendida, activa, codigo_valoracion, nombre_acompanante,  "
                         + " parentesco_acompanante, codigo_rips, codigo_diagnostico, primera_vez,  "
-                        + " control, diagnostico, plan_tratamiento, evolucion) "
+                        + " control, diagnostico, plan_tratamiento, evolucion, observacion_recetario) "
                         + " VALUES ( '" + terapia.getCita().getPaciente().getIdentificacion() + "', '" + terapia.getProfesionalPrescribe().getCedula() + "', '" + terapia.getProcedimiento().getCodigo() + "', current_date,  "
                         + " " + terapia.getCantidadFormulada() + ", " + terapia.getCantidadAutorizada() + ", " + (terapia.getCantidadAutorizada() > 0 ? terapia.getCantidadAutorizada() : "0") + ", "
                         + " 0, true, null, '',  "
                         + " '', '', '" + terapia.getCodigoDiagnostico() + "', null,  "
-                        + " null, '', '', '') returning codigo";
+                        + " null, '', '', '', '" + terapia.getValoracion().getObservacionRecetario() + "') returning codigo";
                 rs = consulta.ejecutar(sql);
                 if (rs.next()) {
                     resultado = rs.getInt("codigo");
@@ -344,23 +344,21 @@ group by 1
         SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
         try {
             consulta = new Consulta(getConexion());
-            
+
             //Consultar códigos de diagnostico
             String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
-            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();                                    
+            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
             String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
             String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
-            
+
             // En este momento tenemos un array en el que cada elemento es un color.
-            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));                            
-            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));            
-            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));                            
-            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));            
-            
-            
+            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
+            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
+            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
+            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
+
             sql = "begin";
             consulta.actualizar(sql);
-
 
             sql = " UPDATE terapia "
                     + " SET nombre_acompanante='" + terapia.getNombreAcompanante() + "', "
@@ -398,7 +396,7 @@ group by 1
                     + " and codigo_terapia = " + terapia.getCodigo();
 
             resultado = consulta.actualizar(sql);
-            
+
             sql = "update citas set estado='2' where codigo=" + terapia.getCita().getCodigo();
             resultado = consulta.actualizar(sql);
 

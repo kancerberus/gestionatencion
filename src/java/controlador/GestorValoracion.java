@@ -19,11 +19,11 @@ public class GestorValoracion extends Gestor{
         super();
     }
     
-    public Integer guardarValoracion(Valoracion valoracion, Boolean enviaTerapia, Diagnostico diagnostico1, Diagnostico diagnostico2) throws Exception {
+    public Integer guardarValoracion(Valoracion valoracion, Boolean enviaTerapia, Diagnostico diagnostico1, Diagnostico diagnostico2, String terapiasAutorizadas) throws Exception {
         try {
             abrirConexion();
             ValoracionDAO valoracionDAO = new ValoracionDAO(conexion);
-            return valoracionDAO.guardarValoracion(valoracion, enviaTerapia, diagnostico1, diagnostico2);
+            return valoracionDAO.guardarValoracion(valoracion, enviaTerapia, diagnostico1, diagnostico2, terapiasAutorizadas);
         } finally {
             cerrarConexion();
         }

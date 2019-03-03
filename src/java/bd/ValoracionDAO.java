@@ -26,7 +26,7 @@ public class ValoracionDAO {
         this.conexion = conexion;
     }
 
-    public Integer guardarValoracion(Valoracion valoracion, Boolean enviaTerapia, Diagnostico diagnostico1, Diagnostico diagnostico2) throws SQLException {
+    public Integer guardarValoracion(Valoracion valoracion, Boolean enviaTerapia, Diagnostico diagnostico1, Diagnostico diagnostico2, String terapiasAutorizadas) throws SQLException {
 
         Consulta consulta = null;
         Integer resultado = 0, codigoTerapia;
@@ -37,20 +37,19 @@ public class ValoracionDAO {
 
         try {
             consulta = new Consulta(getConexion());
-            
 
             //Consultar códigos de diagnostico
             String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
-            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();                                    
+            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
             String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
             String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
-            
+
             // En este momento tenemos un array en el que cada elemento es un color.
-            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));                            
-            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));            
-            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));                            
-            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));            
-            
+            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
+            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
+            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
+            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
+
             sql = "begin";
             consulta.actualizar(sql);
             //actualizo paciente
@@ -84,24 +83,27 @@ public class ValoracionDAO {
                     //inserto un encabezado de terapia por cada terapia escogida
                     sql = " INSERT INTO terapia( "
                             + " id_paciente, id_profesional, codigo_procedimiento, fecha,  "
-                            + " cantidad_formulada, cantidad_autorizada, cantidad_pendiente,  "
+                            + " cantidad_formulada, cantidad_autorizada, "
+                            + " cantidad_pendiente,  "
                             + " cantidad_atendida, activa, codigo_valoracion, nombre_acompanante,  "
                             + " parentesco_acompanante, codigo_rips, codigo_diagnostico, primera_vez,  "
                             + " control, diagnostico, plan_tratamiento, evolucion) "
                             + " VALUES ( '" + valoracion.getCita().getPaciente().getIdentificacion() + "', '" + valoracion.getCita().getProfesional().getCedula() + "',"
-                            + " '" +  t.getProcedimiento().getCodigo() + "', current_date,  "
-                            + " " +  t.getCantidadFormulada() + ", " + (t.getAutorizada().getCodigo().equalsIgnoreCase("2") ? t.getCantidadFormulada() : "0") + ", "
-                            + " " + (t.getCantidadFormulada()-1) + ", "
-                            + " 1, true, '" + resultado + "', '',  "
+                            + " '" + t.getProcedimiento().getCodigo() + "', current_date,  "
+                            + " " + t.getCantidadFormulada() + ", " + (t.getAutorizada().getCodigo().equalsIgnoreCase("2") ? t.getCantidadFormulada() : "0") + ", "
+                            + " " + (terapiasAutorizadas.equalsIgnoreCase("s") ? t.getCantidadFormulada() - 1 : t.getCantidadFormulada()) + ", "
+                            + " " + (terapiasAutorizadas.equalsIgnoreCase("s") ? 1 : 0) + ", true, '" + resultado + "', '',  "
                             + " '', '', '', null,  "
                             + " null, '', '', '') returning codigo;";
                     rs = consulta.ejecutar(sql);
                     if (rs.next()) {
                         codigoTerapia = rs.getInt("codigo");
+                        if (terapiasAutorizadas.equalsIgnoreCase("s")) {
+                            sql = " insert into detalle_terapia(consecutivo,codigo_terapia,actividad,fecha,hora,estado,cod_cita) "
+                                    + " values(1," + codigoTerapia + ",'Actividad de valoración',current_date,current_time,'F'," + valoracion.getCita().getCodigo() + ") ";
+                            consulta.actualizar(sql);
+                        }
 
-                        sql = " insert into detalle_terapia(consecutivo,codigo_terapia,actividad,fecha,hora,estado,cod_cita) "
-                                + " values(1," + codigoTerapia + ",'Actividad de valoración',current_date,current_time,'F'," + valoracion.getCita().getCodigo() + ") ";
-                        consulta.actualizar(sql);
                     }
                     // =0 viene sin modificar o reseteado del ultimo ciclo, supone que no es procedimiento tipo 1  >0 procedimiento tipo 1 <0 deberia haber retornado -1
 

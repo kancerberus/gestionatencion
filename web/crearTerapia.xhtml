@@ -52,6 +52,12 @@ and open the template in the editor.
                                 <f:selectItem itemLabel="" itemValue="" />
                                 <f:selectItems value="#{uiterapia.listaCodigosDiagnostico}"  />
                             </p:selectOneMenu></td></tr>
+                        
+                        
+                        
+                        <tr><td>Observacion recetario</td><td><p:inputTextarea id="txtObservacionRecetario" 
+                                                                                                 rows="3" cols="145" value="#{uiterapia.terapia.valoracion.observacionRecetario}" 
+                                                                                                 maxlength="500" autoResize="false" /></td></tr>
 
                         <tr><td colspan="2"><p:commandButton value="Guardar" id="btnGuardar" update="grCrearTerapia,pnlCrearTerapia" actionListener="#{uiterapia.guardarTerapia()}"  /></td></tr>
 

@@ -111,15 +111,29 @@ and open the template in the editor.
                 <table cellpadding="5" class="" border="0" style="width: 100%" >
                     
                     <tr>
-                        <td colspan="0" width="20%">
+                        <td width="20%" align="right">
                             <h>HABILITAR TERAPIAS</h>
                         </td>
-                        <td colspan="4"> 
+                        <td align="left" width="5%"> 
                             <p:selectBooleanCheckbox value="#{uivaloracion.enviaTerapia}" >
                                 <p:ajax event="change" update="txtObservacionRecetario" />
                             </p:selectBooleanCheckbox>
                         </td>
-                        <td align="right" colspan="4">
+                        
+                        <td align="right" width="25%">
+                            <h>Viene con terapias autorizadas</h>
+                        </td>
+                        <td align="left" width="10%"> 
+                            <p:selectOneMenu value="#{uivaloracion.terapiasAutorizadas}" id="cmbTerapiasAutorizadas">
+                                <f:selectItem itemLabel="" itemValue="v" />
+                                <f:selectItem itemLabel="Si" itemValue="s" />
+                                <f:selectItem itemLabel="No" itemValue="n" />
+                            </p:selectOneMenu>
+                        </td>
+                        
+                        
+                        
+                        <td align="right" colspan="2">
                             <p:commandButton icon="ui-icon-plus" style="height: 26px; width: 26px; font-size: 80%;" 
                                                                                         update="dtListaTerapias" actionListener="#{uivaloracion.adicionarTerapia()}" />
                             <p:commandButton icon="ui-icon-minus" style="height: 26px; width: 26px; font-size: 80%;" 

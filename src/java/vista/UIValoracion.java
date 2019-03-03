@@ -48,13 +48,14 @@ public class UIValoracion implements Serializable {
     private List<SelectItem> comboConfirmacion;
 
     private List<SelectItem> listaCodigosDiagnostico;
-    private List<SelectItem> listaCodigosDiagnostico2;    
+    private List<SelectItem> listaCodigosDiagnostico2;
 
     private Boolean enviaTerapia;
+    private String terapiasAutorizadas;
 
     public UIValoracion() throws Exception {
         this.valoracion = new Valoracion();
-        this.valoracion.setCita(new Cita());      
+        this.valoracion.setCita(new Cita());
         diagnostico1 = new Diagnostico();
         diagnostico2 = new Diagnostico();
         gestorUtilidades = new GestorUtilidades();
@@ -136,29 +137,34 @@ public class UIValoracion implements Serializable {
             Logger.getLogger(UICita.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
-         public List<String> listarDiagnosticos(String query) throws Exception {
-            ArrayList<Diagnostico> listaDiagnosticos;
-            listaDiagnosticos = gestorDiagnostico.listarDiagnosticos(query);
-            List<String> listaDiag = new ArrayList<>();
-            for (Diagnostico d : listaDiagnosticos) {
-                listaDiag.add(d.getCodigo_diagnostico() + " - " + d.getNombre_diagostico());
-            }
-            return listaDiag;
+
+    public List<String> listarDiagnosticos(String query) throws Exception {
+        ArrayList<Diagnostico> listaDiagnosticos;
+        listaDiagnosticos = gestorDiagnostico.listarDiagnosticos(query);
+        List<String> listaDiag = new ArrayList<>();
+        for (Diagnostico d : listaDiagnosticos) {
+            listaDiag.add(d.getCodigo_diagnostico() + " - " + d.getNombre_diagostico());
         }
-     
+        return listaDiag;
+    }
+
     public void guardarValoracion() {
         try {
-            gestorValoracion = new GestorValoracion();
-            codigoValoracion = gestorValoracion.guardarValoracion(valoracion, enviaTerapia, diagnostico1, diagnostico2);
-
-            if (codigoValoracion > 0) {
-                guardado = Boolean.TRUE;
-                util.mostrarMensaje("La Valoracion Nro." + codigoValoracion + " se guardo exitosamente.");
+            if (terapiasAutorizadas.equalsIgnoreCase("v")) {
+                util.mostrarMensaje("Debe especificar si viene con terapias autorizadas.");
             } else {
-                guardado = Boolean.FALSE;
-                util.mostrarMensaje("Se presento un error al guardar.");
+                gestorValoracion = new GestorValoracion();
+                codigoValoracion = gestorValoracion.guardarValoracion(valoracion, enviaTerapia, diagnostico1, diagnostico2, terapiasAutorizadas);
+
+                if (codigoValoracion > 0) {
+                    guardado = Boolean.TRUE;
+                    util.mostrarMensaje("La Valoracion Nro." + codigoValoracion + " se guardo exitosamente.");
+                } else {
+                    guardado = Boolean.FALSE;
+                    util.mostrarMensaje("Se presento un error al guardar.");
+                }
             }
+
         } catch (Exception ex) {
             Logger.getLogger(UIValoracion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -325,7 +331,7 @@ public class UIValoracion implements Serializable {
      */
     public void setComboConfirmacion(List<SelectItem> comboConfirmacion) {
         this.comboConfirmacion = comboConfirmacion;
-    }       
+    }
 
     public GestorDiagnostico getGestorDiagnostico() {
         return gestorDiagnostico;
@@ -333,7 +339,7 @@ public class UIValoracion implements Serializable {
 
     public void setGestorDiagnostico(GestorDiagnostico gestorDiagnostico) {
         this.gestorDiagnostico = gestorDiagnostico;
-    }   
+    }
 
     public Diagnostico getDiagnostico1() {
         return diagnostico1;
@@ -351,5 +357,18 @@ public class UIValoracion implements Serializable {
         this.diagnostico2 = diagnostico2;
     }
 
-      
+    /**
+     * @return the terapiasAutorizadas
+     */
+    public String getTerapiasAutorizadas() {
+        return terapiasAutorizadas;
+    }
+
+    /**
+     * @param terapiasAutorizadas the terapiasAutorizadas to set
+     */
+    public void setTerapiasAutorizadas(String terapiasAutorizadas) {
+        this.terapiasAutorizadas = terapiasAutorizadas;
+    }
+
 }

@@ -76,6 +76,7 @@ public class UITerapia implements Serializable {
     private List<SelectItem> cmbProfesionales;
     private Boolean sinProximaCita;
     private String rutaExportar;
+    private String rutaRecetario;
 
     private List<SelectItem> listaCodigosDiagnostico;
 
@@ -400,6 +401,12 @@ public class UITerapia implements Serializable {
     
     public void configurarRutaInformeTerapeutico() {
         rutaExportar = "window.open('.././exportar?nomReporte=informeTerapeutico&parametros=codigoTerapia&valores=" + terapiaSeleccionada.getCodigo() + "&tipos=I');";
+    }
+    
+    public void configurarRutaRecetario() {
+        //rutaExportar = "window.open('.././exportar?nomReporte=informeTerapeutico&parametros=codigoTerapia&valores=" + terapiaSeleccionada.getCodigo() + "&tipos=I');";
+        
+        rutaRecetario = "window.open('.././exportar?nomReporte=recetariot&parametros=codigoTerapia&valores=" + terapiaSeleccionada.getCodigo() + "&tipos=I');";
     }
 
     /**
@@ -788,6 +795,20 @@ public class UITerapia implements Serializable {
 
     public void setDiagnostico2(Diagnostico diagnostico2) {
         this.diagnostico2 = diagnostico2;
+    }
+
+    /**
+     * @return the rutaRecetario
+     */
+    public String getRutaRecetario() {
+        return rutaRecetario;
+    }
+
+    /**
+     * @param rutaRecetario the rutaRecetario to set
+     */
+    public void setRutaRecetario(String rutaRecetario) {
+        this.rutaRecetario = rutaRecetario;
     }
             
 }
