@@ -54,11 +54,11 @@ public class GestorTerapia extends Gestor {
         }
     }
 
-    public Integer guardarTerapia(Terapia terapia) throws Exception {
+    public Integer guardarTerapia(Terapia terapia, Diagnostico diagnostico1, Diagnostico diagnostico2) throws Exception {
         try {
             abrirConexion();
             TerapiaDAO terapiaDAO = new TerapiaDAO(conexion);
-            return terapiaDAO.guardarTerapia(terapia);
+            return terapiaDAO.guardarTerapia(terapia, diagnostico1, diagnostico2);
         } finally {
             cerrarConexion();
         }

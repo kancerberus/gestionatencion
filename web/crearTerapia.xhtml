@@ -19,11 +19,10 @@ and open the template in the editor.
                 <p:panel header="FORMULARIO TERAPIA" id="pnlCrearTerapia">
                     <table cellpadding="5">
                         <tr>
-                            <td align="right"><h:outputLabel for="nombrePaciente" value="* Paciente:" /></td>
+                            <td align="left"><h:outputLabel for="nombrePaciente" value="Nombre del Paciente:"  styleClass="customLblWidth150px"/></td>
                             <td><p:autoComplete id="nombrePaciente" dropdown="false" value="#{uiterapia.terapia.cita.paciente.nombreCompleto}"
-                                                completeMethod="#{uiterapia.listarPacientesPatron}"  scrollHeight="200"
-                                                maxResults="10" minQueryLength="3"
-                                                >
+                                                                                                completeMethod="#{uiterapia.listarPacientesPatron}"  scrollHeight="200"
+                                                                                                maxResults="10" minQueryLength="3">
                                     <p:ajax event="itemSelect" listener="#{uiterapia.consultarPacientePorNombreCompleto}" update="grCrearTerapia"/>
                                     <p:ajax event="blur"       listener="#{uiterapia.consultarPacientePorNombreCompleto}" update="grCrearTerapia"/>
                                 </p:autoComplete></td>
@@ -44,16 +43,22 @@ and open the template in the editor.
                                 </p:selectOneMenu></td>
                         </tr>                        
                         
-                        <tr><td>Código Diagnóstico Principal</td><td><p:selectOneMenu value="#{uiterapia.terapia.codigoDiagnostico}" id="codigoDiagnostico">
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItems value="#{uiterapia.listaCodigosDiagnostico}"  />
-                            </p:selectOneMenu></td></tr>
-                        <tr><td>Código Diagnóstico Secundario</td><td><p:selectOneMenu value="#{uiterapia.terapia.codigoDiagnostico2}" id="codigoDiagnostico2">
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItems value="#{uiterapia.listaCodigosDiagnostico}"  />
-                            </p:selectOneMenu></td></tr>
+                    <tr>
+                            <td>Código Diagnóstico Primario</td><td colspan="5">                            
+                            <p:autoComplete id="cod_diagnostico1" dropdown="true" value="#{uiterapia.diagnostico1.nombre_diagostico}" 
+                                                                                                completeMethod="#{uiterapia.listarDiagnosticos}"  scrollHeight="100"
+                                                                                                style="width:70%" size="100" onkeyup="this.value = this.value.toUpperCase();"
+                                                                                                forceSelection="true">                                                 
+                                                </p:autoComplete></td>                            
+                    </tr>
                         
-                        
+                    <tr>
+                            <td>Código Diagnóstico Secundario</td><td colspan="5">                            
+                            <p:autoComplete id="cod_diagnostico2" dropdown="true" value="#{uiterapia.diagnostico2.nombre_diagostico}" 
+                                                                                        completeMethod="#{uiterapia.listarDiagnosticos}"  scrollHeight="100" 
+                                                                                        style="width:70%" size="100" onkeyup="this.value = this.value.toUpperCase();"
+                                                                                        forceSelection="true" /></td>                            
+                    </tr>                                                
                         
                         <tr><td>Observacion recetario</td><td><p:inputTextarea id="txtObservacionRecetario" 
                                                                                                  rows="3" cols="145" value="#{uiterapia.terapia.valoracion.observacionRecetario}" 

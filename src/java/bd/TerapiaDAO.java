@@ -294,13 +294,25 @@ group by 1
         return resultado;
     }
 
-    public Integer guardarTerapia(Terapia terapia) {
+    public Integer guardarTerapia(Terapia terapia, Diagnostico diagnostico1, Diagnostico diagnostico2) {
         Consulta consulta = null;
         String sql;
         ResultSet rs;
         Integer resultado = null;
         try {
             consulta = new Consulta(getConexion());
+            
+             //Consultar códigos de diagnostico
+            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
+            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
+            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
+            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
+
+            // En este momento tenemos un array en el que cada elemento es un color.
+            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
+            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
+            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
+            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
 
             sql = "select count(*) cantidad from terapia where id_paciente='" + terapia.getCita().getPaciente().getIdentificacion() + "' "
                     + " and codigo_procedimiento='" + terapia.getProcedimiento().getCodigo() + "' and activa";
@@ -317,12 +329,12 @@ group by 1
                         + " cantidad_formulada, cantidad_autorizada, cantidad_pendiente,  "
                         + " cantidad_atendida, activa, codigo_valoracion, nombre_acompanante,  "
                         + " parentesco_acompanante, codigo_rips, codigo_diagnostico, primera_vez,  "
-                        + " control, diagnostico, plan_tratamiento, evolucion, observacion_recetario) "
+                        + " control, diagnostico, plan_tratamiento, evolucion, codigo_diagnostico2, observacion_recetario) "
                         + " VALUES ( '" + terapia.getCita().getPaciente().getIdentificacion() + "', '" + terapia.getProfesionalPrescribe().getCedula() + "', '" + terapia.getProcedimiento().getCodigo() + "', current_date,  "
                         + " " + terapia.getCantidadFormulada() + ", " + terapia.getCantidadAutorizada() + ", " + (terapia.getCantidadAutorizada() > 0 ? terapia.getCantidadAutorizada() : "0") + ", "
                         + " 0, true, null, '',  "
-                        + " '', '', '" + terapia.getCodigoDiagnostico() + "', null,  "
-                        + " null, '', '', '', '" + terapia.getValoracion().getObservacionRecetario() + "') returning codigo";
+                        + " '', '', '" + diagnostico1.getCodigo_diagnostico() + "', null,  "
+                        + " null, '', '', '', '" + diagnostico2.getCodigo_diagnostico() +  "', '" + terapia.getValoracion().getObservacionRecetario() + "') returning codigo";
                 rs = consulta.ejecutar(sql);
                 if (rs.next()) {
                     resultado = rs.getInt("codigo");

@@ -232,7 +232,7 @@ public class UITerapia implements Serializable {
     public void guardarTerapia() {
         Integer resultado;
         try {
-            resultado = gestorTerapia.guardarTerapia(terapia);
+            resultado = gestorTerapia.guardarTerapia(terapia, diagnostico1, diagnostico2);
             if (resultado != null) {
                 if (resultado == 0) {
                     util.mostrarMensaje("El paciente ya tiene una terapia activa de este tipo.");
