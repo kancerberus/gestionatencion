@@ -15,45 +15,48 @@ import java.util.List;
  */
 public class Terapia {
 
-  private Integer codigo;
-  private Cita cita;
-  private Profesional profesionalPrescribe;
-  private Procedimiento procedimiento;
-  private Date fecha;
-  private Date hora;
-  private Integer cantidadFormulada;
-  private Integer cantidadAutorizada;
-  private Integer cantidadPendiente;
-  private Integer cantidadAtendida;
-  private Integer cantidadInasistidas;
-  private Boolean activa;
-  private Integer codigoValoracion;
-  private String nombreAcompanante;
-  private String parentescoAcompanante;
-  private String codigoRIPS;
-  private String codigoDiagnostico;
-  private String codigoDiagnostico2;
-  private Boolean primeraVez;
-  private Boolean control;
-  private String diagnostico;
-  private String planTratamiento;
-  private String evolucion;
-  private String recomendacion;
-  private String nroAutorizacion;
-  private List<DetalleTerapia> detalleTerapia;
+    private Integer codigo;
+    private Cita cita;
+    private Profesional profesionalPrescribe;
+    private Procedimiento procedimiento;
+    private Date fecha;
+    private Date hora;
+    private Integer cantidadFormulada;
+    private Integer cantidadAutorizada;
+    private Integer cantidadPendiente;
+    private Integer cantidadAtendida;
+    private Integer cantidadInasistidas;
+    private Boolean activa;
+    private Integer codigoValoracion;
+    private String nombreAcompanante;
+    private String parentescoAcompanante;
+    private String codigoRIPS;
+    private String codigoDiagnostico;
+    private String codigoDiagnostico2;
+    private Boolean primeraVez;
+    private Boolean control;
+    private String diagnostico;
+    private String planTratamiento;
+    private String evolucion;
+    private String recomendacion;
+    private String nroAutorizacion;
+    private List<DetalleTerapia> detalleTerapia;
 
-  private Date fechaSolicitud;
-  private String horarioPreferencial;
-  private String observaciones;
-  private String seguimiento1;
-  private String seguimiento2;
-  private String seguimiento3;
-  private Valoracion valoracion;
-  
-  private String cantSesiones;
-  private Objeto autorizada;
-  
-  private String informeTerapeutico;
+    private Date fechaSolicitud;
+    private String horarioPreferencial;
+    private String observaciones;
+    private String seguimiento1;
+    private String seguimiento2;
+    private String seguimiento3;
+    private Valoracion valoracion;
+
+    private String cantSesiones;
+    private Objeto autorizada;
+
+    private String informeTerapeutico;
+
+    private Diagnostico diagnostico1;
+    private Diagnostico diagnostico2;
 
     public Terapia() {
         cita = new Cita();
@@ -61,7 +64,10 @@ public class Terapia {
         procedimiento = new Procedimiento();
         detalleTerapia = new ArrayList<>();
         profesionalPrescribe = new Profesional();
-        autorizada = new Objeto("1","NO");
+        autorizada = new Objeto("1", "NO");
+        
+        diagnostico1 = new Diagnostico();
+        diagnostico2 = new Diagnostico();
     }
 
     /**
@@ -203,8 +209,6 @@ public class Terapia {
     public void setParentescoAcompanante(String parentescoAcompanante) {
         this.parentescoAcompanante = parentescoAcompanante;
     }
-
-
 
     /**
      * @return the codigoDiagnostico
@@ -570,7 +574,32 @@ public class Terapia {
         this.informeTerapeutico = informeTerapeutico;
     }
 
+    /**
+     * @return the diagnostico1
+     */
+    public Diagnostico getDiagnostico1() {
+        return diagnostico1;
+    }
 
+    /**
+     * @param diagnostico1 the diagnostico1 to set
+     */
+    public void setDiagnostico1(Diagnostico diagnostico1) {
+        this.diagnostico1 = diagnostico1;
+    }
 
+    /**
+     * @return the diagnostico2
+     */
+    public Diagnostico getDiagnostico2() {
+        return diagnostico2;
+    }
+
+    /**
+     * @param diagnostico2 the diagnostico2 to set
+     */
+    public void setDiagnostico2(Diagnostico diagnostico2) {
+        this.diagnostico2 = diagnostico2;
+    }
 
 }

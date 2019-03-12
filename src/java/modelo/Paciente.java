@@ -35,12 +35,12 @@ public class Paciente {
     private String gradoEscolar;
     private String tipoAfiliacion;
     private String tipoIdentificacion;
-    private String condicion;
-    
+    private String condicion = "";
+
     private String segundoNombre;
     private String primerApellido;
     private String segundoApellido;
-    
+
     private String nombreCompleto;
 
     public Paciente() {
@@ -288,8 +288,6 @@ public class Paciente {
         this.sexo = sexo;
     }
 
-
-
     /**
      * @return the ocupacion
      */
@@ -429,10 +427,5 @@ public class Paciente {
     public void setCondicion(String condicion) {
         this.condicion = condicion;
     }
-
-
-
-
-
 
 }

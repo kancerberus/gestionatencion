@@ -16,7 +16,9 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.faces.context.FacesContext;
 import modelo.Cita;
+import modelo.EstudioAudiologico;
 import modelo.Profesional;
+import modelo.Valoracion;
 import util.Utilidades;
 
 /**
@@ -100,7 +102,7 @@ public class UIProfesional implements Serializable {
         if (cita.getListaProcedimientos().get(0).getTipo() == 1) {
             try {
                 UITerapia uiterapia = (UITerapia) ef.createValueExpression(contextoEL, "#{uiterapia}", UITerapia.class).getValue(contextoEL);
-                //UITerapia uiterapia = gestorTerapia.consultarTerapiaPorCita(cita);
+                //UITerapia uiterapia = gestorTerapia.consultarTerapiaPorCita(cita);                
                 uiterapia.setTerapia(gestorTerapia.consultarTerapiaPorCita(cita));
                 uiterapia.setDetalleTerapia(gestorTerapia.consultarDetalleTerapiaPorCita(cita));
                 uiterapia.setGuardado(Boolean.FALSE);
@@ -111,10 +113,19 @@ public class UIProfesional implements Serializable {
             }
         } else if (cita.getListaProcedimientos().get(0).getTipo() == 2) {
             UIValoracion uivaloracion = (UIValoracion) ef.createValueExpression(contextoEL, "#{uivaloracion}", UIValoracion.class).getValue(contextoEL);
+            //limpiar variables
+            uivaloracion.setValoracion(new Valoracion());
+            uivaloracion.setEnviaTerapia(Boolean.TRUE);
+            uivaloracion.setTerapiasAutorizadas("");
+            uivaloracion.setGuardado(Boolean.FALSE);
+            
             uivaloracion.getValoracion().setCita(cita);
             contextoJSF.getExternalContext().getRequestMap().put("uivaloracion", UIValoracion.class);
         } else if (cita.getListaProcedimientos().get(0).getTipo() == 4) {
             UIEstudioAudiologico uiestudioaudiologico = (UIEstudioAudiologico) ef.createValueExpression(contextoEL, "#{uiestudioaudiologico}", UIEstudioAudiologico.class).getValue(contextoEL);
+            //limpiar variables
+            uiestudioaudiologico.setEstudioAudiologico(new EstudioAudiologico());
+            
             uiestudioaudiologico.getEstudioAudiologico().setCita(cita);
             contextoJSF.getExternalContext().getRequestMap().put("uiestudioaudiologico", UIEstudioAudiologico.class);
         }

@@ -13,6 +13,11 @@ public class Diagnostico {
     public Diagnostico() {
         
     }
+    
+    public Diagnostico(String codigo_diagnostico, String nombre_diagostico) {
+        this.codigo_diagnostico = codigo_diagnostico;
+        this.nombre_diagostico = nombre_diagostico;
+    }
 
     public String getCodigo_diagnostico() {
         return codigo_diagnostico;

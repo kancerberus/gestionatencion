@@ -294,7 +294,7 @@ group by 1
         return resultado;
     }
 
-    public Integer guardarTerapia(Terapia terapia, Diagnostico diagnostico1, Diagnostico diagnostico2) {
+    public Integer guardarTerapia(Terapia terapia) {
         Consulta consulta = null;
         String sql;
         ResultSet rs;
@@ -303,16 +303,30 @@ group by 1
             consulta = new Consulta(getConexion());
             
              //Consultar códigos de diagnostico
-            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
-            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
-            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
-            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
+             
+            sql = "select cod_diagnostico from diagnosticos where nombre_diagnostico='" + terapia.getDiagnostico1().getNombre_diagostico() + "'";
+            rs = consulta.ejecutar(sql);
+
+            if (rs.next()) {
+                terapia.getDiagnostico1().setCodigo_diagnostico(rs.getString("cod_diagnostico"));
+            }
+
+            sql = "select cod_diagnostico from diagnosticos where nombre_diagnostico='" + terapia.getDiagnostico2().getNombre_diagostico() + "'";
+            rs = consulta.ejecutar(sql);
+
+            if (rs.next()) {
+                terapia.getDiagnostico2().setCodigo_diagnostico(rs.getString("cod_diagnostico"));
+            }
+//            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
+//            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
+//            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
+//            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
 
             // En este momento tenemos un array en el que cada elemento es un color.
-            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
-            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
-            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
-            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
+//            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
+//            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
+//            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
+//            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
 
             sql = "select count(*) cantidad from terapia where id_paciente='" + terapia.getCita().getPaciente().getIdentificacion() + "' "
                     + " and codigo_procedimiento='" + terapia.getProcedimiento().getCodigo() + "' and activa";
@@ -333,8 +347,8 @@ group by 1
                         + " VALUES ( '" + terapia.getCita().getPaciente().getIdentificacion() + "', '" + terapia.getProfesionalPrescribe().getCedula() + "', '" + terapia.getProcedimiento().getCodigo() + "', current_date,  "
                         + " " + terapia.getCantidadFormulada() + ", " + terapia.getCantidadAutorizada() + ", " + (terapia.getCantidadAutorizada() > 0 ? terapia.getCantidadAutorizada() : "0") + ", "
                         + " 0, true, null, '',  "
-                        + " '', '', '" + diagnostico1.getCodigo_diagnostico() + "', null,  "
-                        + " null, '', '', '', '" + diagnostico2.getCodigo_diagnostico() +  "', '" + terapia.getValoracion().getObservacionRecetario() + "') returning codigo";
+                        + " '', '', '" + terapia.getDiagnostico1().getCodigo_diagnostico() + "', null,  "
+                        + " null, '', '', '', '" + terapia.getDiagnostico2().getCodigo_diagnostico() +  "', '" + terapia.getValoracion().getObservacionRecetario() + "') returning codigo";
                 rs = consulta.ejecutar(sql);
                 if (rs.next()) {
                     resultado = rs.getInt("codigo");
@@ -347,7 +361,7 @@ group by 1
         return resultado;
     }
 
-    public Integer actualizarTerapiaCita(Terapia terapia, DetalleTerapia detalleTerapia, Diagnostico diagnostico1, Diagnostico diagnostico2) {
+    public Integer actualizarTerapiaCita(Terapia terapia, DetalleTerapia detalleTerapia) {
         Consulta consulta = null;
         String sql, consecutivo = "";
         ResultSet rs;
@@ -358,16 +372,29 @@ group by 1
             consulta = new Consulta(getConexion());
 
             //Consultar códigos de diagnostico
-            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
-            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
-            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
-            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
+            sql = "select cod_diagnostico from diagnosticos where nombre_diagnostico='" + terapia.getDiagnostico1().getNombre_diagostico() + "'";
+            rs = consulta.ejecutar(sql);
+
+            if (rs.next()) {
+                terapia.getDiagnostico1().setCodigo_diagnostico(rs.getString("cod_diagnostico"));
+            }
+
+            sql = "select cod_diagnostico from diagnosticos where nombre_diagnostico='" + terapia.getDiagnostico2().getNombre_diagostico() + "'";
+            rs = consulta.ejecutar(sql);
+
+            if (rs.next()) {
+                terapia.getDiagnostico2().setCodigo_diagnostico(rs.getString("cod_diagnostico"));
+            }
+//            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
+//            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
+//            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
+//            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
 
             // En este momento tenemos un array en el que cada elemento es un color.
-            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
-            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
-            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
-            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
+//            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
+//            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
+//            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
+//            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
 
             sql = "begin";
             consulta.actualizar(sql);
@@ -375,8 +402,8 @@ group by 1
             sql = " UPDATE terapia "
                     + " SET nombre_acompanante='" + terapia.getNombreAcompanante() + "', "
                     + " parentesco_acompanante='" + terapia.getParentescoAcompanante() + "', codigo_rips='" + terapia.getCodigoRIPS() + "', "
-                    + " codigo_diagnostico='" + terapia.getCodigoDiagnostico() + "', "
-                    + " codigo_diagnostico2='" + terapia.getCodigoDiagnostico2() + "', "
+                    + " codigo_diagnostico='" + terapia.getDiagnostico1().getCodigo_diagnostico() + "', "
+                    + " codigo_diagnostico2='" + terapia.getDiagnostico2().getCodigo_diagnostico() + "', "
                     + " primera_vez=" + terapia.getPrimeraVez() + ", "
                     + " control=" + terapia.getControl() + ", diagnostico='" + terapia.getDiagnostico() + "', "
                     + " plan_tratamiento='" + terapia.getPlanTratamiento() + "', evolucion='" + terapia.getEvolucion() + "', "
@@ -387,7 +414,7 @@ group by 1
                     + " WHERE codigo=" + terapia.getCodigo();
             consulta.actualizar(sql);
 
-            sql = "update pacientes set condicion='" + terapia.getCita().getPaciente().getCondicion() + "' where identificacion='" + terapia.getCita().getPaciente().getIdentificacion() + "'";
+            sql = "update pacientes set condicion='" + (terapia.getCita().getPaciente().getCondicion() == null ? "" : terapia.getCita().getPaciente().getCondicion()) + "' where identificacion='" + terapia.getCita().getPaciente().getIdentificacion() + "'";
             consulta.actualizar(sql);
 
             /*
@@ -426,6 +453,7 @@ group by 1
     public Terapia consultarTerapiaPorCita(Cita cita) throws SQLException {
         Terapia t = null;
         DetalleTerapia dt = null;
+        Diagnostico d1,d2;
 
         //List<Terapia> listaTerapias = new ArrayList<>();
         //List<Procedimiento> listaP;
@@ -456,7 +484,9 @@ group by 1
                     + " l_condicion.value condicion, "
                     + " e.codigo codigo_entidad, e.nombre nombre_entidad, "
                     + " case when v.codigo_diagnostico is null then t.codigo_diagnostico else v.codigo_diagnostico end codigo_diagnostico_principal, "
-                    + " case when v.codigo_diagnostico2 is null then t.codigo_diagnostico2 else v.codigo_diagnostico2 end codigo_diagnostico_secundario "
+                    + " case when v.codigo_diagnostico2 is null then t.codigo_diagnostico2 else v.codigo_diagnostico2 end codigo_diagnostico_secundario, "
+                    + " diag1.cod_diagnostico cod_diagnostico1,diag1.nombre_diagnostico nombre_diagnostico1, "
+                    + " diag2.cod_diagnostico cod_diagnostico2,diag2.nombre_diagnostico nombre_diagnostico2"
                     //
                     + " from "
                     + " terapia t "
@@ -464,6 +494,8 @@ group by 1
                     + " inner join entidades e on (pa.entidad = e.codigo) "
                     + " inner join detalle_terapia dt on (t.codigo=dt.codigo_terapia) "
                     + " inner join citas c on (dt.cod_cita=c.codigo) "
+                    + " left join diagnosticos diag1 on (t.codigo_diagnostico=diag1.cod_diagnostico) "
+                    + " left join diagnosticos diag2 on (t.codigo_diagnostico2=diag2.cod_diagnostico) "
                     + " left join valoracion v on (t.codigo_valoracion=v.codigo)  "
                     //
                     + " left join (lista l "
@@ -549,6 +581,12 @@ group by 1
                 t.setEvolucion(rs.getString("evolucion"));
                 t.setNroAutorizacion(rs.getString("nro_autorizacion"));
                 t.setRecomendacion(rs.getString("recomendacion"));
+                
+                d1 = new Diagnostico(rs.getString("cod_diagnostico1"),rs.getString("nombre_diagnostico1"));
+                d2 = new Diagnostico(rs.getString("cod_diagnostico2"),rs.getString("nombre_diagnostico2"));
+                
+                t.setDiagnostico1(d1);
+                t.setDiagnostico2(d2);
 
                 //listaTerapias.add(t);
             }

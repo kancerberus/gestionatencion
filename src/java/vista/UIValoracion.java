@@ -32,8 +32,7 @@ import util.Utilidades;
 public class UIValoracion implements Serializable {
 
     private Valoracion valoracion;
-    private Diagnostico diagnostico1;
-    private Diagnostico diagnostico2;
+    
     private List<SelectItem> listaTerapias;
     private GestorValoracion gestorValoracion;
     private GestorDiagnostico gestorDiagnostico;
@@ -56,8 +55,8 @@ public class UIValoracion implements Serializable {
     public UIValoracion() throws Exception {
         this.valoracion = new Valoracion();
         this.valoracion.setCita(new Cita());
-        diagnostico1 = new Diagnostico();
-        diagnostico2 = new Diagnostico();
+        //diagnostico1 = new Diagnostico();
+        //diagnostico2 = new Diagnostico();
         gestorUtilidades = new GestorUtilidades();
         gestorDiagnostico = new GestorDiagnostico();
         guardado = Boolean.FALSE;
@@ -143,7 +142,7 @@ public class UIValoracion implements Serializable {
         listaDiagnosticos = gestorDiagnostico.listarDiagnosticos(query);
         List<String> listaDiag = new ArrayList<>();
         for (Diagnostico d : listaDiagnosticos) {
-            listaDiag.add(d.getCodigo_diagnostico() + " - " + d.getNombre_diagostico());
+            listaDiag.add(d.getNombre_diagostico());
         }
         return listaDiag;
     }
@@ -154,7 +153,7 @@ public class UIValoracion implements Serializable {
                 util.mostrarMensaje("Debe especificar si viene con terapias autorizadas.");
             } else {
                 gestorValoracion = new GestorValoracion();
-                codigoValoracion = gestorValoracion.guardarValoracion(valoracion, enviaTerapia, diagnostico1, diagnostico2, terapiasAutorizadas);
+                codigoValoracion = gestorValoracion.guardarValoracion(valoracion, enviaTerapia, terapiasAutorizadas);
 
                 if (codigoValoracion > 0) {
                     guardado = Boolean.TRUE;
@@ -341,21 +340,21 @@ public class UIValoracion implements Serializable {
         this.gestorDiagnostico = gestorDiagnostico;
     }
 
-    public Diagnostico getDiagnostico1() {
-        return diagnostico1;
-    }
-
-    public void setDiagnostico1(Diagnostico diagnostico1) {
-        this.diagnostico1 = diagnostico1;
-    }
-
-    public Diagnostico getDiagnostico2() {
-        return diagnostico2;
-    }
-
-    public void setDiagnostico2(Diagnostico diagnostico2) {
-        this.diagnostico2 = diagnostico2;
-    }
+//    public Diagnostico getDiagnostico1() {
+//        return diagnostico1;
+//    }
+//
+//    public void setDiagnostico1(Diagnostico diagnostico1) {
+//        this.diagnostico1 = diagnostico1;
+//    }
+//
+//    public Diagnostico getDiagnostico2() {
+//        return diagnostico2;
+//    }
+//
+//    public void setDiagnostico2(Diagnostico diagnostico2) {
+//        this.diagnostico2 = diagnostico2;
+//    }
 
     /**
      * @return the terapiasAutorizadas

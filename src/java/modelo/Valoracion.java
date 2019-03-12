@@ -43,11 +43,16 @@ public class Valoracion {
     */
     private List<Terapia> listaTerapias;
     
+    private Diagnostico diagnostico1;
+    private Diagnostico diagnostico2;
+    
 
     public Valoracion() {
         this.fecha = new Date();
         this.hora = new Date();
         listaTerapias = new ArrayList<>();
+        diagnostico1 = new Diagnostico();
+        diagnostico2 = new Diagnostico();
     }
 
     /**
@@ -344,6 +349,34 @@ public class Valoracion {
      */
     public void setObservacionRecetario(String observacionRecetario) {
         this.observacionRecetario = observacionRecetario;
+    }
+
+    /**
+     * @return the diagnostico1
+     */
+    public Diagnostico getDiagnostico1() {
+        return diagnostico1;
+    }
+
+    /**
+     * @param diagnostico1 the diagnostico1 to set
+     */
+    public void setDiagnostico1(Diagnostico diagnostico1) {
+        this.diagnostico1 = diagnostico1;
+    }
+
+    /**
+     * @return the diagnostico2
+     */
+    public Diagnostico getDiagnostico2() {
+        return diagnostico2;
+    }
+
+    /**
+     * @param diagnostico2 the diagnostico2 to set
+     */
+    public void setDiagnostico2(Diagnostico diagnostico2) {
+        this.diagnostico2 = diagnostico2;
     }
 
     

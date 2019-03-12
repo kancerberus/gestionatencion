@@ -26,7 +26,7 @@ public class ValoracionDAO {
         this.conexion = conexion;
     }
 
-    public Integer guardarValoracion(Valoracion valoracion, Boolean enviaTerapia, Diagnostico diagnostico1, Diagnostico diagnostico2, String terapiasAutorizadas) throws SQLException {
+    public Integer guardarValoracion(Valoracion valoracion, Boolean enviaTerapia, String terapiasAutorizadas) throws SQLException {
 
         Consulta consulta = null;
         Integer resultado = 0, codigoTerapia;
@@ -39,17 +39,29 @@ public class ValoracionDAO {
             consulta = new Consulta(getConexion());
 
             //Consultar códigos de diagnostico
-            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
-            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
-            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
-            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
+            sql = "select cod_diagnostico from diagnosticos where nombre_diagnostico='" + valoracion.getDiagnostico1().getNombre_diagostico() + "'";
+            rs = consulta.ejecutar(sql);
 
+            if (rs.next()) {
+                valoracion.getDiagnostico1().setCodigo_diagnostico(rs.getString("cod_diagnostico"));
+            }
+
+            sql = "select cod_diagnostico from diagnosticos where nombre_diagnostico='" + valoracion.getDiagnostico2().getNombre_diagostico() + "'";
+            rs = consulta.ejecutar(sql);
+
+            if (rs.next()) {
+                valoracion.getDiagnostico2().setCodigo_diagnostico(rs.getString("cod_diagnostico"));
+            }
+
+//            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
+//            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
+//            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
+//            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
             // En este momento tenemos un array en el que cada elemento es un color.
-            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
-            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
-            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
-            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
-
+//            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
+//            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
+//            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
+//            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
             sql = "begin";
             consulta.actualizar(sql);
             //actualizo paciente
@@ -66,7 +78,7 @@ public class ValoracionDAO {
                     + " VALUES ( "
                     + " '" + valoracion.getArea() + "', '" + formatoFecha.format(valoracion.getFecha()) + "', '" + formatoHora.format(valoracion.getHora()) + "', "
                     + " " + valoracion.getPrimeraVez() + ", " + valoracion.getControl() + ", '" + valoracion.getCodigoRIPS() + "', "
-                    + " '" + diagnostico1.getCodigo_diagnostico() + "', '" + diagnostico2.getCodigo_diagnostico() + "', '" + valoracion.getCita().getPaciente().getIdentificacion() + "', "
+                    + " '" + valoracion.getDiagnostico1().getCodigo_diagnostico() + "', '" + valoracion.getDiagnostico2().getCodigo_diagnostico() + "', '" + valoracion.getCita().getPaciente().getIdentificacion() + "', "
                     + " '" + valoracion.getCita().getProfesional().getCedula() + "', '" + valoracion.getRemitidoPor() + "', "
                     + " '" + valoracion.getNombreAcompanante() + "', '" + valoracion.getDireccionAcompanante() + "', '" + valoracion.getTelefonoAcompanante() + "', "
                     + " '" + valoracion.getParentescoAcompanante() + "', '" + valoracion.getMotivoConsulta() + "', '" + valoracion.getAntecedentesEvaluacion() + "', "

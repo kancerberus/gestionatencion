@@ -33,7 +33,7 @@ and open the template in the editor.
                     
                     <tr>
                             <td>Código Diagnóstico Primario</td><td colspan="5">                            
-                            <p:autoComplete id="cod_diagnostico1" dropdown="true" value="#{uivaloracion.diagnostico1.nombre_diagostico}" 
+                            <p:autoComplete id="cod_diagnostico1" dropdown="true" value="#{uivaloracion.valoracion.diagnostico1.nombre_diagostico}" 
                                                                                                 completeMethod="#{uivaloracion.listarDiagnosticos}"  scrollHeight="100"
                                                                                                 style="width:70%" size="100" onkeyup="this.value = this.value.toUpperCase();"
                                                                                                 forceSelection="true">                                                 
@@ -42,7 +42,7 @@ and open the template in the editor.
                     
                     <tr>
                             <td>Código Diagnóstico Secundario</td><td colspan="5">                            
-                            <p:autoComplete id="cod_diagnostico2" dropdown="true" value="#{uivaloracion.diagnostico2.nombre_diagostico}" 
+                            <p:autoComplete id="cod_diagnostico2" dropdown="true" value="#{uivaloracion.valoracion.diagnostico2.nombre_diagostico}" 
                                                                                         completeMethod="#{uivaloracion.listarDiagnosticos}"  scrollHeight="100" 
                                                                                         style="width:70%" size="100" onkeyup="this.value = this.value.toUpperCase();"
                                                                                         forceSelection="true" /></td>                            

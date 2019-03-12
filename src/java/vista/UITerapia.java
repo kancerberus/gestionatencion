@@ -47,8 +47,7 @@ public class UITerapia implements Serializable {
 
     //private String identificacion;
     //private String nombrePaciente;
-    private Diagnostico diagnostico1;
-    private Diagnostico diagnostico2;
+    
     private Paciente paciente;
     private Boolean activa;
     private Boolean autorizadas;
@@ -87,8 +86,8 @@ public class UITerapia implements Serializable {
         activa = Boolean.TRUE;
         terapiaSeleccionada = new Terapia();
         terapia = new Terapia();
-        diagnostico1 = new Diagnostico();
-        diagnostico2 = new Diagnostico();
+//        diagnostico1 = new Diagnostico();
+//        diagnostico2 = new Diagnostico();
         gestorDiagnostico = new GestorDiagnostico();
         gestorPaciente = new GestorPaciente();
         gestorTerapia = new GestorTerapia();
@@ -232,7 +231,7 @@ public class UITerapia implements Serializable {
     public void guardarTerapia() {
         Integer resultado;
         try {
-            resultado = gestorTerapia.guardarTerapia(terapia, diagnostico1, diagnostico2);
+            resultado = gestorTerapia.guardarTerapia(terapia);
             if (resultado != null) {
                 if (resultado == 0) {
                     util.mostrarMensaje("El paciente ya tiene una terapia activa de este tipo.");
@@ -254,7 +253,7 @@ public class UITerapia implements Serializable {
         Integer resultado;
         Integer codigoTerapia;
         try {
-            resultado = gestorTerapia.actualizarTerapiaCita(terapia, detalleTerapia, diagnostico1, diagnostico2);
+            resultado = gestorTerapia.actualizarTerapiaCita(terapia, detalleTerapia);
             if (resultado != null) {
                 guardado = Boolean.TRUE;
                 util.mostrarMensaje("La terapia Nro." + terapia.getCodigo() + " se guardo exitosamente.");
@@ -394,7 +393,7 @@ public class UITerapia implements Serializable {
             listaDiagnosticos = gestorDiagnostico.listarDiagnosticos(query);
             List<String> listaDiag = new ArrayList<>();
             for (Diagnostico d : listaDiagnosticos) {
-                listaDiag.add(d.getCodigo_diagnostico() + " - " + d.getNombre_diagostico());
+                listaDiag.add(d.getNombre_diagostico());
             }
             return listaDiag;
         }
@@ -779,23 +778,7 @@ public class UITerapia implements Serializable {
 
     public void setGestorDiagnostico(GestorDiagnostico gestorDiagnostico) {
         this.gestorDiagnostico = gestorDiagnostico;
-    }
-
-    public Diagnostico getDiagnostico1() {
-        return diagnostico1;
-    }
-
-    public void setDiagnostico1(Diagnostico diagnostico1) {
-        this.diagnostico1 = diagnostico1;
-    }
-
-    public Diagnostico getDiagnostico2() {
-        return diagnostico2;
-    }
-
-    public void setDiagnostico2(Diagnostico diagnostico2) {
-        this.diagnostico2 = diagnostico2;
-    }
+    }    
 
     /**
      * @return the rutaRecetario
