@@ -25,24 +25,24 @@ and open the template in the editor.
                             <td align="right"><h:outputLabel for="cedulaPaciente" value="Identificación:" /></td>
                             <td><p:inputText id="cedulaPaciente" value="#{uihistoriaclinica.cita.paciente.identificacion}" >
                                     <p:ajax event="blur" listener="#{uihistoriaclinica.consultarPacientePorId}"
-                                            update="growl1,nombrePaciente,dtListaCitasPaciente"/>
+                                                                                        update="growl1,nombrePaciente,dtListaCitasPaciente"/>
                                 </p:inputText></td>
 
                             <td align="right"><h:outputLabel for="nombrePaciente" value="Nombre:" /></td>
                             <td><p:autoComplete id="nombrePaciente" dropdown="false" value="#{uihistoriaclinica.cita.paciente.nombreCompleto}"
-                                                completeMethod="#{uihistoriaclinica.listarPacientesPatron}"  scrollHeight="200"
-                                                maxResults="10" minQueryLength="3"
-                                                style="width: 200px;">
+                                                                                                completeMethod="#{uihistoriaclinica.listarPacientesPatron}"  scrollHeight="200"
+                                                                                                maxResults="10" minQueryLength="3"
+                                                                                                style="width: 200px;">
                                     <p:ajax event="itemSelect" listener="#{uihistoriaclinica.consultarPacientePorNombreCompleto()}"
-                                            update="growl1,cedulaPaciente,dtListaCitasPaciente"/>
+                                                                                        update="growl1,cedulaPaciente,dtListaCitasPaciente"/>
                                     <p:ajax event="blur" listener="#{uihistoriaclinica.consultarPacientePorNombreCompleto()}"
-                                            update="growl1,cedulaPaciente,dtListaCitasPaciente"/>
+                                                                                        update="growl1,cedulaPaciente,dtListaCitasPaciente"/>
                                 </p:autoComplete></td>
                         </tr>
                         <tr>
                             <td colspan="4">
                                 <p:dataTable var="itemCitaPaciente" value="#{uihistoriaclinica.listaCitasPaciente}" id="dtListaCitasPaciente"
-                                             style="font-size: 65%; width: 500px;" rows="10" paginator="true" >
+                                                                                        style="font-size: 65%; width: 1200px;" rows="10" paginator="true" >
                                     <p:column headerText="Fecha" >
                                         <h:outputText value="#{itemCitaPaciente.fecha} #{itemCitaPaciente.hora}" >
                                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-5" locale="es" />
