@@ -16,7 +16,7 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <h:outputStylesheet name="general.css"  />
-        <h:form id="frmResumenProfesional">
+        <h:form id="frmValoracion">
             <p:growl id="mensajesValoracion" showDetail="true" life="5000"  />
             <p:panel header="FORMULARIO VALORACIÓN" style="width: 100%;" id="pnlHistoriaClinicaValoracion">
                 <table cellpadding="5" class="" border="0" style="width: 100%" >
@@ -196,15 +196,18 @@ and open the template in the editor.
                     </tr>
                     <tr>
                         <td colspan="6" align="center"><p:commandButton value="Guardar" id="btnGuardar" 
-                                                                                        update="mensajesValoracion,btnGuardar" disabled="#{uivaloracion.guardado}" 
+                                                                                        update="mensajesValoracion,:frmValoracion:dialogoCerrar" disabled="#{uivaloracion.guardado}" 
                                                                                         actionListener="#{uivaloracion.guardarValoracion}"  
-                                                                                        oncomplete="window.close()"/></td>
+                                                                                        oncomplete="PF('dialogoCerrarW').show()"
+                                                                                        /></td>
 
                     </tr>
 
 
                 </table>
             </p:panel>
+            <p:dialog  id="dialogoCerrar" header="Cerrando..." widgetVar="dialogoCerrarW" onShow="#{uivaloracion.manejoVentana} PF('dialogoCerrarW').hide();" >
+            </p:dialog>
         </h:form>
     </h:body>
 </html>

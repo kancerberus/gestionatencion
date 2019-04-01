@@ -65,8 +65,11 @@ public class ValoracionDAO {
             sql = "begin";
             consulta.actualizar(sql);
             //actualizo paciente
-            sql = "update pacientes set condicion='" + valoracion.getCita().getPaciente().getCondicion() + "' where identificacion='" + valoracion.getCita().getPaciente().getIdentificacion() + "'";
-            consulta.actualizar(sql);
+            if (valoracion.getCita().getPaciente().getCondicion() != null) {
+                sql = "update pacientes set condicion='" + valoracion.getCita().getPaciente().getCondicion() + "' where identificacion='" + valoracion.getCita().getPaciente().getIdentificacion() + "'";
+                consulta.actualizar(sql);
+            }
+
             //inserto la valoracion
             sql
                     = " INSERT INTO valoracion( "
@@ -76,7 +79,7 @@ public class ValoracionDAO {
                     + " parentesco_acompanante, motivo_consulta, antecedentes_evaluacion, "
                     + " impresion_diagnostica, conducta_seguir, cod_cita, tipo_formato, observacion_recetario) "
                     + " VALUES ( "
-                    + " '" + valoracion.getArea() + "', '" + formatoFecha.format(valoracion.getFecha()) + "', '" + formatoHora.format(valoracion.getHora()) + "', "
+                    + " '" + (valoracion.getArea() != null ? valoracion.getArea() : "") + "', '" + formatoFecha.format(valoracion.getFecha()) + "', '" + formatoHora.format(valoracion.getHora()) + "', "
                     + " " + valoracion.getPrimeraVez() + ", " + valoracion.getControl() + ", '" + valoracion.getCodigoRIPS() + "', "
                     + " '" + valoracion.getDiagnostico1().getCodigo_diagnostico() + "', '" + valoracion.getDiagnostico2().getCodigo_diagnostico() + "', '" + valoracion.getCita().getPaciente().getIdentificacion() + "', "
                     + " '" + valoracion.getCita().getProfesional().getCedula() + "', '" + valoracion.getRemitidoPor() + "', "

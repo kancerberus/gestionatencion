@@ -32,7 +32,7 @@ import util.Utilidades;
 public class UIValoracion implements Serializable {
 
     private Valoracion valoracion;
-    
+
     private List<SelectItem> listaTerapias;
     private GestorValoracion gestorValoracion;
     private GestorDiagnostico gestorDiagnostico;
@@ -51,6 +51,8 @@ public class UIValoracion implements Serializable {
 
     private Boolean enviaTerapia;
     private String terapiasAutorizadas;
+
+    private String manejoVentana;
 
     public UIValoracion() throws Exception {
         this.valoracion = new Valoracion();
@@ -148,16 +150,26 @@ public class UIValoracion implements Serializable {
     }
 
     public void guardarValoracion() {
+        manejoVentana = "";
+        Boolean valido = Boolean.TRUE;
         try {
             if (terapiasAutorizadas.equalsIgnoreCase("v")) {
                 util.mostrarMensaje("Debe especificar si viene con terapias autorizadas.");
-            } else {
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getTipoFormato().equalsIgnoreCase("-1")) {
+                util.mostrarMensaje("Debe especificar el tipo de formato.");
+                valido = Boolean.FALSE;
+            }
+
+            if (valido) {
                 gestorValoracion = new GestorValoracion();
                 codigoValoracion = gestorValoracion.guardarValoracion(valoracion, enviaTerapia, terapiasAutorizadas);
 
                 if (codigoValoracion > 0) {
                     guardado = Boolean.TRUE;
                     util.mostrarMensaje("La Valoracion Nro." + codigoValoracion + " se guardo exitosamente.");
+                    manejoVentana = "window.close();";
                 } else {
                     guardado = Boolean.FALSE;
                     util.mostrarMensaje("Se presento un error al guardar.");
@@ -165,6 +177,7 @@ public class UIValoracion implements Serializable {
             }
 
         } catch (Exception ex) {
+            util.mostrarMensaje(ex.getMessage());
             Logger.getLogger(UIValoracion.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -355,7 +368,6 @@ public class UIValoracion implements Serializable {
 //    public void setDiagnostico2(Diagnostico diagnostico2) {
 //        this.diagnostico2 = diagnostico2;
 //    }
-
     /**
      * @return the terapiasAutorizadas
      */
@@ -368,6 +380,20 @@ public class UIValoracion implements Serializable {
      */
     public void setTerapiasAutorizadas(String terapiasAutorizadas) {
         this.terapiasAutorizadas = terapiasAutorizadas;
+    }
+
+    /**
+     * @return the manejoVentana
+     */
+    public String getManejoVentana() {
+        return manejoVentana;
+    }
+
+    /**
+     * @param manejoVentana the manejoVentana to set
+     */
+    public void setManejoVentana(String manejoVentana) {
+        this.manejoVentana = manejoVentana;
     }
 
 }
