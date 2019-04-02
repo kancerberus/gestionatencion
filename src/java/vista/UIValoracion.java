@@ -160,6 +160,58 @@ public class UIValoracion implements Serializable {
             if (valoracion.getTipoFormato().equalsIgnoreCase("-1")) {
                 util.mostrarMensaje("Debe especificar el tipo de formato.");
                 valido = Boolean.FALSE;
+            }            
+            if (valoracion.getCodigoRIPS().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar el Codigo RIPS.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getDiagnostico1().getNombre_diagostico() == null) {
+                util.mostrarMensaje("Debe especificar el diagnóstico primario.");
+                valido = Boolean.FALSE;
+            }            
+            if (valoracion.getDiagnostico2().getNombre_diagostico() == null) {
+                util.mostrarMensaje("Debe especificar el diagnóstico secundario.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getNombreAcompanante().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar el nombre del acompañante.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getParentescoAcompanante().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar el parentesco del acompañante.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getRemitidoPor().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar quien lo remite.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getDireccionAcompanante().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar la dirección del acompañante.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getTelefonoAcompanante().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar un teléfono del acompañante.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getMotivoConsulta().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar el motivo de la consulta.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getAntecedentesEvaluacion().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar los antecedentes de la evaluación.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getImpresionDiagnostica().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar la impresión diagnóstica.");
+                valido = Boolean.FALSE;
+            }
+            if (valoracion.getConductaSeguir().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe especificar la conducta a seguir.");
+                valido = Boolean.FALSE;
+            }
+            if (enviaTerapia && valoracion.getObservacionRecetario().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Si habilita terapias debe especificar la observacion del recetario.");
+                valido = Boolean.FALSE;
             }
 
             if (valido) {
