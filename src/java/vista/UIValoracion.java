@@ -153,14 +153,6 @@ public class UIValoracion implements Serializable {
         manejoVentana = "";
         Boolean valido = Boolean.TRUE;
         try {
-            if (terapiasAutorizadas.equalsIgnoreCase("v")) {
-                util.mostrarMensaje("Debe especificar si viene con terapias autorizadas.");
-                valido = Boolean.FALSE;
-            }
-            if (valoracion.getTipoFormato().equalsIgnoreCase("-1")) {
-                util.mostrarMensaje("Debe especificar el tipo de formato.");
-                valido = Boolean.FALSE;
-            }            
             if (valoracion.getCodigoRIPS().equalsIgnoreCase("")) {
                 util.mostrarMensaje("Debe especificar el Codigo RIPS.");
                 valido = Boolean.FALSE;
@@ -168,7 +160,7 @@ public class UIValoracion implements Serializable {
             if (valoracion.getDiagnostico1().getNombre_diagostico() == null) {
                 util.mostrarMensaje("Debe especificar el diagnóstico primario.");
                 valido = Boolean.FALSE;
-            }            
+            }
             if (valoracion.getDiagnostico2().getNombre_diagostico() == null) {
                 util.mostrarMensaje("Debe especificar el diagnóstico secundario.");
                 valido = Boolean.FALSE;
@@ -193,6 +185,10 @@ public class UIValoracion implements Serializable {
                 util.mostrarMensaje("Debe especificar un teléfono del acompañante.");
                 valido = Boolean.FALSE;
             }
+            if (valoracion.getTipoFormato().equalsIgnoreCase("-1")) {
+                util.mostrarMensaje("Debe especificar el tipo de formato.");
+                valido = Boolean.FALSE;
+            }
             if (valoracion.getMotivoConsulta().equalsIgnoreCase("")) {
                 util.mostrarMensaje("Debe especificar el motivo de la consulta.");
                 valido = Boolean.FALSE;
@@ -209,9 +205,32 @@ public class UIValoracion implements Serializable {
                 util.mostrarMensaje("Debe especificar la conducta a seguir.");
                 valido = Boolean.FALSE;
             }
+            if (terapiasAutorizadas.equalsIgnoreCase("v")) {
+                util.mostrarMensaje("Debe especificar si viene con terapias autorizadas.");
+                valido = Boolean.FALSE;
+            }
             if (enviaTerapia && valoracion.getObservacionRecetario().equalsIgnoreCase("")) {
                 util.mostrarMensaje("Si habilita terapias debe especificar la observacion del recetario.");
                 valido = Boolean.FALSE;
+            }
+            if (enviaTerapia && valoracion.getListaTerapias().isEmpty()) {
+                util.mostrarMensaje("Si habilita terapias debe especificar una o mas terapias.");
+                valido = Boolean.FALSE;
+            }
+
+            if (enviaTerapia && !valoracion.getListaTerapias().isEmpty()) {
+                for (Terapia t : valoracion.getListaTerapias()) {
+                    if (t.getProcedimiento().getCodigo() == null) {
+                        util.mostrarMensaje("Falta especificar el nombre de una o mas terapias.");
+                        valido = Boolean.FALSE;
+                        break;
+                    }
+                    if (t.getCantidadFormulada() == null) {
+                        util.mostrarMensaje("Falta especificar la cantidad en una o mas terapias.");
+                        valido = Boolean.FALSE;
+                        break;
+                    }
+                }
             }
 
             if (valido) {
