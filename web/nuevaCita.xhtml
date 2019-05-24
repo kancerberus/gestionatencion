@@ -29,25 +29,25 @@ and open the template in the editor.
                                             <td align="right"><h:outputLabel for="cedulaPaciente" value="* Identificación:" /></td>
                                             <td><p:inputText id="cedulaPaciente" value="#{uicita.cita.paciente.identificacion}" >
                                                     <p:ajax event="blur" listener="#{uicita.consultarPacientePorId}"
-                                                            update="nombrePaciente,growl1,tblDatosPaciente,dtListaTerapiasCita,dlgUltimasCitas"/>
+                                                                                                            update="nombrePaciente,growl1,tblDatosPaciente,dtListaTerapiasCita,dlgUltimasCitas"/>
                                                 </p:inputText></td>
 
                                             <td align="right"><h:outputLabel for="nombrePaciente" value="* Nombre:" /></td>
                                             <td><p:autoComplete id="nombrePaciente" dropdown="false" value="#{uicita.cita.paciente.nombreCompleto}"
-                                                                completeMethod="#{uicita.listarPacientesPatron}"  scrollHeight="200"
-                                                                maxResults="10" minQueryLength="3"
-                                                                style="width: 200px;">
+                                                                                                                completeMethod="#{uicita.listarPacientesPatron}"  scrollHeight="200"
+                                                                                                                maxResults="10" minQueryLength="3"
+                                                                                                                style="width: 200px;">
                                                     <p:ajax event="itemSelect" listener="#{uicita.consultarPacientePorNombreCompleto()}"
-                                                            update="cedulaPaciente,growl1,tblDatosPaciente,dtListaTerapiasCita,dlgUltimasCitas"/>
+                                                                                                        update="cedulaPaciente,growl1,tblDatosPaciente,dtListaTerapiasCita,dlgUltimasCitas"/>
                                                     <p:ajax event="blur" listener="#{uicita.consultarPacientePorNombreCompleto()}"
-                                                            update="cedulaPaciente,growl1,tblDatosPaciente,dtListaTerapiasCita"/>
+                                                                                                        update="cedulaPaciente,growl1,tblDatosPaciente,dtListaTerapiasCita"/>
                                                 </p:autoComplete></td>
                                         </tr>
                                     </table>
                                     <table cellpadding="5">
                                         <tr>
                                             <td align="center">
-                                                <p:panelGrid id="tblDatosPaciente" columns="4" style="width: 600px; font-size: 70%;">
+                                                <p:panelGrid id="tblDatosPaciente" columns="4" style="width: 600px; font-size: 85%;">
                                                     <f:facet name="header">
                                                         <h:outputText value="Nombre: " />
                                                         <h:outputText value="#{uicita.cita.paciente.nombreCompleto}" />
@@ -73,28 +73,28 @@ and open the template in the editor.
                             <td valign="top">
                                 <p:fieldset legend="Procedimientos pendientes" style="margin-bottom:10px; margin-top:10px;" >
                                     <p:dataTable var="itemTerapia" value="#{uicita.listaTerapias}" id="dtListaTerapiasCita" style="font-size: 65%;"
-                                                 rows="4" paginator="true" paginatorPosition="bottom">
+                                                                                    rows="4" paginator="true" paginatorPosition="bottom">
                                         <p:column headerText="Procedimiento" style="width:60%">
                                             <h:outputText value="#{itemTerapia.procedimiento.nombre}" />
                                         </p:column>
 
-                                        <p:column headerText="Presc." style="width:10%">
+                                        <p:column headerText="Presc." style="width:15%">
                                             <h:outputText value="#{itemTerapia.cantidadFormulada}" />
                                         </p:column>
-                                        <p:column headerText="Autori." style="width:10%">
+                                        <p:column headerText="Autori." style="width:15%">
                                             <h:outputText value="#{itemTerapia.cantidadAutorizada}" />
                                         </p:column>
-                                        <p:column headerText="Atend." style="width:10%">
+                                        <p:column headerText="Atend." style="width:15%">
                                             <h:outputText value="#{itemTerapia.cantidadAtendida}" />
                                         </p:column>
-                                        <p:column headerText="Pend." style="width:10%">
+                                        <p:column headerText="Pend." style="width:15%">
                                             <h:outputText value="#{itemTerapia.cantidadPendiente}" />
                                         </p:column>
                                     </p:dataTable>
                                 </p:fieldset>
                                 <p:fieldset legend="Atencion Multiple" style="margin-bottom:10px; margin-top:10px;" >
                                     <p:dataTable var="itemPaciente" value="#{uicita.listaPacienteMultiple}" id="dtListaPaciente" style="font-size: 65%;"
-                                                 rows="4">
+                                                                                        rows="4">
                                         <p:column headerText="Identificacion" style="width:20%">
                                             <h:outputText value="#{itemPaciente.identificacion}" />
                                         </p:column>
@@ -114,17 +114,17 @@ and open the template in the editor.
                                         <tr>
                                             <td align="right"><p:outputLabel value="* Especialidad:" for="especialidad" /></td>
                                             <td><p:autoComplete id="especialidad" dropdown="true" value="#{uicita.cita.especialidad.nombre}"
-                                                                completeMethod="#{uicita.listarEspecialidadesPatron}"  scrollHeight="200"
-                                                                forceSelection="true" >
+                                                                                                                                completeMethod="#{uicita.listarEspecialidadesPatron}"  scrollHeight="200"
+                                                                                                                                forceSelection="true" >
                                                     <p:ajax event="itemSelect" listener="#{uicita.consultarProfesionalesPorEspecialidad}"
-                                                            update="dlgCalendarioCita,listaProcedimientos"/>
+                                                                                                                        update="dlgCalendarioCita,listaProcedimientos"/>
                                                 </p:autoComplete></td>
                                             <td></td>
                                             <td></td>
                                             <td><p:commandButton icon="ui-icon-calendar" value="Agenda" style="height: 26px; width: 100px; font-size: 80%;"
-                                                                 onclick="validarMostrarAgenda();"
-                                                                 actionListener="#{uicita.guardar}"  update="dtListaProximaFranja"/></td>
-                                            <td><p:outputLabel value="Extender franja" for="chkFranjaExtendida" /></td>
+                                                                                                                                    onclick="validarMostrarAgenda();"
+                                                                                                                                    actionListener="#{uicita.guardar}"  update="dtListaProximaFranja"/></td>
+                                            <td><p:outputLabel value="Extender franja:" for="chkFranjaExtendida" /></td>
                                             <td><p:selectBooleanCheckbox id="chkFranjaExtendida" value="#{uicita.usarFranjaExtendida}" >
                                                     <p:ajax listener="#{uicita.monitoreaUsoFranjaExtendida()}"/>
                                                 </p:selectBooleanCheckbox></td>
@@ -133,44 +133,46 @@ and open the template in the editor.
                                             <td align="right" rowspan="3"><h:outputLabel for="listaProcedimientos" value="* Procedimiento:" /></td>
                                             <td rowspan="3">
                                                 <p:selectManyMenu id="listaProcedimientos" value="#{uicita.listaProcedimientos}" scrollHeight="100" showCheckbox="true"
-                                                                  style="width: 200px;">
+                                                                                                                                    style="width: 200px;">
 
                                                     <f:selectItems value="#{uicita.comboListaProcedimientos}" />
                                                     <p:ajax listener="#{uicita.consultarDisponibilidadEspecialidadCantidadFranjas()}"
-                                                            update="dlgCalendarioCita"/>
+                                                                                                                                            update="dlgCalendarioCita"/>
                                                 </p:selectManyMenu></td>
                                             <td align="right"></td>
                                             <td align="right"><h:outputLabel for="fecha" value="* Fecha:" /></td>
                                             <td><p:inputText id="fecha" value="#{uicita.cita.fecha}"  readonly="true" >
                                                     <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5" locale="es" />
                                                 </p:inputText></td>
-                                            <td><p:outputLabel value="Duracion" for="cmbDuracionExtendida" /></td>
+                                            <td><p:outputLabel value="Duración:" for="cmbDuracionExtendida" /></td>
                                             <td><p:selectOneMenu id="cmbDuracionExtendida" value="#{uicita.cita.duracionExtendida}" >
                                                     <f:selectItem itemLabel="30" itemValue="30" />
                                                     <f:selectItem itemLabel="60" itemValue="60" />
-                                                </p:selectOneMenu></td>
+                                                </p:selectOneMenu></td>                                                                                                                                                                     
                                         </tr>
                                         <tr>
                                             <td ></td>
                                             <td align="right"><h:outputLabel for="hora" value="* Hora:" /></td>
                                             <td><p:inputText id="hora" value="#{uicita.cita.hora}"  readonly="true"  >
                                                     <f:convertDateTime pattern="HH:mm" timeZone="GMT-5" locale="es" />
-                                                </p:inputText></td>
-                                            <td></td>
-                                            <td></td>
+                                                </p:inputText></td>                                            
+                                            
+                                            <td rowspan="2"><p:outputLabel value="Oportunidad deseada:" for="fechaop" /></td>                                            
+                                            <td rowspan="2"><p:calendar id="fechaop" value="#{uicita.cita.oportunidadDeseada}" pattern="dd-MM-yyyy" mask="true" /></td>
+                                            
+                                                                                        
                                         </tr>
                                         <tr>
                                             <td></td>
                                             <td align="right"><p:outputLabel value="* Profesional" for="profesional" /></td>
-                                            <td><p:inputText id="profesional" value="#{uicita.cita.profesional.nombre}" readonly="true" /></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><p:inputText id="profesional" value="#{uicita.cita.profesional.nombre}" readonly="true" /></td>                                                                                                                                    
                                         </tr>
                                         <tr>
-                                            <td align="right" rowspan="3" colspan="2">
+                                            <td align="center" rowspan="3" colspan="2">
                                                 <!-- para multiples procedimientos  -->
-                                                <p:dataTable var="itemProcedimiento" value="#{uicita.cita.listaProcedimientos}" id="dtListaProcedimientos" style="font-size: 65%; width:250px"
-                                                             rows="4" >
+                                                
+                                                <p:dataTable var="itemProcedimiento" value="#{uicita.cita.listaProcedimientos}" id="dtListaProcedimientos" style="font-size: 85%; width:325px"
+                                                                                                          rows="4" >
                                                     <p:column headerText="Procedimiento" style="width:50%">
                                                         <h:outputText value="#{itemProcedimiento.nombre}" />
                                                     </p:column>
@@ -190,8 +192,8 @@ and open the template in the editor.
                                                 </p:dataTable>
                                                 <br></br>
                                                 <!-- para multiples pacientes -->
-                                                <p:dataTable var="itemCitaMultiple" value="#{uicita.listaCitaMultiple}" id="dtListaCitaMultiple" style="font-size: 65%; width:250px"
-                                                             rows="4" >
+                                                <p:dataTable var="itemCitaMultiple" value="#{uicita.listaCitaMultiple}" id="dtListaCitaMultiple" style="font-size: 85%; width:325px"
+                                                                                                          rows="4" >
                                                     <p:column headerText="Paciente" style="width:50%">
                                                         <h:outputText value="#{itemCitaMultiple.paciente.nombreCompleto}" />
                                                     </p:column>
@@ -207,33 +209,31 @@ and open the template in the editor.
                                                             <f:convertDateTime pattern="HH:mm" timeZone="GMT-5" locale="es" />
                                                         </h:outputText>
                                                     </p:column>
-
                                                 </p:dataTable>
-
-
                                             </td>
                                             <td></td>
-                                            <td align="right"><h:outputLabel for="observaciones" value="Observaciones:" /></td>
-                                            <td ><p:selectOneMenu value="#{uicita.cita.codigoObservacion}" id="observaciones">
+                                            <td align="right"><h:outputLabel for="limitaciones" value="Limitaciones:" /></td>
+                                            <td ><p:selectOneMenu value="#{uicita.cita.codigoObservacion}" id="limitaciones">
                                                     <f:selectItem itemLabel="" itemValue="-1" />
                                                     <f:selectItems value="#{uicita.listaObservacionesCita}"  />
                                                 </p:selectOneMenu></td>
-                                            <td></td>
-                                            <td></td>
+                                            
+                                            <td align="left" rowspan="2"><p:outputLabel value="Observaciones:" /></td>                                            
+                                            <td rowspan="2"><p:inputTextarea rows="8" cols="22" counter="display" maxlength="168" value="#{uicita.cita.observaciones2}" 
+                                                                                                                 counterTemplate="{0} Caracteres faltantes." autoResize="false" />
+                                            <br />
+                                            <h:outputText id="display" /></td>
+                                            
                                         </tr>
                                         <tr>
                                             <td></td>
                                             <td align="right"><h:outputLabel for="otro" value="Otro:" /></td>
                                             <td ><p:inputText id="otro" value="#{uicita.cita.observaciones}" /></td>
-                                            <td></td>
-                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td></td>
                                             <td align="right"><h:outputLabel for="numeroAutorizacion" value="Nro Autorización:" /></td>
                                             <td><p:inputText id="numeroAutorizacion" value="#{uicita.cita.numeroAutorizacion}"  /></td>
-                                            <td></td>
-                                            <td></td>
                                         </tr>
                                     </table>
                                 </p:fieldset>
@@ -268,7 +268,7 @@ and open the template in the editor.
                                 </p:calendar>
 
                                 <p:dataTable var="itemProximaFranja" value="#{uicita.listaProfesionalesProximaFranja}" id="dtListaProximaFranja" style="font-size: 65%; width:240px"
-                                             rows="4" >
+                                                                                        rows="4" >
                                     <p:column headerText="Nombre" style="width:50%">
                                         <h:outputText value="#{itemProximaFranja.nombre}" />
                                     </p:column>
@@ -285,10 +285,9 @@ and open the template in the editor.
                             </h:panelGrid>
                             <h:panelGrid columns="1" style="width: 850px;" id="pnlCalendarioAgendasCita">
                                 <p:schedule id="calendarioAgendasCita" value="#{uicita.eventModel}" initialDate="#{uicita.fechaCita}" locale="es"
-                                            view="agendaDay" showHeader="true" slotMinutes="15" minTime="6" maxTime="20" timeZone="GMT-5"
-                                            centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="" resizable="false"
-                                            widgetVar="calendarioAgendasCitaW" draggable="false"
-                                            >
+                                                                                      view="agendaDay" showHeader="true" slotMinutes="15" minTime="6" maxTime="20" timeZone="GMT-5"
+                                                                                        centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="" resizable="false"
+                                                                                        widgetVar="calendarioAgendasCitaW" draggable="false">
                                     <p:ajax event="eventSelect" listener="#{uicita.onEventSelect}" update="pnlCalendarioAgendasCita,growl1" />
                                 </p:schedule>
                             </h:panelGrid>
@@ -296,7 +295,7 @@ and open the template in the editor.
                     </p:dialog>
                     <p:dialog visible="#{uicita.mostrarUltimasCitas}" header="ULTIMAS CITAS" widgetVar="dlgUltimasCitasW"  id="dlgUltimasCitas" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                         <h:panelGrid columns="1" style="width: 900px;" >
-                            <p:dataTable var="itemCita" value="#{uicita.listaCitas}" id="dtListaCitas" style="font-size: 65%;" >
+                            <p:dataTable var="itemCita" value="#{uicita.listaCitas}" id="dtListaCitas" style="font-size: 85%;" >
                                 <f:facet name="header">
                                     <h:outputText value="#{uicita.cita.paciente.nombreCompleto}" />
                                 </f:facet>
@@ -304,7 +303,7 @@ and open the template in the editor.
                                     <h:outputText value="#{itemCita.codigo}" />
                                 </p:column>
 
-                                <p:column headerText="Fecha" style="width:50px">
+                                <p:column headerText="Fecha" style="width:60px">
                                     <h:outputText value="#{itemCita.fecha}" />
                                 </p:column>
                                 <p:column headerText="Hora" style="width:25px">

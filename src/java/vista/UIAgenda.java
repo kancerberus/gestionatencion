@@ -220,9 +220,11 @@ public class UIAgenda implements Serializable {
             cal.add(Calendar.MINUTE, Integer.parseInt(fa.getDuracion()));
             String titulo = fa.getEspecialidad().getNombre() + " - " + fa.getDuracion() + " Min"
                     + (fa.getPaciente().getNombreCompleto() != null ? (!fa.getPaciente().getNombreCompleto().equalsIgnoreCase("") ? " - " + fa.getPaciente().getNombreCompleto() : "") : "")
-                    + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "");
+                    + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "")
+                    + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ?  " - " + fa.getObservaciones() :"" ) :"");            
+           
             DefaultScheduleEvent evento = new DefaultScheduleEvent(titulo, fa.getFechaHora(), cal.getTime());
-            evento.setDescription(formatoHora.format(fa.getFechaHora()) + ";" + fa.getEspecialidad().getCodigo() + ";" + fa.getCodCita());
+            evento.setDescription(formatoHora.format(fa.getFechaHora()) + ";" + fa.getEspecialidad().getCodigo() + ";" + fa.getCodCita() + ";" + fa.getObservaciones());
             evento.setData(fa);
             getEventModel().addEvent(evento);
         }
@@ -284,12 +286,14 @@ public class UIAgenda implements Serializable {
                         } else if (fa.getSeleccionada()) { //restablecer
                             titulo = fa.getEspecialidad().getNombre() + " - " + fa.getDuracion() + " Min"
                                     + (fa.getPaciente().getNombreCompleto() != null ? (!fa.getPaciente().getNombreCompleto().equalsIgnoreCase("") ? " - " + fa.getPaciente().getNombreCompleto() : "") : "")
-                                    + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "");
-                            fa.setSeleccionada(Boolean.FALSE);
+                                    + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "")
+                                    + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ?  " - " + fa.getObservaciones() :"" ) :"") ;
+                                        fa.setSeleccionada(Boolean.FALSE);
                         } else {
                             titulo = fa.getEspecialidad().getNombre() + " - " + fa.getDuracion() + " Min"
                                     + (fa.getPaciente().getNombreCompleto() != null ? (!fa.getPaciente().getNombreCompleto().equalsIgnoreCase("") ? " - " + fa.getPaciente().getNombreCompleto() : "") : "")
                                     + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "")
+                                    + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ?  " - " + fa.getObservaciones() :"" ) :"") 
                                     + " - Eliminar";
                             fa.setSeleccionada(Boolean.TRUE);
                         }
@@ -297,7 +301,7 @@ public class UIAgenda implements Serializable {
                             cal.setTime(fa.getFechaHora());
                             cal.add(Calendar.MINUTE, Integer.parseInt(fa.getDuracion()));
                             evento = new DefaultScheduleEvent(titulo, fa.getFechaHora(), cal.getTime());
-                            evento.setDescription(formatoHora.format(fa.getFechaHora()) + ";" + fa.getEspecialidad().getCodigo() + ";" + fa.getCodCita());
+                            evento.setDescription(formatoHora.format(fa.getFechaHora()) + ";" + fa.getEspecialidad().getCodigo() + ";" + fa.getCodCita() + ";" + fa.getObservaciones());
                             evento.setId(se.getId());
                             evento.setData(fa);
                             eventModel.updateEvent(evento);

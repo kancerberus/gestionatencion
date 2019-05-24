@@ -116,13 +116,15 @@ public class CitaDAO {
                         sql = " INSERT INTO citas("
                                 + " id_paciente, fecha, hora,  codigo_especialidad, "
                                 + " id_profesional, codigo_entidad, numero_autorizacion, observaciones, "
-                                + " usuario, estado, codigo_observacion)"
+                                + " usuario, estado, codigo_observacion, fecha_deseada, observaciones2)"
                                 + " VALUES "
                                 + " ( '" + c.getPaciente().getIdentificacion() + "', '" + formatoFecha.format(c.getFecha()) + "',"
                                 + " '" + formatoHora.format(c.getHora()) + "', '" + cita.getEspecialidad().getCodigo() + "', "
                                 + " '" + cita.getProfesional().getCedula() + "', '" + c.getPaciente().getEntidad().getCodigo() + "', "
                                 + " '" + cita.getNumeroAutorizacion() + "', '" + cita.getObservaciones() + "', "
-                                + " '" + cita.getUsuario().getUsuario() + "','" + cita.getEstado().getCodigo() + "','" + cita.getCodigoObservacion() + "') returning codigo;";
+                                + " '" + cita.getUsuario().getUsuario() + "','" + cita.getEstado().getCodigo() + "',"
+                                + " '" + cita.getCodigoObservacion() + "','" + cita.getOportunidadDeseada()+"', " 
+                                + " '" + cita.getObservaciones2()+ "') returning codigo;";
                         rs = consulta.ejecutar(sql);
                         if (rs.next()) {
                             resultado = rs.getInt("codigo");
@@ -224,13 +226,14 @@ public class CitaDAO {
                     sql = " INSERT INTO citas("
                             + " id_paciente, fecha, hora,  codigo_especialidad, "
                             + " id_profesional, codigo_entidad, numero_autorizacion, observaciones, "
-                            + " usuario, estado, codigo_observacion)"
+                            + " usuario, estado, codigo_observacion, fecha_deseada, observaciones2)"
                             + " VALUES "
                             + " ( '" + cita.getPaciente().getIdentificacion() + "', '" + formatoFecha.format(cita.getListaProcedimientos().get(0).getFecha()) + "',"
                             + " '" + formatoHora.format(cita.getListaProcedimientos().get(0).getHora()) + "', '" + cita.getEspecialidad().getCodigo() + "', "
                             + " '" + cita.getProfesional().getCedula() + "', '" + cita.getEntidad().getCodigo() + "', "
                             + " '" + cita.getNumeroAutorizacion() + "', '" + cita.getObservaciones() + "', "
-                            + " '" + cita.getUsuario().getUsuario() + "','" + cita.getEstado().getCodigo() + "','" + cita.getCodigoObservacion() + "') returning codigo;";
+                            + " '" + cita.getUsuario().getUsuario() + "','" + cita.getEstado().getCodigo() + "','" + cita.getCodigoObservacion() + "',"
+                            + " '" + cita.getOportunidadDeseada()+ "','" + cita.getObservaciones2()+ "') returning codigo;";
                     rs = consulta.ejecutar(sql);
                     if (rs.next()) {
                         resultado = rs.getInt("codigo");
@@ -306,13 +309,14 @@ public class CitaDAO {
                         sql = " INSERT INTO citas("
                                 + " id_paciente, fecha, hora,  codigo_especialidad, "
                                 + " id_profesional, codigo_entidad, numero_autorizacion, observaciones, "
-                                + " usuario, estado, codigo_observacion)"
+                                + " usuario, estado, codigo_observacion, fecha_deseada, observaciones2)"
                                 + " VALUES "
                                 + " ( '" + c.getPaciente().getIdentificacion() + "', '" + formatoFecha.format(c.getFecha()) + "',"
                                 + " '" + formatoHora.format(c.getHora()) + "', '" + cita.getEspecialidad().getCodigo() + "', "
                                 + " '" + cita.getProfesional().getCedula() + "', '" + c.getPaciente().getEntidad().getCodigo() + "', "
                                 + " '" + cita.getNumeroAutorizacion() + "', '" + cita.getObservaciones() + "', "
-                                + " '" + cita.getUsuario().getUsuario() + "','" + cita.getEstado().getCodigo() + "','" + cita.getCodigoObservacion() + "') returning codigo;";
+                                + " '" + cita.getUsuario().getUsuario() + "','" + cita.getEstado().getCodigo() + "','" + cita.getCodigoObservacion() + "',"
+                                + " '" + cita.getOportunidadDeseada() + "','" + cita.getObservaciones2() + "') returning codigo;";
                         rs = consulta.ejecutar(sql);
                         if (rs.next()) {
                             resultado = rs.getInt("codigo");
@@ -359,7 +363,9 @@ public class CitaDAO {
                         + " medio='" + cita.getMedio() + "', "
                         + " numero_autorizacion='" + cita.getNumeroAutorizacion() + "' "
                         + " where codigo=" + cita.getCodigo();
-                resultado = consulta.actualizar(sql);
+                
+                        resultado = consulta.actualizar(sql);
+                        
                 // "4";"Cancelada Entidad" "3";"Cancelada Paciente"
                 //liberar la agenda si la opcion fue cancelar
                 if (cita.getEstado().getCodigo().equalsIgnoreCase("3") || cita.getEstado().getCodigo().equalsIgnoreCase("4")) {
@@ -640,12 +646,12 @@ public class CitaDAO {
                             sql = " INSERT INTO citas("
                                     + " id_paciente, fecha, hora,  codigo_especialidad, "
                                     + " id_profesional, codigo_entidad, numero_autorizacion, observaciones, "
-                                    + " usuario, estado, codigo_observacion)"
+                                    + " usuario, estado, codigo_observacion, fecha_deseada, observaciones2)"
                                     + " VALUES "
                                     + " ( '" + c.getPaciente().getIdentificacion() + "', '" + formatoFecha.format(dia.getStartDate()) + "',"
                                     + " '" + formatoHora.format(c.getListaProcedimientos().get(0).getHora()) + "', '" + c.getEspecialidad().getCodigo() + "', "
                                     + " '" + c.getProfesional().getCedula() + "', '" + c.getPaciente().getEntidad().getCodigo() + "', "
-                                    + " '', '" + c.getObservaciones() + "', "
+                                    + " '', '" + c.getObservaciones() + "','" + c.getOportunidadDeseada()+ "','" + c.getObservaciones() +"', "
                                     + " 'REPLICA','1','') returning codigo;";
                             rs = consulta.ejecutar(sql);
                             if (rs.next()) {

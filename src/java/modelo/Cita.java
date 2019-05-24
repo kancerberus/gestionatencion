@@ -36,6 +36,8 @@ public class Cita {
     private String medio;
     private Boolean tieneAtencion;
     private String duracionExtendida;
+    private Date oportunidadDeseada;
+    private String observaciones2;
     
 
     public Cita() {
@@ -47,7 +49,7 @@ public class Cita {
         this.usuario = new Usuario();
         this.estado = new Objeto();
         listaProcedimientos = new ArrayList<>();
-        this.procedimiento = new Procedimiento();
+        this.procedimiento = new Procedimiento();        
     }
 
     /**
@@ -343,4 +345,22 @@ public class Cita {
     public void setTieneAtencion(Boolean tieneAtencion) {
         this.tieneAtencion = tieneAtencion;
     }
+
+    public Date getOportunidadDeseada() {
+        return oportunidadDeseada;
+    }
+
+    public void setOportunidadDeseada(Date oportunidadDeseada) {
+        this.oportunidadDeseada = oportunidadDeseada;
+    }
+
+    public String getObservaciones2() {
+        return observaciones2;
+    }
+
+    public void setObservaciones2(String observaciones2) {
+        this.observaciones2 = observaciones2;
+    }
+    
+    
 }
