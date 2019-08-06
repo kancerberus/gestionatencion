@@ -52,6 +52,18 @@ public class EstudioAudiologico implements Serializable {
     private Boolean weber2k;
     private Boolean weber4k;
     
+    private String datosXMLOD;
+    private String datosXMLOI;
+    
+    //van en la misma grafica
+    private String datosXMLLogoOD;
+    private String datosXMLLogoOI;
+    
+    
+    private String datos64OD;
+    private String datos64OI;
+    private String datos64Logo;
+    
     
    
 
@@ -482,6 +494,104 @@ public class EstudioAudiologico implements Serializable {
      */
     public void setWeber4k(Boolean weber4k) {
         this.weber4k = weber4k;
+    }
+
+    /**
+     * @return the datosXMLOD
+     */
+    public String getDatosXMLOD() {
+        return datosXMLOD;
+    }
+
+    /**
+     * @param datosXMLOD the datosXMLOD to set
+     */
+    public void setDatosXMLOD(String datosXMLOD) {
+        this.datosXMLOD = datosXMLOD;
+    }
+
+    /**
+     * @return the datosXMLOI
+     */
+    public String getDatosXMLOI() {
+        return datosXMLOI;
+    }
+
+    /**
+     * @param datosXMLOI the datosXMLOI to set
+     */
+    public void setDatosXMLOI(String datosXMLOI) {
+        this.datosXMLOI = datosXMLOI;
+    }
+
+    /**
+     * @return the datos64OD
+     */
+    public String getDatos64OD() {
+        return datos64OD;
+    }
+
+    /**
+     * @param datos64OD the datos64OD to set
+     */
+    public void setDatos64OD(String datos64OD) {
+        this.datos64OD = datos64OD;
+    }
+
+    /**
+     * @return the datos64OI
+     */
+    public String getDatos64OI() {
+        return datos64OI;
+    }
+
+    /**
+     * @param datos64OI the datos64OI to set
+     */
+    public void setDatos64OI(String datos64OI) {
+        this.datos64OI = datos64OI;
+    }
+
+    /**
+     * @return the datosXMLLogoOD
+     */
+    public String getDatosXMLLogoOD() {
+        return datosXMLLogoOD;
+    }
+
+    /**
+     * @param datosXMLLogoOD the datosXMLLogoOD to set
+     */
+    public void setDatosXMLLogoOD(String datosXMLLogoOD) {
+        this.datosXMLLogoOD = datosXMLLogoOD;
+    }
+
+    /**
+     * @return the datosXMLLogoOI
+     */
+    public String getDatosXMLLogoOI() {
+        return datosXMLLogoOI;
+    }
+
+    /**
+     * @param datosXMLLogoOI the datosXMLLogoOI to set
+     */
+    public void setDatosXMLLogoOI(String datosXMLLogoOI) {
+        this.datosXMLLogoOI = datosXMLLogoOI;
+    }
+
+    /**
+     * @return the datos64Logo
+     */
+    public String getDatos64Logo() {
+        return datos64Logo;
+    }
+
+    /**
+     * @param datos64Logo the datos64Logo to set
+     */
+    public void setDatos64Logo(String datos64Logo) {
+        this.datos64Logo = datos64Logo;
     }
     
     

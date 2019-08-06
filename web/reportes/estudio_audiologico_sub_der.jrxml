@@ -16,7 +16,8 @@ case when weber_250 then 'S' else 'N' end weber250,
 case when weber_500 then 'S' else 'N' end weber500,
 case when weber_1k then 'S' else 'N' end weber1k,
 case when weber_2k then 'S' else 'N' end weber2k,
-case when weber_4k  then 'S' else 'N' end weber4k
+case when weber_4k  then 'S' else 'N' end weber4k,
+datos64od, datos64oi, datos64logo
 from estudio_audiologico where codigo=$P{codigo_estudio_sub_der}]]>
 	</queryString>
 	<field name="otoscopia" class="java.lang.String"/>
@@ -25,10 +26,13 @@ from estudio_audiologico where codigo=$P{codigo_estudio_sub_der}]]>
 	<field name="weber1k" class="java.lang.String"/>
 	<field name="weber2k" class="java.lang.String"/>
 	<field name="weber4k" class="java.lang.String"/>
+	<field name="datos64od" class="java.lang.String"/>
+	<field name="datos64oi" class="java.lang.String"/>
+	<field name="datos64logo" class="java.lang.String"/>
 	<title>
 		<band height="519" splitType="Stretch">
 			<subreport>
-				<reportElement x="271" y="181" width="121" height="47" uuid="05ca6711-2b8c-4795-bfdb-c2408cc8e7ff"/>
+				<reportElement x="256" y="181" width="121" height="47" uuid="05ca6711-2b8c-4795-bfdb-c2408cc8e7ff"/>
 				<subreportParameter name="codigo_estudio_sub_campo_libre">
 					<subreportParameterExpression><![CDATA[$P{codigo_estudio_sub_der}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -58,7 +62,7 @@ from estudio_audiologico where codigo=$P{codigo_estudio_sub_der}]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "estudio_audiologico_sub_inmitancia.jasper"]]></subreportExpression>
 			</subreport>
 			<image>
-				<reportElement x="351" y="26" width="74" height="100" uuid="f399452c-489a-4495-9773-4d0fb4456af9"/>
+				<reportElement x="325" y="26" width="74" height="100" uuid="f399452c-489a-4495-9773-4d0fb4456af9"/>
 				<imageExpression><![CDATA["D:\\Desarrollo\\github\\gestionatencion\\web\\resources\\nomenclatura.png"]]></imageExpression>
 			</image>
 			<subreport>
@@ -254,6 +258,46 @@ from estudio_audiologico where codigo=$P{codigo_estudio_sub_der}]]>
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[OI]]></text>
+			</staticText>
+			<image>
+				<reportElement x="24" y="40" width="100" height="100" uuid="ff7e3e63-8a88-4c15-b658-006b4148bfb3"/>
+				<imageExpression><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{datos64od}.getBytes()))]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="152" y="40" width="100" height="100" uuid="6073419c-a871-40d5-b26d-b81fd344dbfe"/>
+				<imageExpression><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{datos64oi}.getBytes()))]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="24" y="159" width="150" height="100" uuid="d461e088-523f-4efb-9731-25b72945b435"/>
+				<imageExpression><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{datos64logo}.getBytes()))]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="24" y="17" width="113" height="11" forecolor="#0000CC" uuid="1378f2d4-34a4-4743-a539-ce3e7dd9c17d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Audiometría de Tonos Puros]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="27" width="53" height="11" forecolor="#0000CC" uuid="88774605-fdcd-483e-982e-26700fa76515"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Oído Derecho]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="27" width="53" height="11" forecolor="#0000CC" uuid="b8ad8c60-c645-4815-9717-04a3bfd70009"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Oído Izquierdo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="146" width="77" height="11" forecolor="#0000CC" uuid="7284ca2e-2d3e-4020-8a26-a1c3d2a6dfa2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Logoaudiometría]]></text>
 			</staticText>
 		</band>
 	</title>

@@ -16,14 +16,14 @@ import java.util.logging.Logger;
 import javax.faces.model.SelectItem;
 import modelo.EstudioAudiologico;
 
-import modelo.Punto;
+//import modelo.Punto;
 import modelo.PuntoL;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.ChartSeries;
+//import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
 import util.Utilidades;
 
@@ -40,12 +40,12 @@ public class UIEstudioAudiologico implements Serializable {
 
     private EstudioAudiologico estudioAudiologico;
 
-    private LineChartModel audiometriaTonosPurosOD;
-    private LineChartModel audiometriaTonosPurosOI;
+    //private LineChartModel audiometriaTonosPurosOD;
+    //private LineChartModel audiometriaTonosPurosOI;
     private LineChartModel audiometriaVocal;
 
-    private List<Punto> puntosAudiometriaTonosPurosOD;
-    private List<Punto> puntosAudiometriaTonosPurosOI;
+    //private List<Punto> puntosAudiometriaTonosPurosOD;
+    //private List<Punto> puntosAudiometriaTonosPurosOI;
     private List<PuntoL> puntosAudiometriaVocalS1;
     private List<PuntoL> puntosAudiometriaVocalS2;
     
@@ -62,10 +62,14 @@ public class UIEstudioAudiologico implements Serializable {
             gestorEstudioAudiologico = new GestorEstudioAudiologico();
             gestorUtilidades = new GestorUtilidades();
             cmbListaConfiabilidad = new ArrayList<>();
-            puntosAudiometriaTonosPurosOD = new ArrayList<>();
-            puntosAudiometriaTonosPurosOI = new ArrayList<>();
+            //puntosAudiometriaTonosPurosOD = new ArrayList<>();
+            //puntosAudiometriaTonosPurosOI = new ArrayList<>();
             puntosAudiometriaVocalS1 = new ArrayList<>();
             puntosAudiometriaVocalS2 = new ArrayList<>();
+            estudioAudiologico.setDatosXMLOD("<audiograma><puntos><frecuencia>2K</frecuencia><aerea>10</aerea><aerea_mascara></aerea_mascara><osea>10</osea><osea_mascara></osea_mascara></puntos><puntos><frecuencia>8K</frecuencia><aerea>30</aerea><aerea_mascara></aerea_mascara><osea></osea><osea_mascara>10</osea_mascara></puntos><puntos><frecuencia>250</frecuencia><aerea></aerea><aerea_mascara>50</aerea_mascara><osea>10</osea><osea_mascara></osea_mascara></puntos><puntos><frecuencia>500</frecuencia><aerea></aerea><aerea_mascara>20</aerea_mascara><osea>10</osea><osea_mascara></osea_mascara></puntos><puntos><frecuencia>1K</frecuencia><aerea>90</aerea><aerea_mascara></aerea_mascara><osea></osea><osea_mascara>10</osea_mascara></puntos><puntos><frecuencia>4K</frecuencia><aerea></aerea><aerea_mascara>120</aerea_mascara><osea>10</osea><osea_mascara></osea_mascara></puntos></audiograma>");
+            estudioAudiologico.setDatosXMLOI("<audiograma><puntos><frecuencia>2K</frecuencia><aerea>20</aerea><aerea_mascara></aerea_mascara><osea>30</osea><osea_mascara></osea_mascara></puntos><puntos><frecuencia>8K</frecuencia><aerea>30</aerea><aerea_mascara></aerea_mascara><osea></osea><osea_mascara>10</osea_mascara></puntos><puntos><frecuencia>250</frecuencia><aerea></aerea><aerea_mascara>50</aerea_mascara><osea>10</osea><osea_mascara></osea_mascara></puntos><puntos><frecuencia>500</frecuencia><aerea></aerea><aerea_mascara>20</aerea_mascara><osea>10</osea><osea_mascara></osea_mascara></puntos><puntos><frecuencia>1K</frecuencia><aerea>90</aerea><aerea_mascara></aerea_mascara><osea></osea><osea_mascara>10</osea_mascara></puntos><puntos><frecuencia>4K</frecuencia><aerea></aerea><aerea_mascara>120</aerea_mascara><osea>90</osea><osea_mascara></osea_mascara></puntos></audiograma>");
+            estudioAudiologico.setDatosXMLLogoOD("<audiograma><puntos><frecuencia>10</frecuencia><aerea>10</aerea></puntos><puntos><frecuencia>20</frecuencia><aerea>20</aerea></puntos><puntos><frecuencia>30</frecuencia><aerea>40</aerea></puntos><puntos><frecuencia>40</frecuencia><aerea>10</aerea></puntos><puntos><frecuencia>50</frecuencia><aerea>50</aerea></puntos><puntos><frecuencia>60</frecuencia><aerea>70</aerea></puntos><puntos><frecuencia>70</frecuencia><aerea>60</aerea></puntos><puntos><frecuencia>80</frecuencia><aerea>90</aerea></puntos><puntos><frecuencia>90</frecuencia><aerea>100</aerea></puntos><puntos><frecuencia>100</frecuencia><aerea>90</aerea></puntos></audiograma>");
+            estudioAudiologico.setDatosXMLLogoOI("<audiograma><puntos><frecuencia>10</frecuencia><aerea>20</aerea></puntos><puntos><frecuencia>20</frecuencia><aerea>30</aerea></puntos><puntos><frecuencia>30</frecuencia><aerea>50</aerea></puntos><puntos><frecuencia>40</frecuencia><aerea>20</aerea></puntos><puntos><frecuencia>50</frecuencia><aerea>60</aerea></puntos><puntos><frecuencia>60</frecuencia><aerea>80</aerea></puntos><puntos><frecuencia>70</frecuencia><aerea>70</aerea></puntos><puntos><frecuencia>80</frecuencia><aerea>100</aerea></puntos><puntos><frecuencia>90</frecuencia><aerea>100</aerea></puntos><puntos><frecuencia>100</frecuencia><aerea>90</aerea></puntos></audiograma>");
             inicializarTablas();
             cargarListaConfiabilidad();
         } catch (Exception ex) {
@@ -75,7 +79,7 @@ public class UIEstudioAudiologico implements Serializable {
     }
 
     private void createLineModels() {
-
+/*
         LineChartModel modelTonosPurosOD = new LineChartModel();
         ChartSeries serieTonosPurosOD = new ChartSeries();
 
@@ -126,6 +130,8 @@ public class UIEstudioAudiologico implements Serializable {
         yAxis.setLabel("dB");
         yAxis.setMin(0);
         yAxis.setMax(120);
+        
+        */
 
         //##
         LineChartModel modelVocal = new LineChartModel();
@@ -159,13 +165,13 @@ public class UIEstudioAudiologico implements Serializable {
         audiometriaVocal.setLegendPosition("e");
         //getAudiometriaTonosPurosOD().setShowPointLabels(true);
         audiometriaVocal.getAxes().put(AxisType.X, new CategoryAxis("dB"));
-        yAxis = audiometriaVocal.getAxis(AxisType.Y);
+        Axis yAxis = audiometriaVocal.getAxis(AxisType.Y);
         yAxis.setLabel("%");
         yAxis.setMin(0);
         yAxis.setMax(100);
 
     }
-
+/*
     public void onCellEditTonosPurosOD(CellEditEvent event) {
         Punto p;
         Object oldValue = event.getOldValue();
@@ -230,7 +236,7 @@ public class UIEstudioAudiologico implements Serializable {
         yAxis.setMin(0);
         yAxis.setMax(120);
     }
-
+*/
     public void onCellEditAudimetriaVocal1(CellEditEvent event) {
         PuntoL p;
         //Object oldValue = event.getOldValue();
@@ -352,64 +358,6 @@ public class UIEstudioAudiologico implements Serializable {
      */
     public void setEstudioAudiologico(EstudioAudiologico estudioAudiologico) {
         this.estudioAudiologico = estudioAudiologico;
-    }
-
-    /**
-     * @return the audiometriaTonosPurosOD
-     */
-    public LineChartModel getAudiometriaTonosPurosOD() {
-        return audiometriaTonosPurosOD;
-    }
-
-    /**
-     * @param audiometriaTonosPurosOD the audiometriaTonosPurosOD to set
-     */
-    public void setAudiometriaTonosPurosOD(LineChartModel audiometriaTonosPurosOD) {
-        this.audiometriaTonosPurosOD = audiometriaTonosPurosOD;
-    }
-
-    /**
-     * @return the audiometriaTonosPurosOI
-     */
-    public LineChartModel getAudiometriaTonosPurosOI() {
-        return audiometriaTonosPurosOI;
-    }
-
-    /**
-     * @param audiometriaTonosPurosOI the audiometriaTonosPurosOI to set
-     */
-    public void setAudiometriaTonosPurosOI(LineChartModel audiometriaTonosPurosOI) {
-        this.audiometriaTonosPurosOI = audiometriaTonosPurosOI;
-    }
-
-    /**
-     * @return the puntosAudiometriaTonosPurosOD
-     */
-    public List<Punto> getPuntosAudiometriaTonosPurosOD() {
-        return puntosAudiometriaTonosPurosOD;
-    }
-
-    /**
-     * @param puntosAudiometriaTonosPurosOD the puntosAudiometriaTonosPurosOD to
-     * set
-     */
-    public void setPuntosAudiometriaTonosPurosOD(List<Punto> puntosAudiometriaTonosPurosOD) {
-        this.puntosAudiometriaTonosPurosOD = puntosAudiometriaTonosPurosOD;
-    }
-
-    /**
-     * @return the puntosAudiometriaTonosPurosOI
-     */
-    public List<Punto> getPuntosAudiometriaTonosPurosOI() {
-        return puntosAudiometriaTonosPurosOI;
-    }
-
-    /**
-     * @param puntosAudiometriaTonosPurosOI the puntosAudiometriaTonosPurosOI to
-     * set
-     */
-    public void setPuntosAudiometriaTonosPurosOI(List<Punto> puntosAudiometriaTonosPurosOI) {
-        this.puntosAudiometriaTonosPurosOI = puntosAudiometriaTonosPurosOI;
     }
 
     /**

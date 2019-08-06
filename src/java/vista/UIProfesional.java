@@ -124,7 +124,7 @@ public class UIProfesional implements Serializable {
         } else if (cita.getListaProcedimientos().get(0).getTipo() == 4) {
             UIEstudioAudiologico uiestudioaudiologico = (UIEstudioAudiologico) ef.createValueExpression(contextoEL, "#{uiestudioaudiologico}", UIEstudioAudiologico.class).getValue(contextoEL);
             //limpiar variables
-            uiestudioaudiologico.setEstudioAudiologico(new EstudioAudiologico());
+            //uiestudioaudiologico.setEstudioAudiologico(new EstudioAudiologico());
             
             uiestudioaudiologico.getEstudioAudiologico().setCita(cita);
             contextoJSF.getExternalContext().getRequestMap().put("uiestudioaudiologico", UIEstudioAudiologico.class);

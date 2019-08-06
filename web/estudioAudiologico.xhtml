@@ -16,9 +16,10 @@ and open the template in the editor.
 
 
     </h:head>
-    <h:body>
+    <h:body onload="iniciar()">
         <h:outputStylesheet name="general.css"  />
-        <h:form id="frmEstudioAudiologico">             
+        <h:outputScript name="audiograma.js" />
+        <h:form id="frmEstudioAudiologico">
             <p:growl id="mensajesEstudioAudiologico" showDetail="true" life="5000"  />
             <p:panel header="ESTUDIO AUDIOLOGICO" style="width: 1500px;" id="pnlEstudioAudiologico">
                 <table >
@@ -46,7 +47,7 @@ and open the template in the editor.
                                                             <h:outputText value="Tipo Identificacion" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.tipoIdentificacion}" />
                                                             <h:outputText value="Identificacion" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.identificacion}" />
                                                             <h:outputText value="Dirección1" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.direccion1}" />
-                                                            <h:outputText value="Telefono1" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.telefono1}" />    
+                                                            <h:outputText value="Telefono1" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.telefono1}" />
 
                                                         </p:panelGrid></td></tr>
                                                 <tr><td>Nombre Acompañante</td><td><p:inputText id="nombreAcompanante" value="#{uiestudioaudiologico.estudioAudiologico.nombreAcompanante}" /></td><td>Parentesco</td><td><p:inputText id="parentescoAcompanante" value="#{uiestudioaudiologico.estudioAudiologico.parentescoAcompanante}" /></td><td>Remitido por</td><td><p:inputText id="remitidoPor" value="#{uiestudioaudiologico.estudioAudiologico.remitidoPor}" /></td></tr>
@@ -59,7 +60,7 @@ and open the template in the editor.
                                 <tr><td><p:fieldset legend="DIAGNÓSTICO AUDIOLÓGICO" ><p:inputTextarea rows="6" cols="145" value="#{uiestudioaudiologico.estudioAudiologico.diagnosticoAudiologico}" /></p:fieldset></td></tr>
                                 <tr><td><p:fieldset legend="OBSERVACIONES Y/O SUGERENCIAS" ><p:inputTextarea rows="2" cols="145" value="#{uiestudioaudiologico.estudioAudiologico.observaciones}" /></p:fieldset></td></tr>
                                 <tr><td><p:fieldset legend="CONFIABILIDAD DE LA PRUEBA" >
-                                            <p:selectOneMenu value="#{uiestudioaudiologico.estudioAudiologico.confiabilidad}" id="cmbConfiabilidad">                                                
+                                            <p:selectOneMenu value="#{uiestudioaudiologico.estudioAudiologico.confiabilidad}" id="cmbConfiabilidad">
                                                 <f:selectItems value="#{uiestudioaudiologico.cmbListaConfiabilidad}"  />
                                             </p:selectOneMenu></p:fieldset></td></tr>
 
@@ -70,56 +71,54 @@ and open the template in the editor.
                             <table>
                                 <tr>
                                     <td>
-                                        <table>
+                                        <table border="1">
                                             <tr>
                                                 <td>OTOSCOPIA</td><td colspan="6"><p:inputText id="otoscopia" value="#{uiestudioaudiologico.estudioAudiologico.otoscopia}" /></td>
                                             </tr>
                                             <tr>
-                                                <td rowspan="2">
-                                                    <p:dataTable id="dtAudiometriaTonosPurosOD" var="puntoATPOD" value="#{uiestudioaudiologico.puntosAudiometriaTonosPurosOD}" 
-                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
-                                                        <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditTonosPurosOD}" update=":frmEstudioAudiologico:chAudiometriaTonosPurosOD" />
-                                                        <p:column headerText="Hz" >
-                                                            <p:cellEditor>
-                                                                <f:facet name="output"><h:outputText value="#{puntoATPOD.x}" /></f:facet>
-                                                                <f:facet name="input"><p:inputText id="modelInput" value="#{puntoATPOD.x}" style="width:96%"/></f:facet>
-                                                            </p:cellEditor>
-                                                        </p:column>
-                                                        <p:column headerText="dB" >
-                                                            <p:cellEditor>
-                                                                <f:facet name="output"><h:outputText value="#{puntoATPOD.y}" /></f:facet>
-                                                                <f:facet name="input"><p:inputText value="#{puntoATPOD.y}" style="width:96%" label="Year"/></f:facet>
-                                                            </p:cellEditor>
-                                                        </p:column>
-                                                    </p:dataTable>
+                                                <td rowspan="1" align="center">
+                                                    <p:inputText type="hidden" id="datosXMLOD" value="#{uiestudioaudiologico.estudioAudiologico.datosXMLOD}"/>
+                                                    <p:inputText type="hidden" id="datos64OD" value="#{uiestudioaudiologico.estudioAudiologico.datos64OD}"/>
+                                                    <canvas id="canvasOD" width="200" height="200" onclick="actualizarGrafica(this.id)"></canvas>
+                                                </td>
+                                                <td rowspan="1" align="center">
+                                                    <p:inputText type="hidden" id="datosXMLOI" value="#{uiestudioaudiologico.estudioAudiologico.datosXMLOI}"/>
+                                                    <p:inputText type="hidden" id="datos64OI" value="#{uiestudioaudiologico.estudioAudiologico.datos64OI}"/>
+                                                    <canvas id="canvasOI" width="200" height="200" onclick="actualizarGrafica(this.id)"></canvas>
+                                                </td>
+                                                <td style="width: 100px;" rowspan="2">
+                                                    <!--
+                                                    <input type="radio" name="accion" value="agregar" checked="true"/> Agregar</br>
+                                                    <input type="radio" name="accion" value="retirar"/> Retirar
+                                                    </br></br>
+                                                    <input type="radio" name="simbolo" value="aerea" checked="true"/> Aerea</br>
+                                                    <input type="radio" name="simbolo" value="aerea_mascara"/> Aerea con enmascarar</br>
+                                                    <input type="radio" name="simbolo" value="osea"/> Osea</br>
+                                                    <input type="radio" name="simbolo" value="osea_mascara"/> Osea con enmascarar
+                                                    -->
                                                 </td>
                                                 <td rowspan="2">
-                                                    <p:chart type="line" model="#{uiestudioaudiologico.audiometriaTonosPurosOD}" id="chAudiometriaTonosPurosOD" style="height:300px; width: 300px;"/>
+
                                                 </td>
-                                                <td style="width: 100px;" rowspan="2"> </td>
                                                 <td rowspan="2">
-                                                    <p:dataTable id="dtAudiometriaTonosPurosOI" var="puntoATPOI" value="#{uiestudioaudiologico.puntosAudiometriaTonosPurosOI}" 
-                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
-                                                        <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditTonosPurosOI}" update=":frmEstudioAudiologico:chAudiometriaTonosPurosOI" />
-                                                        <p:column headerText="Hz" >
-                                                            <p:cellEditor>
-                                                                <f:facet name="output"><h:outputText value="#{puntoATPOI.x}" /></f:facet>
-                                                                <f:facet name="input"><p:inputText id="modelInput" value="#{puntoATPOI.x}" style="width:96%"/></f:facet>
-                                                            </p:cellEditor>
-                                                        </p:column>
-                                                        <p:column headerText="dB" >
-                                                            <p:cellEditor>
-                                                                <f:facet name="output"><h:outputText value="#{puntoATPOI.y}" /></f:facet>
-                                                                <f:facet name="input"><p:inputText value="#{puntoATPOI.y}" style="width:96%" label="Year"/></f:facet>
-                                                            </p:cellEditor>
-                                                        </p:column>
-                                                    </p:dataTable>
+
                                                 </td>
-                                                <td rowspan="2"><p:chart type="line" model="#{uiestudioaudiologico.audiometriaTonosPurosOI}" id="chAudiometriaTonosPurosOI" style="height:300px; width: 300px;"/></td>
                                                 <td style="width: 100px;" rowspan="2"> </td>
                                                 <td style="width: 300px;"><p:graphicImage name="nomenclatura.png" /></td>
                                             </tr>
                                             <tr>
+                                                <td colspan="2">
+                                                    <p:selectOneRadio id="accion" value="agregar">
+                                                        <f:selectItem itemLabel="Agregar" itemValue="agregar" />
+                                                        <f:selectItem itemLabel="Retirar" itemValue="retirar" />
+                                                    </p:selectOneRadio>
+                                                    <p:selectOneRadio id="simbolo" value="aerea">
+                                                        <f:selectItem itemLabel="Aerea" itemValue="aerea" />
+                                                        <f:selectItem itemLabel="Aerea con enmascarar" itemValue="aerea_mascara" />
+                                                        <f:selectItem itemLabel="Osea" itemValue="osea" />
+                                                        <f:selectItem itemLabel="Osea con enmascarar" itemValue="osea_mascara" />
+                                                    </p:selectOneRadio>
+                                                </td>
                                                 <td>
                                                     <!-- tabla weber -->
                                                     <table class="tablaGrilla" cellpadding="5" cellspacing="0">
@@ -130,62 +129,34 @@ and open the template in the editor.
                                                             <td>500</td>
                                                             <td>1K</td>
                                                             <td>2K</td>
-                                                            <td>4K</td>                                                            
+                                                            <td>4K</td>
                                                             <td rowspan="2">OI</td>
                                                         </tr>
-                                                        <tr>                                                            
+                                                        <tr>
                                                             <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber250}" id="chkWeber250"/></td>
                                                             <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber500}" id="chkWeber500"/></td>
                                                             <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber1k}" id="chkWeber1k"/></td>
                                                             <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber2k}" id="chkWeber2k"/></td>
-                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber4k}" id="chkWeber4k"/></td>                                                            
-                                                        </tr>                                                        
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber4k}" id="chkWeber4k"/></td>
+                                                        </tr>
                                                     </table>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="width: 209px;" rowspan="2">                                                    
-                                                    <p:dataTable id="dtAudiometriaVocal1" var="puntoAV1" value="#{uiestudioaudiologico.puntosAudiometriaVocalS1}" 
-                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
-                                                        <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditAudimetriaVocal1}" update=":frmEstudioAudiologico:chAudiometriaVocal" />
-                                                        <p:column headerText="dB" >
-                                                            <p:cellEditor>
-                                                                <f:facet name="output"><h:outputText value="#{puntoAV1.x}" /></f:facet>
-                                                                <f:facet name="input"><p:inputText id="modelInput" value="#{puntoAV1.x}" style="width:96%"/></f:facet>
-                                                            </p:cellEditor>
-                                                        </p:column>
-                                                        <p:column headerText="%" >
-                                                            <p:cellEditor>
-                                                                <f:facet name="output"><h:outputText value="#{puntoAV1.y}" /></f:facet>
-                                                                <f:facet name="input"><p:inputText value="#{puntoAV1.y}" style="width:96%" label="Year"/></f:facet>
-                                                            </p:cellEditor>
-                                                        </p:column>
-                                                    </p:dataTable>
+                                                <td rowspan="1" colspan="4" align="center">
+                                                    <p:inputText type="hidden" id="datosXMLLogoOD" value="#{uiestudioaudiologico.estudioAudiologico.datosXMLLogoOD}"/>
+                                                    <p:inputText type="hidden" id="datosXMLLogoOI" value="#{uiestudioaudiologico.estudioAudiologico.datosXMLLogoOI}"/>
+                                                    <p:inputText type="hidden" id="datos64Logo" value="#{uiestudioaudiologico.estudioAudiologico.datos64Logo}"/>
+                                                    <canvas id="canvasLogo" width="300" height="200" onclick="actualizarGraficaLogo()"></canvas>
+                                                </td>
 
-                                                </td>
-                                                <td rowspan="2"><p:chart type="line" model="#{uiestudioaudiologico.audiometriaVocal}" id="chAudiometriaVocal" style="height:300px; width: 300px;"/></td>
-                                                <td rowspan="2">
-                                                    <p:dataTable id="dtAudiometriaVocal2" var="puntoAV2" value="#{uiestudioaudiologico.puntosAudiometriaVocalS2}" 
-                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
-                                                        <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditAudimetriaVocal2}" update=":frmEstudioAudiologico:chAudiometriaVocal" />
-                                                        <p:column headerText="dB" >
-                                                            <p:cellEditor>
-                                                                <f:facet name="output"><h:outputText value="#{puntoAV2.x}" /></f:facet>
-                                                                <f:facet name="input"><p:inputText id="modelInput" value="#{puntoAV2.x}" style="width:96%"/></f:facet>
-                                                            </p:cellEditor>
-                                                        </p:column>
-                                                        <p:column headerText="%" >
-                                                            <p:cellEditor>
-                                                                <f:facet name="output"><h:outputText value="#{puntoAV2.y}" /></f:facet>
-                                                                <f:facet name="input"><p:inputText value="#{puntoAV2.y}" style="width:96%" label="Year"/></f:facet>
-                                                            </p:cellEditor>
-                                                        </p:column>
-                                                    </p:dataTable>                                                    
-                                                </td>
-                                                <td rowspan="2"></td>
+
+
+
+
                                                 <!-- campo libre -->
                                                 <td colspan="3" align="center">
-                                                    <p:dataTable id="dtCampoLibre" var="campoLibreVar" value="#{uiestudioaudiologico.estudioAudiologico.tablaCampoLibre}" 
+                                                    <p:dataTable id="dtCampoLibre" var="campoLibreVar" value="#{uiestudioaudiologico.estudioAudiologico.tablaCampoLibre}"
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 350px;">
 
                                                         <p:column headerText="" style="padding: 0px; width: 55%;">
@@ -217,6 +188,12 @@ and open the template in the editor.
                                                 -->
                                             </tr>
                                             <tr>
+                                                <td colspan="4">
+                                                    <p:selectOneRadio id="cardinalLogo" value="OD">
+                                                        <f:selectItem itemLabel="Derecho" itemValue="OD" />
+                                                        <f:selectItem itemLabel="Izquierdo" itemValue="OI" />
+                                                    </p:selectOneRadio>
+                                                </td>
                                                 <td>Audiómetro utilizado</td><td colspan="2"><p:inputText id="audiometro" value="#{uiestudioaudiologico.estudioAudiologico.audiometro}" /></td>
                                             </tr>
                                             <tr>
@@ -225,7 +202,7 @@ and open the template in the editor.
                                                     <h:outputText value="ACUFENOMETRIA"/><br/><br/>
                                                     <p:panelGrid columns="6" style="font-size: 70%; width: 500px;">
                                                         <f:facet name="header">
-                                                            <h:outputText value="CARACTERISTICAS" />                                                            
+                                                            <h:outputText value="CARACTERISTICAS" />
                                                         </f:facet>
                                                         <h:outputText value="OD" style="padding: 0px;"/>
                                                         <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.od}" style="width: 50px;"/>
@@ -244,7 +221,7 @@ and open the template in the editor.
 
                                                     <p:panelGrid columns="6" style="font-size: 70%; width: 500px;">
                                                         <f:facet name="header">
-                                                            <h:outputText value="MEDIDO CON" />                                                            
+                                                            <h:outputText value="MEDIDO CON" />
                                                         </f:facet>
                                                         <h:outputText value="Ruido Blanco" />
                                                         <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.ruidoBlanco}" style="width: 50px;"/>
@@ -275,10 +252,10 @@ and open the template in the editor.
                                                 <td colspan="3" align="center">
                                                     <br/>
                                                     <h:outputText value="INMITANCIA ACUSTICA"/><br/><br/>
-                                                    <p:dataTable id="dtTimpanogramas" var="timpanogramasVar" value="#{uiestudioaudiologico.estudioAudiologico.tablaTimpanograma}" 
+                                                    <p:dataTable id="dtTimpanogramas" var="timpanogramasVar" value="#{uiestudioaudiologico.estudioAudiologico.tablaTimpanograma}"
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 300px; ">
                                                         <f:facet name="header">
-                                                            <h:outputText value="TIMPANOGRAMAS" />                                                            
+                                                            <h:outputText value="TIMPANOGRAMAS" />
                                                         </f:facet>
                                                         <p:column style="padding: 0px; text-align: center; width: 10%;">
                                                             <h:outputText value="#{timpanogramasVar.parametro}" style="width:10%"/>
@@ -300,11 +277,11 @@ and open the template in the editor.
                                                         </p:column>
                                                     </p:dataTable>
                                                     <br/>
-                                                    <p:dataTable id="dtInmitanciaAcustica" var="inmitanciaAcusticaVar" value="#{uiestudioaudiologico.estudioAudiologico.valoresInmitanciaAcustica}" 
+                                                    <p:dataTable id="dtInmitanciaAcustica" var="inmitanciaAcusticaVar" value="#{uiestudioaudiologico.estudioAudiologico.valoresInmitanciaAcustica}"
                                                                  editable="true" editMode="cell" style="font-size: 70%; width: 350px; ">
                                                         <p:column style="padding: 0px; text-align: center;">
                                                             <h:outputText value="#{inmitanciaAcusticaVar.parametro}" style="width:70%"/>
-                                                        </p:column>                                                        
+                                                        </p:column>
                                                         <p:column style="padding: 0px;" headerText="OD">
                                                             <p:cellEditor>
                                                                 <f:facet name="output"><h:outputText value="#{inmitanciaAcusticaVar.od}" /></f:facet>
@@ -334,6 +311,6 @@ and open the template in the editor.
                     </tr>
                 </table>
             </p:panel>
-        </h:form>     
+        </h:form>
     </h:body>
 </html>

@@ -92,7 +92,6 @@ public class EstudioAudiologicoDAO {
             consulta = new Consulta(getConexion());
             String sql = "begin";
             consulta.actualizar(sql);
-
             sql = " INSERT INTO estudio_audiologico( "
                     + " fecha, hora, "
                     + " primera_vez, control, codigo_rips, "
@@ -104,7 +103,7 @@ public class EstudioAudiologicoDAO {
                     + " acu_intensidad, acu_enmascaramiento, motivo_consulta, "
                     + " antecedentes, diagnostico_audiologico, observaciones, cod_cita, "
                     + " numero_autorizacion,confiabilidad,otoscopia,audiometro,impedanciometro, "
-                    + " weber_250, weber_500, weber_1k, weber_2k, weber_4k ) "
+                    + " weber_250, weber_500, weber_1k, weber_2k, weber_4k, datos64od, datos64oi, datos64logo) "
                     + " VALUES ('" + formatoFecha.format(estudioAudiologico.getFecha()) + "', '" + formatoHora.format(estudioAudiologico.getHora()) + "', "
                     + " " + estudioAudiologico.getPrimeraVez().toString() + ", " + estudioAudiologico.getControl().toString() + ", '" + estudioAudiologico.getCodigoRIPS() + "', "
                     + " '" + estudioAudiologico.getRemitidoPor() + "', '" + estudioAudiologico.getNombreAcompanante() + "', '" + estudioAudiologico.getDireccionAcompanante() + "', "
@@ -115,7 +114,8 @@ public class EstudioAudiologicoDAO {
                     + " '" + estudioAudiologico.getAcufenometria().getIntensidadAcufeno() + "', '" + estudioAudiologico.getAcufenometria().getEnmascaramiento() + "', '" + estudioAudiologico.getMotivoConsulta() + "', "
                     + " '" + estudioAudiologico.getAntecedentes() + "', '" + estudioAudiologico.getDiagnosticoAudiologico() + "', '" + estudioAudiologico.getObservaciones() + "', " + estudioAudiologico.getCita().getCodigo() + ", "
                     + " '" + estudioAudiologico.getNumeroAutorizacion() + "','" + estudioAudiologico.getConfiabilidad() + "','" + estudioAudiologico.getOtoscopia() + "','" + estudioAudiologico.getAudiometro() + "','" + estudioAudiologico.getImpedanciometro() + "', "
-                    + estudioAudiologico.getWeber250().toString() + ", " + estudioAudiologico.getWeber500().toString() + ", " + estudioAudiologico.getWeber1k().toString() + ", " + estudioAudiologico.getWeber2k().toString() + ", " + estudioAudiologico.getWeber4k().toString() + ") returning codigo";
+                    + estudioAudiologico.getWeber250().toString() + ", " + estudioAudiologico.getWeber500().toString() + ", " + estudioAudiologico.getWeber1k().toString() + ", " + estudioAudiologico.getWeber2k().toString() + ", " + estudioAudiologico.getWeber4k().toString() + ","
+                    + " '" + estudioAudiologico.getDatos64OD() + "','" + estudioAudiologico.getDatos64OI() + "','" + estudioAudiologico.getDatos64Logo() + "') returning codigo";
             rs = consulta.ejecutar(sql);
             if (rs.next()) {
                 resultado = rs.getInt("codigo");

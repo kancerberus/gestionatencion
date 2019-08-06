@@ -5,6 +5,11 @@
  */
 package vista;
 
+//librerias para imagenes base64
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -25,6 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.util.JRLoader;
+
 
 /**
  *
@@ -80,7 +86,7 @@ public class UIExportar extends HttpServlet {
             Class.forName(controlador).newInstance();
             String url = "jdbc:postgresql://localhost:5432/gestionatencion";
             String usuario = "postgres";
-            String clave = "1234";
+            String clave = "Sptsolutech*";
             Connection conexion = java.sql.DriverManager.getConnection(url, usuario, clave);
             //reportFile = new File(this.getClass().getClassLoader().getResource("valoracion.jasper").getPath());
             reportFile = new File(sc.getRealPath("reportes\\" + nomReporte + ".jasper"));
@@ -99,6 +105,8 @@ public class UIExportar extends HttpServlet {
             out.write(fichero, 0, fichero.length);
             out.flush();
             out.close();
+            
+            //InputStream stream = new ByteArrayInputStream(Base64.decodeBase64(("hola").getBytes()));
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException | JRException | ParseException ex) {
             Logger.getLogger(UIExportar.class.getName()).log(Level.SEVERE, null, ex);

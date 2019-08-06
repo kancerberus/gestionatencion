@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>SICEHC - Estudio Audiológico</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    </h:head>
+    <h:body>
+        <h:outputStylesheet name="general.css"  />
+        <h:form id="frmEstudioAudiologico">             
+            <p:growl id="mensajesEstudioAudiologico" showDetail="true" life="5000"  />
+            <p:panel header="ESTUDIO AUDIOLOGICO" style="width: 1500px;" id="pnlEstudioAudiologico">
+                <table >
+                    <tr><td>
+                            <table cellpadding="5" class="">
+                                <tr><td>
+                                        <p:fieldset legend="DATOS PACIENTE" >
+                                            <table>
+                                                <tr><td>Número de autorización</td><td><p:inputText id="numeroAutorizacion" value="#{uiestudioaudiologico.estudioAudiologico.numeroAutorizacion}" /></td><td></td><td></td><td></td><td></td></tr>
+                                                <tr><td>Fecha/Hora</td><td><p:calendar id="fecha" value="#{uiestudioaudiologico.estudioAudiologico.fecha}" locale="es" /><p:calendar id="hora" value="#{uiestudioaudiologico.estudioAudiologico.hora}" timeOnly="true" pattern="HH:mm" locale="es" style="width: 50px;" /></td><td>Primera vez</td><td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.primeraVez}" /></td><td>Control</td><td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.control}" /></td></tr>
+                                                <tr><td></td><td></td><td>Codigo RIPS</td><td><p:inputText id="codigoRIPS" value="#{uiestudioaudiologico.estudioAudiologico.codigoRIPS}" /></td><td></td><td></td></tr>
+                                                <tr><td colspan="6" align="center"><p:panelGrid id="tblDatosPaciente" columns="6" style=" font-size: 70%; width: 900px;">
+                                                            <f:facet name="header">
+                                                                <h:outputText value="Nombre: " />
+                                                                <h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.nombre}" />
+                                                            </f:facet>
+                                                            <h:outputText value="Fecha Nacimiento" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.fechaNacimiento}" ><f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5" locale="es" /></h:outputText>
+                                                            <h:outputText value="Edad" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.edad}" />
+                                                            <h:outputText value="Sexo" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.sexo}" />
+                                                            <h:outputText value="Estado Civil" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.estadoCivil}" />
+                                                            <h:outputText value="Ocupacion" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.ocupacion}" />
+                                                            <h:outputText value="Grado Escolar" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.gradoEscolar}" />
+                                                            <h:outputText value="Entidad" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.entidad.nombre}" />
+                                                            <h:outputText value="Tipo Afiliado" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.tipoAfiliacion}" />
+                                                            <h:outputText value="Tipo Identificacion" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.tipoIdentificacion}" />
+                                                            <h:outputText value="Identificacion" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.identificacion}" />
+                                                            <h:outputText value="Dirección1" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.direccion1}" />
+                                                            <h:outputText value="Telefono1" style="font-weight: bold;" /><h:outputText value="#{uiestudioaudiologico.estudioAudiologico.cita.paciente.telefono1}" />    
+
+                                                        </p:panelGrid></td></tr>
+                                                <tr><td>Nombre Acompañante</td><td><p:inputText id="nombreAcompanante" value="#{uiestudioaudiologico.estudioAudiologico.nombreAcompanante}" /></td><td>Parentesco</td><td><p:inputText id="parentescoAcompanante" value="#{uiestudioaudiologico.estudioAudiologico.parentescoAcompanante}" /></td><td>Remitido por</td><td><p:inputText id="remitidoPor" value="#{uiestudioaudiologico.estudioAudiologico.remitidoPor}" /></td></tr>
+                                                <tr><td>Dirección</td><td><p:inputText id="direccionAcompanante" value="#{uiestudioaudiologico.estudioAudiologico.direccionAcompanante}" /></td><td>Teléfono</td><td><p:inputText id="telefonoAcompanante" value="#{uiestudioaudiologico.estudioAudiologico.telefonoAcompanante}" /></td><td></td><td></td></tr>
+                                            </table>
+                                        </p:fieldset></td></tr>
+
+                                <tr><td><p:fieldset legend="MOTIVO DE CONSULTA" ><p:inputTextarea rows="3" cols="145" value="#{uiestudioaudiologico.estudioAudiologico.motivoConsulta}" /></p:fieldset></td></tr>
+                                <tr><td><p:fieldset legend="ANTECEDENTES" ><p:inputTextarea rows="3" cols="145" value="#{uiestudioaudiologico.estudioAudiologico.antecedentes}" /></p:fieldset></td></tr>
+                                <tr><td><p:fieldset legend="DIAGNÓSTICO AUDIOLÓGICO" ><p:inputTextarea rows="6" cols="145" value="#{uiestudioaudiologico.estudioAudiologico.diagnosticoAudiologico}" /></p:fieldset></td></tr>
+                                <tr><td><p:fieldset legend="OBSERVACIONES Y/O SUGERENCIAS" ><p:inputTextarea rows="2" cols="145" value="#{uiestudioaudiologico.estudioAudiologico.observaciones}" /></p:fieldset></td></tr>
+                                <tr><td><p:fieldset legend="CONFIABILIDAD DE LA PRUEBA" >
+                                            <p:selectOneMenu value="#{uiestudioaudiologico.estudioAudiologico.confiabilidad}" id="cmbConfiabilidad">                                                
+                                                <f:selectItems value="#{uiestudioaudiologico.cmbListaConfiabilidad}"  />
+                                            </p:selectOneMenu></p:fieldset></td></tr>
+
+                            </table>
+                        </td>
+                    </tr><tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td>OTOSCOPIA</td><td colspan="6"><p:inputText id="otoscopia" value="#{uiestudioaudiologico.estudioAudiologico.otoscopia}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2">
+                                                    <p:dataTable id="dtAudiometriaTonosPurosOD" var="puntoATPOD" value="#{uiestudioaudiologico.puntosAudiometriaTonosPurosOD}" 
+                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
+                                                        <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditTonosPurosOD}" update=":frmEstudioAudiologico:chAudiometriaTonosPurosOD" />
+                                                        <p:column headerText="Hz" >
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{puntoATPOD.x}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText id="modelInput" value="#{puntoATPOD.x}" style="width:96%"/></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                        <p:column headerText="dB" >
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{puntoATPOD.y}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{puntoATPOD.y}" style="width:96%" label="Year"/></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </td>
+                                                <td rowspan="2">
+                                                    <p:chart type="line" model="#{uiestudioaudiologico.audiometriaTonosPurosOD}" id="chAudiometriaTonosPurosOD" style="height:300px; width: 300px;"/>
+                                                </td>
+                                                <td style="width: 100px;" rowspan="2"> </td>
+                                                <td rowspan="2">
+                                                    <p:dataTable id="dtAudiometriaTonosPurosOI" var="puntoATPOI" value="#{uiestudioaudiologico.puntosAudiometriaTonosPurosOI}" 
+                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
+                                                        <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditTonosPurosOI}" update=":frmEstudioAudiologico:chAudiometriaTonosPurosOI" />
+                                                        <p:column headerText="Hz" >
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{puntoATPOI.x}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText id="modelInput" value="#{puntoATPOI.x}" style="width:96%"/></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                        <p:column headerText="dB" >
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{puntoATPOI.y}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{puntoATPOI.y}" style="width:96%" label="Year"/></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </td>
+                                                <td rowspan="2"><p:chart type="line" model="#{uiestudioaudiologico.audiometriaTonosPurosOI}" id="chAudiometriaTonosPurosOI" style="height:300px; width: 300px;"/></td>
+                                                <td style="width: 100px;" rowspan="2"> </td>
+                                                <td style="width: 300px;"><p:graphicImage name="nomenclatura.png" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <!-- tabla weber -->
+                                                    <table class="tablaGrilla" cellpadding="5" cellspacing="0">
+                                                        <tr>
+                                                            <td rowspan="2">Weber</td>
+                                                            <td rowspan="2">OD</td>
+                                                            <td>250</td>
+                                                            <td>500</td>
+                                                            <td>1K</td>
+                                                            <td>2K</td>
+                                                            <td>4K</td>                                                            
+                                                            <td rowspan="2">OI</td>
+                                                        </tr>
+                                                        <tr>                                                            
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber250}" id="chkWeber250"/></td>
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber500}" id="chkWeber500"/></td>
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber1k}" id="chkWeber1k"/></td>
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber2k}" id="chkWeber2k"/></td>
+                                                            <td><p:selectBooleanCheckbox value="#{uiestudioaudiologico.estudioAudiologico.weber4k}" id="chkWeber4k"/></td>                                                            
+                                                        </tr>                                                        
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 209px;" rowspan="2">                                                    
+                                                    <p:dataTable id="dtAudiometriaVocal1" var="puntoAV1" value="#{uiestudioaudiologico.puntosAudiometriaVocalS1}" 
+                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
+                                                        <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditAudimetriaVocal1}" update=":frmEstudioAudiologico:chAudiometriaVocal" />
+                                                        <p:column headerText="dB" >
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{puntoAV1.x}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText id="modelInput" value="#{puntoAV1.x}" style="width:96%"/></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                        <p:column headerText="%" >
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{puntoAV1.y}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{puntoAV1.y}" style="width:96%" label="Year"/></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                    </p:dataTable>
+
+                                                </td>
+                                                <td rowspan="2"><p:chart type="line" model="#{uiestudioaudiologico.audiometriaVocal}" id="chAudiometriaVocal" style="height:300px; width: 300px;"/></td>
+                                                <td rowspan="2">
+                                                    <p:dataTable id="dtAudiometriaVocal2" var="puntoAV2" value="#{uiestudioaudiologico.puntosAudiometriaVocalS2}" 
+                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 100px;">
+                                                        <p:ajax event="cellEdit" listener="#{uiestudioaudiologico.onCellEditAudimetriaVocal2}" update=":frmEstudioAudiologico:chAudiometriaVocal" />
+                                                        <p:column headerText="dB" >
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{puntoAV2.x}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText id="modelInput" value="#{puntoAV2.x}" style="width:96%"/></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                        <p:column headerText="%" >
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{puntoAV2.y}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{puntoAV2.y}" style="width:96%" label="Year"/></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                    </p:dataTable>                                                    
+                                                </td>
+                                                <td rowspan="2"></td>
+                                                <!-- campo libre -->
+                                                <td colspan="3" align="center">
+                                                    <p:dataTable id="dtCampoLibre" var="campoLibreVar" value="#{uiestudioaudiologico.estudioAudiologico.tablaCampoLibre}" 
+                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 350px;">
+
+                                                        <p:column headerText="" style="padding: 0px; width: 55%;">
+                                                            <h:outputText value="#{campoLibreVar.parametro}" style="width:70%"/>
+                                                        </p:column>
+                                                        <p:column headerText="OD" style="padding: 0px; width: 15%;">
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{campoLibreVar.od}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{campoLibreVar.od}" style="width:70%" /></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                        <p:column headerText="OI" style="padding: 0px; width: 15%;">
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{campoLibreVar.oi}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{campoLibreVar.oi}" style="width:70%" /></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                        <p:column headerText="Campo Libre" style="padding: 0px; width: 15%;">
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{campoLibreVar.campoLibre}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{campoLibreVar.campoLibre}" style="width:70%" /></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </td>
+                                                <!--
+                                                <td></td>
+                                                <td></td>
+                                                -->
+                                            </tr>
+                                            <tr>
+                                                <td>Audiómetro utilizado</td><td colspan="2"><p:inputText id="audiometro" value="#{uiestudioaudiologico.estudioAudiologico.audiometro}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" align="center" rowspan="2">
+                                                    <br/>
+                                                    <h:outputText value="ACUFENOMETRIA"/><br/><br/>
+                                                    <p:panelGrid columns="6" style="font-size: 70%; width: 500px;">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="CARACTERISTICAS" />                                                            
+                                                        </f:facet>
+                                                        <h:outputText value="OD" style="padding: 0px;"/>
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.od}" style="width: 50px;"/>
+                                                        <h:outputText value="OI" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.oi}" style="width: 50px;"/>
+                                                        <h:outputText value="Bilateral" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.bilateral}" style="width: 50px;"/>
+
+                                                        <h:outputText value="Continuo" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.continuo}" style="width: 50px;"/>
+                                                        <h:outputText value="Pulsatil" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.pulsatil}" style="width: 50px;"/>
+                                                        <h:outputText value="Frecuencia(Hz)" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.frecuencia}" style="width: 50px;"/>
+                                                    </p:panelGrid>
+
+                                                    <p:panelGrid columns="6" style="font-size: 70%; width: 500px;">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="MEDIDO CON" />                                                            
+                                                        </f:facet>
+                                                        <h:outputText value="Ruido Blanco" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.ruidoBlanco}" style="width: 50px;"/>
+                                                        <h:outputText value="Tono Puro" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.tonoPuro}" style="width: 50px;"/>
+                                                        <h:outputText value="Tono Warble" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.tonoWarble}" style="width: 50px;"/>
+                                                    </p:panelGrid>
+
+                                                    <p:panelGrid columns="3" style="font-size: 70%; width: 500px;">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="INTENSIDAD" />
+                                                        </f:facet>
+                                                        <h:outputText value="Umbral de la señal" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.umbralSenal}" style="width: 50px;"/>
+                                                        <h:outputText value="dB" />
+
+                                                        <h:outputText value="Intensidad del Acufeno" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.intensidadAcufeno}" style="width: 50px;"/>
+                                                        <h:outputText value="dB SU (sobre el Umbral)" />
+
+                                                        <h:outputText value="Enmascaramiento" />
+                                                        <p:inputText value="#{uiestudioaudiologico.estudioAudiologico.acufenometria.enmascaramiento}" style="width: 50px;"/>
+                                                        <h:outputText value="dB SU (sobre el Umbral)" />
+                                                    </p:panelGrid>
+
+                                                </td>
+                                                <td colspan="3" align="center">
+                                                    <br/>
+                                                    <h:outputText value="INMITANCIA ACUSTICA"/><br/><br/>
+                                                    <p:dataTable id="dtTimpanogramas" var="timpanogramasVar" value="#{uiestudioaudiologico.estudioAudiologico.tablaTimpanograma}" 
+                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 300px; ">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="TIMPANOGRAMAS" />                                                            
+                                                        </f:facet>
+                                                        <p:column style="padding: 0px; text-align: center; width: 10%;">
+                                                            <h:outputText value="#{timpanogramasVar.parametro}" style="width:10%"/>
+                                                        </p:column>
+                                                        <p:column style="padding: 0px; width: 70%;">
+                                                            <h:outputText value="#{timpanogramasVar.descripcion}" style="width:70%"/>
+                                                        </p:column>
+                                                        <p:column style="padding: 0px; width: 10%;">
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{timpanogramasVar.valor1}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{timpanogramasVar.valor1}" style="width:60%" /></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                        <p:column style="padding: 0px; width: 10%;">
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{timpanogramasVar.valor2}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{timpanogramasVar.valor2}" style="width:60%" /></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                    <br/>
+                                                    <p:dataTable id="dtInmitanciaAcustica" var="inmitanciaAcusticaVar" value="#{uiestudioaudiologico.estudioAudiologico.valoresInmitanciaAcustica}" 
+                                                                 editable="true" editMode="cell" style="font-size: 70%; width: 350px; ">
+                                                        <p:column style="padding: 0px; text-align: center;">
+                                                            <h:outputText value="#{inmitanciaAcusticaVar.parametro}" style="width:70%"/>
+                                                        </p:column>                                                        
+                                                        <p:column style="padding: 0px;" headerText="OD">
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{inmitanciaAcusticaVar.od}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{inmitanciaAcusticaVar.od}" style="width:80%" /></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                        <p:column style="padding: 0px;" headerText="OI">
+                                                            <p:cellEditor>
+                                                                <f:facet name="output"><h:outputText value="#{inmitanciaAcusticaVar.oi}" /></f:facet>
+                                                                <f:facet name="input"><p:inputText value="#{inmitanciaAcusticaVar.oi}" style="width:80%" /></f:facet>
+                                                            </p:cellEditor>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Impedanciómetro utilizado</td><td colspan="2"><p:inputText id="impedanciometro" value="#{uiestudioaudiologico.estudioAudiologico.impedanciometro}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7" align="center"><p:commandButton value="Guardar" id="btnGuardar" update="mensajesEstudioAudiologico" actionListener="#{uiestudioaudiologico.guardarEstudio()}" oncomplete="window.close()" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </p:panel>
+        </h:form>     
+    </h:body>
+</html>
