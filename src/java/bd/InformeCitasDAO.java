@@ -25,9 +25,11 @@ public class InformeCitasDAO {
     private Connection conexion;    
     SimpleDateFormat format_cita = new SimpleDateFormat("yyyy/MM/dd");
     SimpleDateFormat format_asig = new SimpleDateFormat("yyyy/MM/dd");
+    SimpleDateFormat format_deseada = new SimpleDateFormat("yyyy/MM/dd");
 
     Date date_cita = null;
     Date date_asignacion = null;
+    Date date_deseada = null;
     
     public InformeCitasDAO(Connection conexion) {
         this.conexion = conexion;
@@ -51,7 +53,7 @@ public class InformeCitasDAO {
                     + "to_char(c.fecha_registro, 'YYYY/MM/DD') as fecha_asignacion, to_char(c.fecha_registro, 'HH24:MI:SS') as hora_asignacion, "
                     + "'RISARALDA' as departamento_ips, 'PEREIRA' as municipio_ips, 'INSTITUTO DE AUDIOLOGIA INTEGRAL' as ips_cita, "                   
                     + "esp.nombre as servicio, pro.nombre as procedimiento, ent.nombre as entidad, "
-                    + "prof.nombre as profesional "
+                    + "prof.nombre as profesional, fecha_deseada "
                     + "from citas c " 
                     + "inner join pacientes p on (p.identificacion=c.id_paciente) " 
                     + "inner join entidades e on (e.codigo=c.codigo_entidad) " 
@@ -95,13 +97,15 @@ public class InformeCitasDAO {
                 String servicio = rs.getString("servicio");
                 String procedimiento = rs.getString("procedimiento");
                 String entidad = rs.getString("entidad");
-                String profesional = rs.getString("profesional");               
+                String profesional = rs.getString("profesional");
+                String fecha_deseada = rs.getString("fecha_deseada");
                 
                 
                     //Convierte las fechas tipo cadena en tipo DATE
                 
                     date_cita = format_cita.parse(fecha_cita);
                     date_asignacion = format_asig.parse(fecha_asignacion);                    
+                    //date_deseada = format_deseada.parse(fecha_deseada);
                     
                     //Resta de fecha cita vs fecha asignacion en días
                     long diferencia = date_cita.getTime() - date_asignacion.getTime();                    
@@ -113,7 +117,7 @@ public class InformeCitasDAO {
                                   + "," + fecha_cita + "," + hora_cita + "," + departamento_ips + "," + municipio_ips 
                                   + "," + "6600100277" + "," + ips_cita + "," + servicio
                                   + "," + procedimiento + "," + "1" + "," + diffDays + "," + "0" + "," + entidad
-                                  + "," + profesional);  
+                                  + "," + profesional +"," + fecha_deseada);  
 
             }
             return listaInformes;
