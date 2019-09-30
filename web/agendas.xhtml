@@ -25,9 +25,9 @@ and open the template in the editor.
                         <h:panelGrid columns="1" style="width: 250px;" >
                             <p:outputLabel value="Especialidad" for="especialidad" />
                             <p:autoComplete id="especialidad" dropdown="true" value="#{uiagenda.especialidadAgendas.nombre}" 
-                                                                                        completeMethod="#{uiagenda.listarEspecialidadesPatron}" forceSelection="true" >
+                                            completeMethod="#{uiagenda.listarEspecialidadesPatron}" forceSelection="true" >
                                 <p:ajax event="itemSelect" listener="#{uiagenda.consultarProfesionalesPorEspecialidad}" 
-                                                                                update="profesional,pnlCalendarioAgendas" />
+                                        update="profesional,pnlCalendarioAgendas" />
                             </p:autoComplete>
                             <p:outputLabel value="Profesional" for="profesional" />
 
@@ -42,13 +42,21 @@ and open the template in the editor.
                             </p:calendar>
 
                             <p:panelGrid columns="2">
+                                <p:outputLabel value="Modo dia" for="chcModoEliminar" />
                                 <p:selectBooleanCheckbox value="#{uiagenda.modoEliminar}" id="chcModoEliminar">
                                     <p:ajax update="pnlCalendarioAgendas" />
                                 </p:selectBooleanCheckbox>
-                                <p:outputLabel value="Modo dia" for="chcModoEliminar" />
+                                
+                                
+                            </p:panelGrid>
+                            <p:panelGrid columns="1">
+                                <p:selectOneRadio id="radAccionFranja" value="">
+                                    <f:selectItem itemLabel="Reserva valoración" itemValue="reserva_valoracion" />
+                                    <f:selectItem itemLabel="Eliminar" itemValue="eliminar" />                                    
+                                </p:selectOneRadio>
                             </p:panelGrid>
                             <p:commandButton id="btnEliminar" icon="ui-icon-close" value="Eliminar" style="height: 26px; width: 100px; font-size: 80%;" 
-                                                                                            actionListener="#{uiagenda.eliminarAgenda()}" update="pnlCalendarioAgendas" />
+                                             actionListener="#{uiagenda.eliminarAgenda()}" update="pnlCalendarioAgendas" />
 
 
                             <!-- sdfasdfa -->
@@ -56,16 +64,16 @@ and open the template in the editor.
                         </h:panelGrid>
                         <h:panelGrid columns="1" style="width: 750px;" id="pnlCalendarioAgendas">
                             <p:schedule id="calendarioAgendas" value="#{uiagenda.eventModel}" initialDate="#{uiagenda.fecha}" locale="es" 
-                                                                                view="agendaDay" showHeader="true" slotMinutes="10" minTime="6" maxTime="20" timeZone="GMT-5" 
-                                                                                centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="" resizable="false"
-                                                                                draggable="false" rendered="#{not uiagenda.modoEliminar}">
-                            <p:ajax event="eventSelect" listener="#{uiagenda.onEventSelectCalendarioAgendas}" update="pnlCalendarioAgendas,aviso" />
+                                        view="agendaDay" showHeader="true" slotMinutes="10" minTime="6" maxTime="20" timeZone="GMT-5" 
+                                        centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="" resizable="false"
+                                        draggable="false" rendered="#{not uiagenda.modoEliminar}">
+                                <p:ajax event="eventSelect" listener="#{uiagenda.onEventSelectCalendarioAgendas}" update="pnlCalendarioAgendas,aviso" />
                             </p:schedule>
-                            
+
                             <p:schedule id="calendarioAgendasEliminar" value="#{uiagenda.eventModelEliminar}" initialDate="#{uiagenda.fecha}" locale="es" 
-                                                                                view="month" showHeader="true" slotMinutes="10" minTime="6" maxTime="20" timeZone="GMT-5" 
-                                                                                centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="" resizable="false"
-                                                                                draggable="false" rendered="#{uiagenda.modoEliminar}">
+                                        view="month" showHeader="true" slotMinutes="10" minTime="6" maxTime="20" timeZone="GMT-5" 
+                                        centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="" resizable="false"
+                                        draggable="false" rendered="#{uiagenda.modoEliminar}">
                                 <p:ajax event="eventSelect" listener="#{uiagenda.onEventSelect}" update="pnlCalendarioAgendas,aviso" />
                             </p:schedule>
                         </h:panelGrid>

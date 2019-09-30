@@ -20,6 +20,11 @@ public class Profesional implements Serializable{
     private Boolean activo = Boolean.TRUE;
     private Date proximaFranja;
 
+    public Profesional() {
+    }
+    
+    
+
     /**
      * @return the cedula
      */

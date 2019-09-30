@@ -64,11 +64,11 @@ public class GestorTerapia extends Gestor {
         }
     }
 
-    public Integer actualizarTerapiaCita(Terapia terapia, DetalleTerapia detalleTerapia) throws Exception {
+    public Integer actualizarTerapiaCita(Terapia terapia, List<DetalleTerapia> detalleTerapia, Boolean primeraVez) throws Exception {
         try {
             abrirConexion();
             TerapiaDAO terapiaDAO = new TerapiaDAO(conexion);
-            return terapiaDAO.actualizarTerapiaCita(terapia, detalleTerapia);
+            return terapiaDAO.actualizarTerapiaCita(terapia, detalleTerapia, primeraVez);
         } finally {
             cerrarConexion();
         }
@@ -84,11 +84,11 @@ public class GestorTerapia extends Gestor {
         }
     }
     
-    public DetalleTerapia consultarDetalleTerapiaPorCita(Cita cita) throws Exception {
+    public List<DetalleTerapia> consultarDetalleTerapiaPorCita(Terapia terapia) throws Exception {
         try {
             abrirConexion();
             TerapiaDAO terapiaDAO = new TerapiaDAO(conexion);
-            return terapiaDAO.consultarDetalleTerapiaPorCita(cita);
+            return terapiaDAO.consultarDetalleTerapiaPorCita(terapia);
         } finally {
             cerrarConexion();
         }

@@ -16,6 +16,7 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.faces.context.FacesContext;
 import modelo.Cita;
+import modelo.DetalleTerapia;
 import modelo.EstudioAudiologico;
 import modelo.Profesional;
 import modelo.Valoracion;
@@ -98,14 +99,17 @@ public class UIProfesional implements Serializable {
         FacesContext contextoJSF = FacesContext.getCurrentInstance();
         ELContext contextoEL = contextoJSF.getELContext();
         ExpressionFactory ef = contextoJSF.getApplication().getExpressionFactory();
+        List<DetalleTerapia> dt;        
 
         if (cita.getListaProcedimientos().get(0).getTipo() == 1) {
             try {
                 UITerapia uiterapia = (UITerapia) ef.createValueExpression(contextoEL, "#{uiterapia}", UITerapia.class).getValue(contextoEL);
                 //UITerapia uiterapia = gestorTerapia.consultarTerapiaPorCita(cita);                
                 uiterapia.setTerapia(gestorTerapia.consultarTerapiaPorCita(cita));
-                uiterapia.setDetalleTerapia(gestorTerapia.consultarDetalleTerapiaPorCita(cita));
-                uiterapia.setGuardado(Boolean.FALSE);
+                dt = gestorTerapia.consultarDetalleTerapiaPorCita(uiterapia.getTerapia());
+                uiterapia.setDetalleTerapia(dt);
+                uiterapia.setPermiteDividir(dt.size() == 1 && dt.get(0).getEstado().equalsIgnoreCase("i"));
+                uiterapia.setGuardado(Boolean.FALSE);                
                 //
                 contextoJSF.getExternalContext().getRequestMap().put("uiterapia", UITerapia.class);
             } catch (Exception ex) {

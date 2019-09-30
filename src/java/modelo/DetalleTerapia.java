@@ -16,9 +16,17 @@ public class DetalleTerapia {
     private String actividad;
     private Date fecha;
     private Date hora;
+    private String estado;
+    private Integer duracion;
 
     public DetalleTerapia() {
     }
+
+    public DetalleTerapia(Integer consecutivo) {
+        this.consecutivo = consecutivo;
+    }
+    
+    
 
     /**
      * @return the actividad
@@ -74,6 +82,34 @@ public class DetalleTerapia {
      */
     public void setConsecutivo(Integer consecutivo) {
         this.consecutivo = consecutivo;
+    }
+
+    /**
+     * @return the estado
+     */
+    public String getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    /**
+     * @return the duracion
+     */
+    public Integer getDuracion() {
+        return duracion;
+    }
+
+    /**
+     * @param duracion the duracion to set
+     */
+    public void setDuracion(Integer duracion) {
+        this.duracion = duracion;
     }
     
     

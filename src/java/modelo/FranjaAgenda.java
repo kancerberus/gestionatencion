@@ -23,6 +23,7 @@ public class FranjaAgenda implements Cloneable{
     private Boolean seleccionada;
     private Procedimiento procedimiento;
     private String observaciones;
+    private Boolean reservadoValoracion;
 
     @Override
     public Object clone() throws CloneNotSupportedException {
@@ -188,6 +189,20 @@ public class FranjaAgenda implements Cloneable{
      */
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    /**
+     * @return the reservadoValoracion
+     */
+    public Boolean getReservadoValoracion() {
+        return reservadoValoracion;
+    }
+
+    /**
+     * @param reservadoValoracion the reservadoValoracion to set
+     */
+    public void setReservadoValoracion(Boolean reservadoValoracion) {
+        this.reservadoValoracion = reservadoValoracion;
     }
 
      

@@ -47,7 +47,6 @@ public class UITerapia implements Serializable {
 
     //private String identificacion;
     //private String nombrePaciente;
-    
     private Paciente paciente;
     private Boolean activa;
     private Boolean autorizadas;
@@ -68,9 +67,12 @@ public class UITerapia implements Serializable {
     private GestorDiagnostico gestorDiagnostico;
     private GestorProfesional gestorProfesional;
     private GestorCita gestorCita;
-    private DetalleTerapia detalleTerapia;
+    //comentada para implementar division de franja multiples sesiones terapia
+    //private DetalleTerapia detalleTerapia;
+    private List<DetalleTerapia> detalleTerapia;
     private Boolean guardado;
     private List<SelectItem> listaCondicion;
+    private Boolean permiteDividir;
 
     private List<SelectItem> cmbProfesionales;
     private Boolean sinProximaCita;
@@ -97,7 +99,8 @@ public class UITerapia implements Serializable {
         cmbProfesionales = new ArrayList();
         listaCitasReplicar = new ArrayList<>();
         guardado = Boolean.FALSE;
-        detalleTerapia = new DetalleTerapia();
+        //detalleTerapia = new DetalleTerapia();
+        detalleTerapia = new ArrayList<>();
         paciente = new Paciente();
         eventModelReplicar = new DefaultScheduleModel();
         cargarListaCondicion();
@@ -253,7 +256,7 @@ public class UITerapia implements Serializable {
         Integer resultado;
         Integer codigoTerapia;
         try {
-            resultado = gestorTerapia.actualizarTerapiaCita(terapia, detalleTerapia);
+            resultado = gestorTerapia.actualizarTerapiaCita(terapia, getDetalleTerapia(), permiteDividir);
             if (resultado != null) {
                 guardado = Boolean.TRUE;
                 util.mostrarMensaje("La terapia Nro." + terapia.getCodigo() + " se guardo exitosamente.");
@@ -387,25 +390,42 @@ public class UITerapia implements Serializable {
         }
     }
 
-    
-        public List<String> listarDiagnosticos(String query) throws Exception {
-            ArrayList<Diagnostico> listaDiagnosticos;
-            listaDiagnosticos = gestorDiagnostico.listarDiagnosticos(query);
-            List<String> listaDiag = new ArrayList<>();
-            for (Diagnostico d : listaDiagnosticos) {
-                listaDiag.add(d.getNombre_diagostico());
-            }
-            return listaDiag;
+    public List<String> listarDiagnosticos(String query) throws Exception {
+        ArrayList<Diagnostico> listaDiagnosticos;
+        listaDiagnosticos = gestorDiagnostico.listarDiagnosticos(query);
+        List<String> listaDiag = new ArrayList<>();
+        for (Diagnostico d : listaDiagnosticos) {
+            listaDiag.add(d.getNombre_diagostico());
         }
-    
+        return listaDiag;
+    }
+
     public void configurarRutaInformeTerapeutico() {
         rutaExportar = "window.open('.././exportar?nomReporte=informeTerapeutico&parametros=codigoTerapia&valores=" + terapiaSeleccionada.getCodigo() + "&tipos=I');";
     }
-    
+
     public void configurarRutaRecetario() {
         //rutaExportar = "window.open('.././exportar?nomReporte=informeTerapeutico&parametros=codigoTerapia&valores=" + terapiaSeleccionada.getCodigo() + "&tipos=I');";
-        
+
         rutaRecetario = "window.open('.././exportar?nomReporte=recetariot&parametros=codigoTerapia&valores=" + terapiaSeleccionada.getCodigo() + "&tipos=I');";
+    }
+
+    public void dividirFranja() {
+        int i;
+        if (detalleTerapia.get(0).getDuracion() % Integer.parseInt(terapia.getCantSesiones()) != 0 || detalleTerapia.get(0).getDuracion() / Integer.parseInt(terapia.getCantSesiones()) < 10) {
+            util.mostrarMensaje("No es posible dividir en " + terapia.getCantSesiones() + " sesiones una cita de " + detalleTerapia.get(0).getDuracion() + " minutos");
+        } else if (detalleTerapia.size() != Integer.parseInt(terapia.getCantSesiones())) {
+            if (detalleTerapia.size() > Integer.parseInt(terapia.getCantSesiones())) { //disminuir tamaño
+                for (i = 0; i < detalleTerapia.size() - Integer.parseInt(terapia.getCantSesiones()); i++) {
+                    detalleTerapia.remove(detalleTerapia.size() - 1);
+                }
+            } else {
+                for (i = 0; i < Integer.parseInt(terapia.getCantSesiones()) - detalleTerapia.size(); i++) {
+                    //seteo el consecutivo como el ultimo mas uno
+                    detalleTerapia.add(new DetalleTerapia(detalleTerapia.get(detalleTerapia.size()-1).getConsecutivo()+1));                    
+                }
+            }
+        }
     }
 
     /**
@@ -504,20 +524,6 @@ public class UITerapia implements Serializable {
      */
     public void setGestorTerapia(GestorTerapia gestorTerapia) {
         this.gestorTerapia = gestorTerapia;
-    }
-
-    /**
-     * @return the detalleTerapia
-     */
-    public DetalleTerapia getDetalleTerapia() {
-        return detalleTerapia;
-    }
-
-    /**
-     * @param detalleTerapia the detalleTerapia to set
-     */
-    public void setDetalleTerapia(DetalleTerapia detalleTerapia) {
-        this.detalleTerapia = detalleTerapia;
     }
 
     /**
@@ -778,7 +784,7 @@ public class UITerapia implements Serializable {
 
     public void setGestorDiagnostico(GestorDiagnostico gestorDiagnostico) {
         this.gestorDiagnostico = gestorDiagnostico;
-    }    
+    }
 
     /**
      * @return the rutaRecetario
@@ -793,5 +799,33 @@ public class UITerapia implements Serializable {
     public void setRutaRecetario(String rutaRecetario) {
         this.rutaRecetario = rutaRecetario;
     }
-            
+
+    /**
+     * @return the detalleTerapia
+     */
+    public List<DetalleTerapia> getDetalleTerapia() {
+        return detalleTerapia;
+    }
+
+    /**
+     * @param detalleTerapia the detalleTerapia to set
+     */
+    public void setDetalleTerapia(List<DetalleTerapia> detalleTerapia) {
+        this.detalleTerapia = detalleTerapia;
+    }
+
+    /**
+     * @return the permiteDividir
+     */
+    public Boolean getPermiteDividir() {
+        return permiteDividir;
+    }
+
+    /**
+     * @param permiteDividir the permiteDividir to set
+     */
+    public void setPermiteDividir(Boolean permiteDividir) {
+        this.permiteDividir = permiteDividir;
+    }
+
 }

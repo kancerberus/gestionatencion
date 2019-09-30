@@ -787,7 +787,7 @@ public class CitaDAO {
                     + " left join (lista l "
                     + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='CONDICION_TERAPIA') ) l_condicion on (l_condicion.value=pac.condicion) "
                     + " where "
-                    + " id_profesional='" + identificacion + "' and c.fecha=current_date "
+                    + " id_profesional='" + identificacion + "' and c.fecha=current_date and c.estado<>'0' "
                     //+ " and l_estados_cita.label in ('Programada','Paciente en sala') "
                     + " order by c.fecha asc,c.hora asc ";
             rs = consulta.ejecutar(sql);

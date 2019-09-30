@@ -226,6 +226,9 @@ public class UIAgenda implements Serializable {
             DefaultScheduleEvent evento = new DefaultScheduleEvent(titulo, fa.getFechaHora(), cal.getTime());
             evento.setDescription(formatoHora.format(fa.getFechaHora()) + ";" + fa.getEspecialidad().getCodigo() + ";" + fa.getCodCita() + ";" + fa.getObservaciones());
             evento.setData(fa);
+            if(fa.getReservadoValoracion()) {
+                evento.setStyleClass("reservadoValoracion");
+            }
             getEventModel().addEvent(evento);
         }
 

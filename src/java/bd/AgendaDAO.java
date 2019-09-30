@@ -77,7 +77,8 @@ public class AgendaDAO {
                     = " SELECT "
                     + " p.nombre||(case when character_length(coalesce(p.segundo_nombre,''))=0 then '' else ' '||p.segundo_nombre end)||(case when character_length(coalesce(p.primer_apellido,''))=0 then '' else ' '||p.primer_apellido end)||(case when character_length(coalesce(p.segundo_apellido,''))=0 then '' else ' '||p.segundo_apellido end) nombre_completo, "
                     + " a.cedula_profesional, a.codigo_especialidad, e.nombre nombre_especialidad, a.fecha, a.hora, a.duracion, a.codigo_cita,"
-                    + " p.identificacion id_paciente,p.nombre nombre_paciente,pro.codigo codigo_procedimiento,pro.nombre nombre_procedimiento, c.observaciones2 "
+                    + " p.identificacion id_paciente,p.nombre nombre_paciente,pro.codigo codigo_procedimiento,pro.nombre nombre_procedimiento, c.observaciones2, "
+                    + " a.reservado_valoracion "
                     + " FROM agenda a "
                     + " inner join especialidades e ON (a.codigo_especialidad = e.codigo) "
                     + " left join citas c ON (c.codigo = a.codigo_cita) "
@@ -115,6 +116,7 @@ public class AgendaDAO {
                 fa.setCodCita(rs.getString("codigo_cita"));
                 fa.setDuracion(rs.getString("duracion"));  
                 fa.setObservaciones(rs.getString("observaciones2"));
+                fa.setReservadoValoracion(rs.getBoolean("reservado_valoracion"));
 
                 listaFa.add(fa);
             }
