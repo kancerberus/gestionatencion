@@ -24,6 +24,7 @@ public class FranjaAgenda implements Cloneable{
     private Procedimiento procedimiento;
     private String observaciones;
     private Boolean reservadoValoracion;
+    private String accion;
 
     @Override
     public Object clone() throws CloneNotSupportedException {
@@ -203,6 +204,20 @@ public class FranjaAgenda implements Cloneable{
      */
     public void setReservadoValoracion(Boolean reservadoValoracion) {
         this.reservadoValoracion = reservadoValoracion;
+    }
+
+    /**
+     * @return the accion
+     */
+    public String getAccion() {
+        return accion;
+    }
+
+    /**
+     * @param accion the accion to set
+     */
+    public void setAccion(String accion) {
+        this.accion = accion;
     }
 
      

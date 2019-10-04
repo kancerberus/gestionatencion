@@ -114,7 +114,7 @@ public class AgendaDAO {
                 fa.setPaciente(pac);
                 fa.setFechaHora(formatoHoraFecha.parse(rs.getString("fecha") + " " + rs.getString("hora")));
                 fa.setCodCita(rs.getString("codigo_cita"));
-                fa.setDuracion(rs.getString("duracion"));  
+                fa.setDuracion(rs.getString("duracion"));
                 fa.setObservaciones(rs.getString("observaciones2"));
                 fa.setReservadoValoracion(rs.getBoolean("reservado_valoracion"));
 
@@ -281,11 +281,19 @@ public class AgendaDAO {
                         consulta.actualizar(sql);
                     }
                 } else if (((FranjaAgenda) se.getData()).getSeleccionada()) {
-                    sql
-                            = " delete from agenda where cedula_profesional='" + cedulaProfesional + "' "
-                            + " and codigo_especialidad='" + codigoEspecialidad + "' and fecha='" + formatoFecha.format(se.getStartDate()) + "' "
-                            + " and hora='" + formatoHora.format(se.getStartDate()) + "'";
-                    consulta.actualizar(sql);
+                    if (((FranjaAgenda) se.getData()).getAccion().equalsIgnoreCase("eliminar")) {
+                        sql
+                                = " delete from agenda where cedula_profesional='" + cedulaProfesional + "' "
+                                + " and codigo_especialidad='" + codigoEspecialidad + "' and fecha='" + formatoFecha.format(se.getStartDate()) + "' "
+                                + " and hora='" + formatoHora.format(se.getStartDate()) + "'";
+                        consulta.actualizar(sql);
+                    } else if (((FranjaAgenda) se.getData()).getAccion().equalsIgnoreCase("reserva_valoracion")) {
+                        sql
+                                = " update agenda set reservado_valoracion=true where cedula_profesional='" + cedulaProfesional + "' "
+                                + " and codigo_especialidad='" + codigoEspecialidad + "' and fecha='" + formatoFecha.format(se.getStartDate()) + "' "
+                                + " and hora='" + formatoHora.format(se.getStartDate()) + "'";
+                        consulta.actualizar(sql);
+                    }
                 }
 
             }

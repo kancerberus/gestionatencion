@@ -76,6 +76,7 @@ public class UIAgenda implements Serializable {
     //modo eliminar
     private Boolean modoEliminar;
     private ScheduleModel eventModelEliminar;
+    private String accionAgenda;
 
     //exportar
     private List<FranjaAgenda> listaFranjasExportar = new ArrayList<>();
@@ -100,6 +101,7 @@ public class UIAgenda implements Serializable {
         //modoEliminar
         modoEliminar = false;
         eventModelEliminar = new DefaultScheduleModel();
+        accionAgenda = "reserva_valoracion";
     }
 
     public void crearAgenda() throws Exception {
@@ -292,13 +294,15 @@ public class UIAgenda implements Serializable {
                                     + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "")
                                     + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ?  " - " + fa.getObservaciones() :"" ) :"") ;
                                         fa.setSeleccionada(Boolean.FALSE);
+                                        fa.setAccion("");
                         } else {
                             titulo = fa.getEspecialidad().getNombre() + " - " + fa.getDuracion() + " Min"
                                     + (fa.getPaciente().getNombreCompleto() != null ? (!fa.getPaciente().getNombreCompleto().equalsIgnoreCase("") ? " - " + fa.getPaciente().getNombreCompleto() : "") : "")
                                     + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "")
                                     + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ?  " - " + fa.getObservaciones() :"" ) :"") 
-                                    + " - Eliminar";
+                                    + (accionAgenda.equalsIgnoreCase("eliminar") ? " - Eliminar" : " - Reservado valoración");
                             fa.setSeleccionada(Boolean.TRUE);
+                            fa.setAccion(accionAgenda);
                         }
                         if (fa.getCodCita() == null) {
                             cal.setTime(fa.getFechaHora());
@@ -798,6 +802,20 @@ public class UIAgenda implements Serializable {
      */
     public void setGeneraAgendaAm(Boolean generaAgendaAm) {
         this.generaAgendaAm = generaAgendaAm;
+    }
+
+    /**
+     * @return the accionAgenda
+     */
+    public String getAccionAgenda() {
+        return accionAgenda;
+    }
+
+    /**
+     * @param accionAgenda the accionAgenda to set
+     */
+    public void setAccionAgenda(String accionAgenda) {
+        this.accionAgenda = accionAgenda;
     }
 
 }

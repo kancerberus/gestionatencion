@@ -50,12 +50,13 @@ and open the template in the editor.
                                 
                             </p:panelGrid>
                             <p:panelGrid columns="1">
-                                <p:selectOneRadio id="radAccionFranja" value="">
-                                    <f:selectItem itemLabel="Reserva valoración" itemValue="reserva_valoracion" />
-                                    <f:selectItem itemLabel="Eliminar" itemValue="eliminar" />                                    
+                                <p:selectOneRadio id="radAccionFranja" value="#{uiagenda.accionAgenda}" >
+                                    <f:selectItem itemLabel="Reserva valoración" itemValue="reserva_valoracion"  />
+                                    <f:selectItem itemLabel="Eliminar" itemValue="eliminar" />
+                                    <p:ajax update=""/>
                                 </p:selectOneRadio>
                             </p:panelGrid>
-                            <p:commandButton id="btnEliminar" icon="ui-icon-close" value="Eliminar" style="height: 26px; width: 100px; font-size: 80%;" 
+                            <p:commandButton id="btnEliminar" icon="ui-icon-close" value="Aplicar" style="height: 26px; width: 100px; font-size: 80%;" 
                                              actionListener="#{uiagenda.eliminarAgenda()}" update="pnlCalendarioAgendas" />
 
 
