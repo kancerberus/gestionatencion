@@ -43,6 +43,26 @@ public class GestorAgenda extends Gestor{
         }
     }
     
+    public List<FranjaAgenda> consultarAgendaReplicar(String cedulaProfesional, Date fecha) throws Exception {
+        try {
+            abrirConexion();
+            AgendaDAO agendaDAO = new AgendaDAO(conexion);
+            return agendaDAO.consultarAgendaReplicar(cedulaProfesional, fecha);
+        } finally {
+            cerrarConexion();
+        }
+    }
+    
+    public Integer guardarAgendaReplicar(ScheduleModel modeloFechas, List<FranjaAgenda> listaFranjas) throws Exception {
+        try {
+            abrirConexion();
+            AgendaDAO agendaDAO = new AgendaDAO(conexion);
+            return agendaDAO.guardarAgendaReplicar(modeloFechas, listaFranjas);
+        } finally {
+            cerrarConexion();
+        }
+    }
+    
     public void eliminarAgenda(String cedulaProfesional, String codigoEspecialidad, ScheduleModel modelo, Boolean modoEliminar) throws Exception {
         try {
             abrirConexion();

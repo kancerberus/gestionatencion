@@ -20,6 +20,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import modelo.Especialidad;
 import modelo.SelectorDia;
@@ -81,6 +83,13 @@ public class UIAgenda implements Serializable {
     //exportar
     private List<FranjaAgenda> listaFranjasExportar = new ArrayList<>();
 
+    //replicarAgenda
+    private Profesional profesionalReplicar;
+    private List<SelectItem> cmbProfesionalesReplicar = new ArrayList<>();
+    private Date fechaReplicar;
+    private ScheduleModel eventModelReplicar;
+    private List<FranjaAgenda> listaFranjasReplicar = new ArrayList<>();
+
     public UIAgenda() throws Exception {
         listaProfesionales = new ArrayList<>();
         profesional = new Profesional();
@@ -102,6 +111,11 @@ public class UIAgenda implements Serializable {
         modoEliminar = false;
         eventModelEliminar = new DefaultScheduleModel();
         accionAgenda = "reserva_valoracion";
+        
+        profesionalReplicar = new Profesional();
+        eventModelReplicar = new DefaultScheduleModel();
+
+        listarProfesionalesReplicar();
     }
 
     public void crearAgenda() throws Exception {
@@ -223,12 +237,12 @@ public class UIAgenda implements Serializable {
             String titulo = fa.getEspecialidad().getNombre() + " - " + fa.getDuracion() + " Min"
                     + (fa.getPaciente().getNombreCompleto() != null ? (!fa.getPaciente().getNombreCompleto().equalsIgnoreCase("") ? " - " + fa.getPaciente().getNombreCompleto() : "") : "")
                     + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "")
-                    + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ?  " - " + fa.getObservaciones() :"" ) :"");            
-           
+                    + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ? " - " + fa.getObservaciones() : "") : "");
+
             DefaultScheduleEvent evento = new DefaultScheduleEvent(titulo, fa.getFechaHora(), cal.getTime());
             evento.setDescription(formatoHora.format(fa.getFechaHora()) + ";" + fa.getEspecialidad().getCodigo() + ";" + fa.getCodCita() + ";" + fa.getObservaciones());
             evento.setData(fa);
-            if(fa.getReservadoValoracion()) {
+            if (fa.getReservadoValoracion()) {
                 evento.setStyleClass("reservadoValoracion");
             }
             getEventModel().addEvent(evento);
@@ -292,14 +306,14 @@ public class UIAgenda implements Serializable {
                             titulo = fa.getEspecialidad().getNombre() + " - " + fa.getDuracion() + " Min"
                                     + (fa.getPaciente().getNombreCompleto() != null ? (!fa.getPaciente().getNombreCompleto().equalsIgnoreCase("") ? " - " + fa.getPaciente().getNombreCompleto() : "") : "")
                                     + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "")
-                                    + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ?  " - " + fa.getObservaciones() :"" ) :"") ;
-                                        fa.setSeleccionada(Boolean.FALSE);
-                                        fa.setAccion("");
+                                    + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ? " - " + fa.getObservaciones() : "") : "");
+                            fa.setSeleccionada(Boolean.FALSE);
+                            fa.setAccion("");
                         } else {
                             titulo = fa.getEspecialidad().getNombre() + " - " + fa.getDuracion() + " Min"
                                     + (fa.getPaciente().getNombreCompleto() != null ? (!fa.getPaciente().getNombreCompleto().equalsIgnoreCase("") ? " - " + fa.getPaciente().getNombreCompleto() : "") : "")
                                     + (fa.getCodCita() != null ? (!fa.getCodCita().equalsIgnoreCase("") ? " - " + fa.getCodCita() : "") : "")
-                                    + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ?  " - " + fa.getObservaciones() :"" ) :"") 
+                                    + (fa.getObservaciones() != null ? (!fa.getObservaciones().equalsIgnoreCase("") ? " - " + fa.getObservaciones() : "") : "")
                                     + (accionAgenda.equalsIgnoreCase("eliminar") ? " - Eliminar" : " - Reservado valoración");
                             fa.setSeleccionada(Boolean.TRUE);
                             fa.setAccion(accionAgenda);
@@ -322,12 +336,12 @@ public class UIAgenda implements Serializable {
     public void eliminarAgenda() throws Exception {
         GestorAgenda gestorAgenda = new GestorAgenda();
         Especialidad e = gestorEspecialidad.consultarEspecialidadPorNombre(especialidadAgendas.getNombre());
-        if(modoEliminar) {
+        if (modoEliminar) {
             gestorAgenda.eliminarAgenda(profesionalAgendas.getCedula(), e.getCodigo(), eventModelEliminar, modoEliminar);
         } else {
             gestorAgenda.eliminarAgenda(profesionalAgendas.getCedula(), e.getCodigo(), eventModel, modoEliminar);
         }
-        
+
         SelectEvent event = null;
         consultarAgenda(event);
     }
@@ -350,7 +364,7 @@ public class UIAgenda implements Serializable {
     }
 
     public List<String> listarProfesionalesPatron(String query) throws Exception {
-        //GestorProfesional gestorProfesional = new GestorProfesional();       
+        //GestorProfesional gestorProfesional = new GestorProfesional();
         ArrayList<Profesional> listaProfesionalesLocal = new ArrayList<>();
         listaProfesionalesLocal = gestorProfesional.listarProfesionalesPatron(query);
         List<String> listaProf = new ArrayList<>();
@@ -479,6 +493,78 @@ public class UIAgenda implements Serializable {
     public void actualizarFranjasSelectorPm() {
         for (SelectorDia si : selectorDias) {
             si.setFranja2(generaAgendaPm);
+        }
+    }
+
+    public void onEventSelectReplicar(SelectEvent selectEvent) {
+        DefaultScheduleEvent eventoCapturado = (DefaultScheduleEvent) selectEvent.getObject();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        ScheduleEvent evento = new DefaultScheduleEvent("", new Date(), new Date());
+
+        for (ScheduleEvent se : getEventModelReplicar().getEvents()) {
+            if (formatoFecha.format(se.getStartDate()).equalsIgnoreCase(formatoFecha.format(eventoCapturado.getStartDate()))) {
+                evento = se;
+                break;
+            }
+        }
+        getEventModelReplicar().deleteEvent(evento);
+    }
+
+    public void onDateSelectReplicar(SelectEvent selectEvent) {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        Boolean encontrado = Boolean.FALSE;
+        ScheduleEvent evento = new DefaultScheduleEvent("", new Date(), new Date());
+        Date fechaCapturada = (Date) selectEvent.getObject();
+
+        for (ScheduleEvent se : getEventModelReplicar().getEvents()) {
+            if (formatoFecha.format(se.getStartDate()).equalsIgnoreCase(formatoFecha.format(fechaCapturada))) {
+                encontrado = Boolean.TRUE;
+                evento = se;
+                break;
+            }
+        }
+
+        if (encontrado) {
+            getEventModelReplicar().deleteEvent(evento);
+        } else {
+            getEventModelReplicar().addEvent(new DefaultScheduleEvent("", fechaCapturada, fechaCapturada));
+        }
+    }
+
+    private void listarProfesionalesReplicar() {
+        List<Profesional> listaProfesionalesReplicar;
+        try {
+            listaProfesionalesReplicar = gestorProfesional.listarProfesionales();
+            for (Profesional p : listaProfesionalesReplicar) {
+                cmbProfesionalesReplicar.add(new SelectItem(p.getCedula(), p.getNombre()));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(UIEntidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void consultarAgendaReplicar() {
+        try {
+            GestorAgenda gestorAgenda = new GestorAgenda();
+            listaFranjasReplicar.clear();
+            listaFranjasReplicar = gestorAgenda.consultarAgendaReplicar(profesionalReplicar.getCedula(), fechaReplicar);
+            if (listaFranjasReplicar.isEmpty()) {
+                util.mostrarMensaje("La consulta no recuperó registros.");
+            }
+        } catch (Exception ex) {
+            util.mostrarMensaje(ex.getMessage());
+        }
+    }
+    
+    public void guardarAgendaReplicar() {
+        try {
+            GestorAgenda gestorAgenda = new GestorAgenda();
+            Integer resultado = gestorAgenda.guardarAgendaReplicar(eventModelReplicar, listaFranjasReplicar);
+            if (resultado == 1) {
+                util.mostrarMensaje("Se realizó reserva de las franjas disponibles.");
+            }
+        } catch (Exception ex) {
+            util.mostrarMensaje(ex.getMessage());
         }
     }
 
@@ -816,6 +902,76 @@ public class UIAgenda implements Serializable {
      */
     public void setAccionAgenda(String accionAgenda) {
         this.accionAgenda = accionAgenda;
+    }
+
+    /**
+     * @return the profesionalReplicar
+     */
+    public Profesional getProfesionalReplicar() {
+        return profesionalReplicar;
+    }
+
+    /**
+     * @param profesionalReplicar the profesionalReplicar to set
+     */
+    public void setProfesionalReplicar(Profesional profesionalReplicar) {
+        this.profesionalReplicar = profesionalReplicar;
+    }
+
+    /**
+     * @return the cmbProfesionalesReplicar
+     */
+    public List<SelectItem> getCmbProfesionalesReplicar() {
+        return cmbProfesionalesReplicar;
+    }
+
+    /**
+     * @param cmbProfesionalesReplicar the cmbProfesionalesReplicar to set
+     */
+    public void setCmbProfesionalesReplicar(List<SelectItem> cmbProfesionalesReplicar) {
+        this.cmbProfesionalesReplicar = cmbProfesionalesReplicar;
+    }
+
+    /**
+     * @return the fechaReplicar
+     */
+    public Date getFechaReplicar() {
+        return fechaReplicar;
+    }
+
+    /**
+     * @param fechaReplicar the fechaReplicar to set
+     */
+    public void setFechaReplicar(Date fechaReplicar) {
+        this.fechaReplicar = fechaReplicar;
+    }
+
+    /**
+     * @return the eventModelReplicar
+     */
+    public ScheduleModel getEventModelReplicar() {
+        return eventModelReplicar;
+    }
+
+    /**
+     * @param eventModelReplicar the eventModelReplicar to set
+     */
+    public void setEventModelReplicar(ScheduleModel eventModelReplicar) {
+        this.eventModelReplicar = eventModelReplicar;
+    }
+
+    /**
+     * @return the listaFranjasReplicar
+     */
+    public List<FranjaAgenda> getListaFranjasReplicar() {
+        return listaFranjasReplicar;
+    }
+
+    /**
+     * @param listaFranjasReplicar the listaFranjasReplicar to set
+     */
+    public void setListaFranjasReplicar(List<FranjaAgenda> listaFranjasReplicar) {
+        this.listaFranjasReplicar = listaFranjasReplicar;
     }
 
 }

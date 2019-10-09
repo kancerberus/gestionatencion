@@ -36,6 +36,7 @@ public class GestorPrincipal implements Serializable {
     private boolean replicarTerapia = false;
     
     private boolean historiaClinica = false;
+    private boolean replicarAgenda = false;
 
 
     public GestorPrincipal() {
@@ -67,6 +68,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
 
                 break;
             case "crear_agenda":
@@ -90,6 +92,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "crear_paciente":
                 setNuevaCita(false);
@@ -112,6 +115,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "consultar_cita":
                 setNuevaCita(false);
@@ -134,6 +138,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "agendas":
                 setNuevaCita(false);
@@ -156,6 +161,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "exportar":
                 setNuevaCita(false);
@@ -178,6 +184,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "resumen_profesional":
                 setNuevaCita(false);
@@ -200,6 +207,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "crear_terapia":
                 setNuevaCita(false);
@@ -222,6 +230,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "consultar_terapia":
                 setNuevaCita(false);
@@ -244,6 +253,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
 
             case "crear_entidad":
@@ -267,6 +277,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "consultar_entidad":
                 setNuevaCita(false);
@@ -289,6 +300,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "crear_profesional":
                 setNuevaCita(false);
@@ -311,6 +323,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "consultar_profesional":
                 setNuevaCita(false);
@@ -333,6 +346,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "crear_usuario":
                 setNuevaCita(false);
@@ -355,6 +369,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "consultar_usuario":
                 setNuevaCita(false);
@@ -377,6 +392,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
             case "exportar_paciente":
                 setNuevaCita(false);
@@ -399,6 +415,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
                 case "consultar_paciente":
                 setNuevaCita(false);
@@ -421,6 +438,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(true);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
                 
                 case "exportar_informe":
@@ -444,6 +462,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
                 
                 case "replicar_terapia":
@@ -467,6 +486,7 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(true);
                 setHistoriaClinica(false);
+                setReplicarAgenda(false);
                 break;
                 
                 case "historia_clinica":
@@ -490,6 +510,30 @@ public class GestorPrincipal implements Serializable {
                 setListarPacientes(false);
                 setReplicarTerapia(false);
                 setHistoriaClinica(true);
+                setReplicarAgenda(false);
+                break;
+                case "replicar_agenda":
+                setNuevaCita(false);
+                setCrearAgenda(false);
+                setAgendas(false);
+                setCrearPaciente(false);
+                setConsultarCitas(false);
+                setExportarAgenda(false);
+                setExportarInforme(false);
+                setResumenProfesional(false);
+                setCrearTerapia(false);
+                setConsultarTerapia(false);
+                setCrearEntidad(false);
+                setConsultarEntidad(false);
+                setCrearProfesional(false);
+                setConsultarProfesional(false);
+                setCrearUsuario(false);
+                setConsultarUsuario(false);
+                setExportarPacientes(false);
+                setListarPacientes(false);
+                setReplicarTerapia(false);
+                setHistoriaClinica(false);
+                setReplicarAgenda(true);
                 break;
         }
 
@@ -774,6 +818,20 @@ public class GestorPrincipal implements Serializable {
      */
     public void setHistoriaClinica(boolean historiaClinica) {
         this.historiaClinica = historiaClinica;
+    }
+
+    /**
+     * @return the replicarAgenda
+     */
+    public boolean isReplicarAgenda() {
+        return replicarAgenda;
+    }
+
+    /**
+     * @param replicarAgenda the replicarAgenda to set
+     */
+    public void setReplicarAgenda(boolean replicarAgenda) {
+        this.replicarAgenda = replicarAgenda;
     }
 
 }

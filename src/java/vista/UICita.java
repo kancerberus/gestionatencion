@@ -787,6 +787,9 @@ public class UICita implements Serializable {
             evento = new DefaultScheduleEvent(titulo, fa.getFechaHora(), cal.getTime());
             evento.setDescription(formatoHora.format(fa.getFechaHora()) + ";" + fa.getEspecialidad().getCodigo() + ";" + fa.getCodCita());
             //evento.setId(fa.getProfesional().getCedula() + "@" + formatoFecha.format(fa.getFechaHora()) + "@" + formatoHora.format(fa.getFechaHora()));
+            if (fa.getReservadoValoracion()) {
+                evento.setStyleClass("reservadoValoracion");
+            }
             getEventModel().addEvent(evento);
 
         }

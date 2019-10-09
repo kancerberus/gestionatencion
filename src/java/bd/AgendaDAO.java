@@ -305,6 +305,104 @@ public class AgendaDAO {
 
     }
 
+    public List<FranjaAgenda> consultarAgendaReplicar(String cedulaProfesional, Date fecha) throws SQLException {
+        Consulta consulta = null;
+        ResultSet rs;
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatoHoraFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        List<FranjaAgenda> listaFa = new ArrayList<>();
+        try {
+            consulta = new Consulta(getConexion());
+            String sql
+                    = " SELECT "
+                    + " p.nombre||(case when character_length(coalesce(p.segundo_nombre,''))=0 then '' else ' '||p.segundo_nombre end)||(case when character_length(coalesce(p.primer_apellido,''))=0 then '' else ' '||p.primer_apellido end)||(case when character_length(coalesce(p.segundo_apellido,''))=0 then '' else ' '||p.segundo_apellido end) nombre_completo, "
+                    + " a.cedula_profesional, a.codigo_especialidad, e.nombre nombre_especialidad, a.fecha, a.hora, a.duracion, a.codigo_cita,"
+                    + " p.identificacion id_paciente,p.nombre nombre_paciente,pro.codigo codigo_procedimiento,pro.nombre nombre_procedimiento, c.observaciones2, "
+                    + " a.reservado_valoracion "
+                    + " FROM agenda a "
+                    + " inner join especialidades e ON (a.codigo_especialidad = e.codigo) "
+                    + " left join citas c ON (c.codigo = a.codigo_cita) "
+                    + " left join pacientes p ON (c.id_paciente = p.identificacion) "
+                    + " left join rel_procedimientos_cita rpc ON (a.codigo_cita=rpc.codigo_cita and a.fecha=rpc.fecha and a.hora=rpc.hora) "
+                    + " left join procedimientos pro ON (rpc.codigo_procedimiento=pro.codigo)"
+                    + " WHERE "
+                    + " a.cedula_profesional = '" + cedulaProfesional + "' AND "
+                    //+ " a.codigo_especialidad= '" + codigoEspecialidad + "' AND "
+                    + " a.fecha = '" + formatoFecha.format(fecha) + "'"
+                    + " ORDER BY "
+                    + " a.hora ASC";
+            rs = consulta.ejecutar(sql);
+
+            while (rs.next()) {
+                FranjaAgenda fa = new FranjaAgenda();
+                Especialidad e = new Especialidad();
+                Profesional p = new Profesional();
+                Paciente pac = new Paciente();
+                Procedimiento pro = new Procedimiento();
+                e.setCodigo(rs.getString("codigo_especialidad"));
+                e.setNombre(rs.getString("nombre_especialidad"));
+                p.setCedula(rs.getString("cedula_profesional"));
+                pac.setIdentificacion(rs.getString("id_paciente"));
+                pac.setNombre(rs.getString("nombre_paciente"));
+                pac.setNombreCompleto(rs.getString("nombre_completo"));
+                fa.setProcedimiento(pro);
+                if (rs.getString("codigo_procedimiento") != null) {
+                    fa.setProcedimiento(new Procedimiento(rs.getString("codigo_procedimiento"), rs.getString("nombre_procedimiento")));
+                }
+                fa.setEspecialidad(e);
+                fa.setProfesional(p);
+                fa.setPaciente(pac);
+                fa.setFechaHora(formatoHoraFecha.parse(rs.getString("fecha") + " " + rs.getString("hora")));
+                fa.setCodCita(rs.getString("codigo_cita"));
+                fa.setDuracion(rs.getString("duracion"));
+                fa.setObservaciones(rs.getString("observaciones2"));
+                fa.setReservadoValoracion(rs.getBoolean("reservado_valoracion"));
+
+                listaFa.add(fa);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } catch (ParseException ex) {
+            Logger.getLogger(AgendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            consulta.desconectar();
+        }
+        return listaFa;
+    }
+
+    public Integer guardarAgendaReplicar(ScheduleModel modeloFechas, List<FranjaAgenda> listaFranjas) throws SQLException {
+        Consulta consulta;
+        String sql;
+        ResultSet rs;
+        //Boolean valido = Boolean.TRUE;
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+        consulta = new Consulta(getConexion());
+        try {
+            consulta.actualizar("begin");
+            for (ScheduleEvent dia : modeloFechas.getEvents()) {
+                for (FranjaAgenda fa : listaFranjas) {
+                    if (fa.getSeleccionada()) {
+                        sql = "update agenda set reservado_valoracion = true "
+                                + " where cedula_profesional='" + fa.getProfesional().getCedula() + "' and "
+                                + " fecha='" + formatoFecha.format(dia.getStartDate()) + "' "
+                                + " and hora='" + formatoHora.format(fa.getFechaHora()) + "' ";
+                        consulta.actualizar(sql);
+                    }
+                }
+            }
+            consulta.actualizar("commit");
+
+            return 1;
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            consulta.desconectar();
+        }
+
+    }
+
     /**
      * @return the conexion
      */

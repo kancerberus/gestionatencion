@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition>
+            <h:outputScript name="traduccionCalendario.js" />
+            <h:form id="frmReplicarAgenda">
+                <p:growl id="growlReplicarAgenda" showDetail="true" life="5000" />
+                <p:panel header="REPLICAR RESERVA AGENDA" id="pnlReplicarAgenda">
+                    <table border="1">
+                        <tr><td>
+                                <table>
+
+                                    <tr><td>Profesional</td><td><p:selectOneMenu value="#{uiagenda.profesionalReplicar.cedula}" id="profesionalReplicar">
+                                                <f:selectItem itemLabel="" itemValue="" />
+                                                <f:selectItems value="#{uiagenda.cmbProfesionalesReplicar}"  />
+                                            </p:selectOneMenu></td>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p:outputLabel value="Fecha:"/></td>
+                                        <td><p:calendar value="#{uiagenda.fechaReplicar}" mode="popup" pattern="dd/MM/yyyy" locale="es"/></td>
+                                        <td><p:commandButton icon="ui-icon-search" value="Consultar agenda" style="height: 26px; width: 150px; font-size: 80%;"
+                                                             actionListener="#{uiagenda.consultarAgendaReplicar}" update="dtListaAgendaReplicar,growlReplicarAgenda,calendarioReplicar" /></td>
+                                        <td><p:commandButton icon="ui-icon-search" value="Replicar reserva" style="height: 26px; width: 140px; font-size: 80%;"
+                                                             actionListener="#{uiagenda.guardarAgendaReplicar}" update="dtListaAgendaReplicar,growlReplicarAgenda,calendarioReplicar" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td rowspan="2" style="width:300px">
+                                <p:schedule id="calendarioReplicar" value="#{uiagenda.eventModelReplicar}" initialDate="#{uiagenda.fechaReplicar}" locale="es"
+                                            view="month" showHeader="true" slotMinutes="15" minTime="6" maxTime="20" timeZone="GMT-5"
+                                            centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="prev,next" resizable="false"
+                                            draggable="false">
+
+                                    <p:ajax event="eventSelect"  listener="#{uiagenda.onEventSelectReplicar}"  update="calendarioReplicar" />
+                                    <p:ajax event="dateSelect"  listener="#{uiagenda.onDateSelectReplicar}"  update="calendarioReplicar" />
+
+                                </p:schedule>
+                            </td>
+                        </tr>
+                        <tr><td>
+                                <p:dataTable var="itemAgenda" value="#{uiagenda.listaFranjasReplicar}" id="dtListaAgendaReplicar" style="font-size: 65%;">
+
+                                    <p:column headerText="Fecha" style="width:10%">
+                                        <h:outputText value="#{itemAgenda.fechaHora}" >
+                                            <f:convertDateTime pattern="yyyy-MM-dd" timeZone="GMT-5" locale="es" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Hora" style="width:10%">
+                                        <h:outputText value="#{itemAgenda.fechaHora}" >
+                                            <f:convertDateTime pattern="HH:mm" timeZone="GMT-5" locale="es" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Descripcion" style="width:60%">
+                                        <h:outputText value="#{itemAgenda.especialidad.nombre} - #{itemAgenda.duracion} Min #{(itemAgenda.paciente.nombreCompleto != null ? (itemAgenda.paciente.nombreCompleto != '' ? (' - ').concat(itemAgenda.paciente.nombreCompleto) : '') : '')} #{(itemAgenda.codCita != null ? (itemAgenda.codCita != '' ? (' - ').concat(itemAgenda.codCita) : '') : '')}" />
+                                    </p:column>                                    
+                                    <p:column headerText="Reservado" style="width:10%">
+                                        <p:selectBooleanCheckbox value="#{itemAgenda.reservadoValoracion}" disabled="true"/>
+                                    </p:column>
+                                    <p:column headerText="Copiar" style="width:10%">
+                                        <p:selectBooleanCheckbox value="#{itemAgenda.seleccionada}" disabled="#{not itemAgenda.reservadoValoracion}"/>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </td></tr>
+                    </table>
+                </p:panel>
+
+            </h:form>
+        </ui:composition>
+    </body>
+</html>
