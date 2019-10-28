@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["D:\\Desarrollo\\github\\gestionatencion\\web\\reportes\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["c:\\git1\\gestionatencion\\web\\reportes\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select
@@ -63,7 +63,7 @@ from estudio_audiologico where codigo=$P{codigo_estudio_sub_der}]]>
 			</subreport>
 			<image>
 				<reportElement x="325" y="26" width="74" height="100" uuid="f399452c-489a-4495-9773-4d0fb4456af9"/>
-				<imageExpression><![CDATA["D:\\Desarrollo\\github\\gestionatencion\\web\\resources\\nomenclatura.png"]]></imageExpression>
+				<imageExpression><![CDATA["c:\\git1\\gestionatencion\\web\\resources\\nomenclatura.png"]]></imageExpression>
 			</image>
 			<subreport>
 				<reportElement x="0" y="303" width="168" height="100" uuid="f4b5af6b-2e24-4902-91c5-5f1795a9b832"/>
