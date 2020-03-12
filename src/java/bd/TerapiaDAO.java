@@ -466,15 +466,16 @@ group by 1
                     update agenda set duracion=10 where cedula_profesional='21312' and fecha='2019-09-26' and hora='08:00:00'
                      */
                     int duracionCalculada = detalleTerapia.get(0).getDuracion() / detalleTerapia.size();
+                    int resto = detalleTerapia.get(0).getDuracion() % detalleTerapia.size();
 
-                    sql = "update agenda set duracion=" + duracionCalculada + " where cedula_profesional='" + terapia.getCita().getProfesional().getCedula() + "' and fecha='" + formatoFecha.format(terapia.getCita().getFecha()) + "' and hora='" + formatoHora.format(terapia.getCita().getHora()) + "'";
+                    sql = "update agenda set duracion=" + (duracionCalculada + resto) + " where cedula_profesional='" + terapia.getCita().getProfesional().getCedula() + "' and fecha='" + formatoFecha.format(terapia.getCita().getFecha()) + "' and hora='" + formatoHora.format(terapia.getCita().getHora()) + "'";
                     resultado = consulta.actualizar(sql);
 
                     //el resto de los elementos
                     for (i = 1; i < detalleTerapia.size(); i++) {
 
                         horaDuracion.setTime(formatoHoraFecha.parse(formatoFecha.format(terapia.getCita().getFecha()) + " " + formatoHora.format(terapia.getCita().getHora())));
-                        horaDuracion.add(Calendar.MINUTE, duracionCalculada * i);
+                        horaDuracion.add(Calendar.MINUTE, (duracionCalculada * i) + resto); //todos se desplazan resto que esta solo en el primero
                         //CITAS
                         sql = " INSERT INTO citas( "
                                 + " id_paciente, fecha, hora, codigo_especialidad,  "
@@ -536,7 +537,7 @@ group by 1
                     }
                 }
             }
-            
+
             sql = "commit";
             consulta.actualizar(sql);
 

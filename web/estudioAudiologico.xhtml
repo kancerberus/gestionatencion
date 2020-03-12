@@ -73,41 +73,28 @@ and open the template in the editor.
                                     <td>
                                         <table border="1">
                                             <tr>
+                                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                            </tr>
+                                            <tr>
                                                 <td>OTOSCOPIA</td><td colspan="6"><p:inputText id="otoscopia" value="#{uiestudioaudiologico.estudioAudiologico.otoscopia}" /></td>
                                             </tr>
                                             <tr>
-                                                <td rowspan="1" align="center">
+                                                <td align="center" colspan="1" style="width: 350px;">
                                                     <p:inputText type="hidden" id="datosXMLOD" value="#{uiestudioaudiologico.estudioAudiologico.datosXMLOD}"/>
                                                     <p:inputText type="hidden" id="datos64OD" value="#{uiestudioaudiologico.estudioAudiologico.datos64OD}"/>
-                                                    <canvas id="canvasOD" width="200" height="200" onclick="actualizarGrafica(this.id)"></canvas>
+                                                    <canvas id="canvasOD" width="220" height="210" onclick="actualizarGrafica(this.id)"></canvas>
                                                 </td>
-                                                <td rowspan="1" align="center">
+                                                
+                                                <td align="center" colspan="5" >
                                                     <p:inputText type="hidden" id="datosXMLOI" value="#{uiestudioaudiologico.estudioAudiologico.datosXMLOI}"/>
                                                     <p:inputText type="hidden" id="datos64OI" value="#{uiestudioaudiologico.estudioAudiologico.datos64OI}"/>
-                                                    <canvas id="canvasOI" width="200" height="200" onclick="actualizarGrafica(this.id)"></canvas>
+                                                    <canvas id="canvasOI" width="220" height="210" onclick="actualizarGrafica(this.id)"></canvas>
                                                 </td>
-                                                <td style="width: 100px;" rowspan="2">
-                                                    <!--
-                                                    <input type="radio" name="accion" value="agregar" checked="true"/> Agregar</br>
-                                                    <input type="radio" name="accion" value="retirar"/> Retirar
-                                                    </br></br>
-                                                    <input type="radio" name="simbolo" value="aerea" checked="true"/> Aerea</br>
-                                                    <input type="radio" name="simbolo" value="aerea_mascara"/> Aerea con enmascarar</br>
-                                                    <input type="radio" name="simbolo" value="osea"/> Osea</br>
-                                                    <input type="radio" name="simbolo" value="osea_mascara"/> Osea con enmascarar
-                                                    -->
-                                                </td>
-                                                <td rowspan="2">
-
-                                                </td>
-                                                <td rowspan="2">
-
-                                                </td>
-                                                <td style="width: 100px;" rowspan="2"> </td>
-                                                <td style="width: 300px;"><p:graphicImage name="nomenclatura.png" /></td>
+                                                
+                                                <td ><p:graphicImage name="nomenclatura.png" /></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2">
+                                                <td colspan="4">
                                                     <p:selectOneRadio id="accion" value="agregar">
                                                         <f:selectItem itemLabel="Agregar" itemValue="agregar" />
                                                         <f:selectItem itemLabel="Retirar" itemValue="retirar" />
@@ -119,6 +106,9 @@ and open the template in the editor.
                                                         <f:selectItem itemLabel="Osea con enmascarar" itemValue="osea_mascara" />
                                                     </p:selectOneRadio>
                                                 </td>
+                                                
+                                                <td> </td>
+                                                <td> </td>
                                                 <td>
                                                     <!-- tabla weber -->
                                                     <table class="tablaGrilla" cellpadding="5" cellspacing="0">
