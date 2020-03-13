@@ -412,7 +412,10 @@ public class UITerapia implements Serializable {
 
     public void dividirFranja() {
         int i;
-        if (detalleTerapia.get(0).getDuracion() % Integer.parseInt(terapia.getCantSesiones()) != 0 || detalleTerapia.get(0).getDuracion() / Integer.parseInt(terapia.getCantSesiones()) < 10) {
+        //por solicitud se va permitir que la division no sea exacta y me la franja minima sea de 7 min
+        //es decir una franja de 15 min se puede dividir en una franja de 8 y otra de 7
+        //if (detalleTerapia.get(0).getDuracion() % Integer.parseInt(terapia.getCantSesiones()) != 0 || detalleTerapia.get(0).getDuracion() / Integer.parseInt(terapia.getCantSesiones()) < 10) {
+        if (detalleTerapia.get(0).getDuracion() / Integer.parseInt(terapia.getCantSesiones()) < 7) {    //solo falla cuando la division es menor a 7
             util.mostrarMensaje("No es posible dividir en " + terapia.getCantSesiones() + " sesiones una cita de " + detalleTerapia.get(0).getDuracion() + " minutos");
         } else if (detalleTerapia.size() != Integer.parseInt(terapia.getCantSesiones())) {
             if (detalleTerapia.size() > Integer.parseInt(terapia.getCantSesiones())) { //disminuir tamaño

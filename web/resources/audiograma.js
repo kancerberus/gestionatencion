@@ -259,6 +259,7 @@ function dibujarGrilla(oido) {
     var contexto = cargaContextoCanvas(nombreCanvas);
     var i, indiceX = 0, indiceY = 0, pasoX, pasoY;
     contexto.strokeStyle = '#000000';
+    contexto.font = "8px Arial";
     if (contexto) {
         contexto.clearRect(0, 0, dimension, dimension);
         contexto.strokeRect(0, 0, dimension, dimension);
@@ -274,8 +275,11 @@ function dibujarGrilla(oido) {
             contexto.moveTo(0, i);
             contexto.lineTo(dimension, i);
             contexto.stroke();
-            if (indiceY >= 1 && indiceY <= 13)
+            if (indiceY >= 1 && indiceY <= 13) {
                 modelo[nombreCanvas].ejeYK[ejeY[indiceY - 1]] = i;
+                //label
+                contexto.fillText(ejeY[indiceY - 1], dimension + 2, i + 3);
+            }
             indiceY++;
         }
 
@@ -285,8 +289,11 @@ function dibujarGrilla(oido) {
             contexto.moveTo(i, 0);
             contexto.lineTo(i, dimension);
             contexto.stroke();
-            if (indiceX >= 1 && indiceX <= 6)
+            if (indiceX >= 1 && indiceX <= 6) {
                 modelo[nombreCanvas].ejeXK[ejeX[indiceX - 1]] = i;
+                //label
+                contexto.fillText(ejeX[indiceX - 1], i - 4, dimension + 8);
+            }
             indiceX++;
         }
     }
@@ -503,7 +510,7 @@ function actualizarModeloLogo() {
         if (radCardinalLogo[p].checked)
             cardinalLogo = radCardinalLogo[p].value;
     }
-    
+
     var nombreModelo = 'Logo' + cardinalLogo;
 
 //Coordenadas reales de acuerdo al canvas
@@ -549,12 +556,12 @@ function actualizarModeloLogo() {
             break;
         }
     }
-    
+
     //alert(ejeGrillaX + " " +ejeGrillaY);
 
 
     var radAccion = document.getElementsByName("frmEstudioAudiologico:accion");
-    
+
 
     var accion, simbolo = 'aerea';
     for (i = 0; i < radAccion.length; i++) {
@@ -575,15 +582,15 @@ function actualizarModeloLogo() {
             modelo[nombreModelo].matriz[ejeGrillaX][ejeGrillaY][simbolo] = true;
         }
         /*
-        if (simbolo == 'osea' || simbolo == 'osea_mascara') {
-            for (i = 0; i < ejeY.length; i++) {
-                //modelo[nombreCanvas].matriz[ejeX[j]][ejeY[k]][simbolos[l]] = false;
-                modelo[nombreModelo].matriz[ejeGrillaX][ejeY[i]]['osea'] = false;
-                modelo[nombreModelo].matriz[ejeGrillaX][ejeY[i]]['osea_mascara'] = false;
-            }
-            modelo[nombreModelo].matriz[ejeGrillaX][ejeGrillaY][simbolo] = true;
-        }
-        */
+         if (simbolo == 'osea' || simbolo == 'osea_mascara') {
+         for (i = 0; i < ejeY.length; i++) {
+         //modelo[nombreCanvas].matriz[ejeX[j]][ejeY[k]][simbolos[l]] = false;
+         modelo[nombreModelo].matriz[ejeGrillaX][ejeY[i]]['osea'] = false;
+         modelo[nombreModelo].matriz[ejeGrillaX][ejeY[i]]['osea_mascara'] = false;
+         }
+         modelo[nombreModelo].matriz[ejeGrillaX][ejeGrillaY][simbolo] = true;
+         }
+         */
     }
 
     if (accion == "retirar") {
@@ -592,11 +599,11 @@ function actualizarModeloLogo() {
             //modelo[nombreModelo].matriz[ejeGrillaX][ejeGrillaY]['aerea_mascara'] = false;
         }
         /*
-        if (simbolo == 'osea' || simbolo == 'osea_mascara') {
-            modelo[nombreModelo].matriz[ejeGrillaX][ejeGrillaY]['osea'] = false;
-            modelo[nombreModelo].matriz[ejeGrillaX][ejeGrillaY]['osea_mascara'] = false;
-        }
-        */
+         if (simbolo == 'osea' || simbolo == 'osea_mascara') {
+         modelo[nombreModelo].matriz[ejeGrillaX][ejeGrillaY]['osea'] = false;
+         modelo[nombreModelo].matriz[ejeGrillaX][ejeGrillaY]['osea_mascara'] = false;
+         }
+         */
     }
 
 
@@ -608,9 +615,9 @@ function actualizarModeloLogo() {
      var node = xmlDoc.createElement("heyHo");
      var elements = xmlDoc.getElementsByTagName("root");
      elements[0].appendChild(node);
-     */        
-    
-    
+     */
+
+
     root = xmlDoc.getElementsByTagName("audiograma");
     for (i = 0; i < ejeXLogo.length; i++) {
         nodeRow = xmlDoc.createElement("puntos");
