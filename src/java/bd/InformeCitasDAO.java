@@ -47,7 +47,7 @@ public class InformeCitasDAO {
             sql = " select "
                     + " l.label as tipo_identificacion, c.id_paciente, p.nombre as primer_nombre, "
                     + " p.segundo_nombre,primer_apellido,segundo_apellido, "
-                    + "substring(m.codigo from 0 for 3) as departamento_DANE, substring(m.codigo from 3 for 6) as municipio_DANE, "
+                    + "m.departamento as departamento_DANE, m.nombre as municipio_DANE, "
                     + "p.direccion1 as direccion,p.telefono1, "
                     + "p.telefono2,to_char(c.fecha, 'YYYY/MM/DD') as fecha_cita, rpc.hora as hora_cita, "
                     + "to_char(c.fecha_registro, 'YYYY/MM/DD') as fecha_asignacion, to_char(c.fecha_registro, 'HH24:MI:SS') as hora_asignacion, "
