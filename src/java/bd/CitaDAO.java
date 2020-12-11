@@ -65,7 +65,7 @@ public class CitaDAO {
     public Integer guardarCita(Cita cita, List<Cita> listaCitaMultiple, Boolean usarFranjaExtendida, Integer cantidadFranjas) throws SQLException {
 
         Consulta consulta = null;
-        Integer resultado = 0, codigoTerapia = 0, cantidad = 0;
+        Integer resultado = 0, codigoTerapia = 0, cantidad = 0, cantidad_no_evolucion = 0;
         String sql;
         ResultSet rs;
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
@@ -93,6 +93,24 @@ public class CitaDAO {
                                 sql = " rollback;";
                                 consulta.actualizar(sql);
                                 return -1;
+                            }
+
+                            //validar que el paciente no tenga citas de terapia pendientes por evolucionar                             
+                            sql = " select count(*) cantidad "
+                                    + " from "
+                                    + " terapia t "
+                                    + " inner join detalle_terapia dt on (t.codigo=dt.codigo_terapia) "
+                                    + " where "
+                                    + " t.id_paciente='" + c.getPaciente().getIdentificacion() + "' and t.codigo_procedimiento='" + c.getListaProcedimientos().get(0).getCodigo() + "' "
+                                    + " and dt.estado='I' and t.activa and cantidad_pendiente>=0 ";
+                            rs = consulta.ejecutar(sql);
+                            if (rs.next()) {
+                                cantidad_no_evolucion = rs.getInt("cantidad");
+                            }
+                            if (cantidad_no_evolucion > 0) {//si tiene citas de terapia pendientes por evolucionar
+                                sql = " rollback;";
+                                consulta.actualizar(sql);
+                                return -5;
                             }
                         }
 
@@ -123,8 +141,8 @@ public class CitaDAO {
                                 + " '" + cita.getProfesional().getCedula() + "', '" + c.getPaciente().getEntidad().getCodigo() + "', "
                                 + " '" + cita.getNumeroAutorizacion() + "', '" + cita.getObservaciones() + "', "
                                 + " '" + cita.getUsuario().getUsuario() + "','" + cita.getEstado().getCodigo() + "',"
-                                + " '" + cita.getCodigoObservacion() + "','" + cita.getOportunidadDeseada()+"', " 
-                                + " '" + cita.getObservaciones2()+ "') returning codigo;";
+                                + " '" + cita.getCodigoObservacion() + "','" + cita.getOportunidadDeseada() + "', "
+                                + " '" + cita.getObservaciones2() + "') returning codigo;";
                         rs = consulta.ejecutar(sql);
                         if (rs.next()) {
                             resultado = rs.getInt("codigo");
@@ -204,6 +222,25 @@ public class CitaDAO {
                         if (codigoTerapia == -1) {//tiene una o mas terapias activas
                             return -1;
                         }
+
+                        //validar que el paciente no tenga citas de terapia pendientes por evolucionar                             
+                        sql = " select count(*) cantidad "
+                                + " from "
+                                + " terapia t "
+                                + " inner join detalle_terapia dt on (t.codigo=dt.codigo_terapia) "
+                                + " where "
+                                + " t.id_paciente='" + cita.getPaciente().getIdentificacion() + "' and t.codigo_procedimiento='" + cita.getListaProcedimientos().get(0).getCodigo() + "' "
+                                + " and dt.estado='I' and t.activa and cantidad_pendiente>=0 ";
+                        rs = consulta.ejecutar(sql);
+                        if (rs.next()) {
+                            cantidad_no_evolucion = rs.getInt("cantidad");
+                        }
+                        if (cantidad_no_evolucion > 0) {//si tiene citas de terapia pendientes por evolucionar
+                            //no hay begin, no es necesario devoler
+                            //sql = " rollback;";
+                            //consulta.actualizar(sql);
+                            return -5;
+                        }
                     }
 
                     //validar duplicidad (fecha, hora, profesional, estado)
@@ -233,7 +270,7 @@ public class CitaDAO {
                             + " '" + cita.getProfesional().getCedula() + "', '" + cita.getEntidad().getCodigo() + "', "
                             + " '" + cita.getNumeroAutorizacion() + "', '" + cita.getObservaciones() + "', "
                             + " '" + cita.getUsuario().getUsuario() + "','" + cita.getEstado().getCodigo() + "','" + cita.getCodigoObservacion() + "',"
-                            + " '" + cita.getOportunidadDeseada()+ "','" + cita.getObservaciones2()+ "') returning codigo;";
+                            + " '" + cita.getOportunidadDeseada() + "','" + cita.getObservaciones2() + "') returning codigo;";
                     rs = consulta.ejecutar(sql);
                     if (rs.next()) {
                         resultado = rs.getInt("codigo");
@@ -286,6 +323,24 @@ public class CitaDAO {
                                 sql = " rollback;";
                                 consulta.actualizar(sql);
                                 return -1;
+                            }
+
+                            //validar que el paciente no tenga citas de terapia pendientes por evolucionar                             
+                            sql = " select count(*) cantidad "
+                                    + " from "
+                                    + " terapia t "
+                                    + " inner join detalle_terapia dt on (t.codigo=dt.codigo_terapia) "
+                                    + " where "
+                                    + " t.id_paciente='" + c.getPaciente().getIdentificacion() + "' and t.codigo_procedimiento='" + c.getListaProcedimientos().get(0).getCodigo() + "' "
+                                    + " and dt.estado='I' and t.activa and cantidad_pendiente>=0 ";
+                            rs = consulta.ejecutar(sql);
+                            if (rs.next()) {
+                                cantidad_no_evolucion = rs.getInt("cantidad");
+                            }
+                            if (cantidad_no_evolucion > 0) {//si tiene citas de terapia pendientes por evolucionar
+                                sql = " rollback;";
+                                consulta.actualizar(sql);
+                                return -5;
                             }
                         }
 
@@ -363,9 +418,9 @@ public class CitaDAO {
                         + " medio='" + cita.getMedio() + "', "
                         + " numero_autorizacion='" + cita.getNumeroAutorizacion() + "' "
                         + " where codigo=" + cita.getCodigo();
-                
-                        resultado = consulta.actualizar(sql);
-                        
+
+                resultado = consulta.actualizar(sql);
+
                 // "4";"Cancelada Entidad" "3";"Cancelada Paciente"
                 //liberar la agenda si la opcion fue cancelar
                 if (cita.getEstado().getCodigo().equalsIgnoreCase("3") || cita.getEstado().getCodigo().equalsIgnoreCase("4")) {
@@ -489,7 +544,7 @@ public class CitaDAO {
     public List<Cita> consultarCitasTerapia(Profesional profesional, Date fecha) throws SQLException {
         Cita cita;
         Profesional pro;
-        Especialidad e;        
+        Especialidad e;
         Paciente pac;
         Procedimiento proc;
         List<Cita> listaCitas = new ArrayList<>();
@@ -546,7 +601,7 @@ public class CitaDAO {
                 cita = new Cita();
                 pro = new Profesional();
                 e = new Especialidad();
-                
+
                 pac = new Paciente();
                 cita.setListaProcedimientos(new ArrayList<Procedimiento>());
                 pro.setCedula(rs.getString("id_profesional"));
@@ -651,7 +706,7 @@ public class CitaDAO {
                                     + " ( '" + c.getPaciente().getIdentificacion() + "', '" + formatoFecha.format(dia.getStartDate()) + "',"
                                     + " '" + formatoHora.format(c.getListaProcedimientos().get(0).getHora()) + "', '" + c.getEspecialidad().getCodigo() + "', "
                                     + " '" + c.getProfesional().getCedula() + "', '" + c.getPaciente().getEntidad().getCodigo() + "', "
-                                    + " '', '" + c.getObservaciones() + "','" + c.getOportunidadDeseada()+ "','" + c.getObservaciones() +"', "
+                                    + " '', '" + c.getObservaciones() + "','" + c.getOportunidadDeseada() + "','" + c.getObservaciones() + "', "
                                     + " 'REPLICA','1','') returning codigo;";
                             rs = consulta.ejecutar(sql);
                             if (rs.next()) {
@@ -788,6 +843,124 @@ public class CitaDAO {
                     + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='CONDICION_TERAPIA') ) l_condicion on (l_condicion.value=pac.condicion) "
                     + " where "
                     + " id_profesional='" + identificacion + "' and c.fecha=current_date and c.estado<>'0' "
+                    //+ " and l_estados_cita.label in ('Programada','Paciente en sala') "
+                    + " order by c.fecha asc,c.hora asc ";
+            rs = consulta.ejecutar(sql);
+            while (rs.next()) {
+                pac = new Paciente();
+                pac.setIdentificacion(rs.getString("id_paciente"));
+                pac.setNombre(rs.getString("nombre_paciente"));
+                pac.setNombreCompleto(rs.getString("nombre_completo"));
+
+                pac.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
+                pac.setEdad(rs.getString("edad"));
+                pac.setSexo(rs.getString("sexo"));
+                pac.setEstadoCivil(rs.getString("estado_civil"));
+                pac.setOcupacion(rs.getString("ocupacion"));
+                pac.setGradoEscolar(rs.getString("grado_escolar"));
+                pac.setTipoAfiliacion(rs.getString("tipo_afiliacion"));
+                pac.setTipoIdentificacion(rs.getString("tipo_identificacion"));
+                pac.setDireccion1(rs.getString("direccion1"));
+                pac.setTelefono1(rs.getString("telefono1"));
+                pac.setTelefono2(rs.getString("telefono2"));
+                pac.setCondicion(rs.getString("condicion"));
+
+                ent = new Entidad();
+                ent.setNombre(rs.getString("nombre_entidad"));
+                pac.setEntidad(ent);
+
+                cita = new Cita();
+                pro = new Profesional();
+                e = new Especialidad();
+
+                pro.setCedula(rs.getString("id_profesional"));
+                pro.setNombre(rs.getString("nombre_profesional"));
+                e.setCodigo(rs.getString("codigo_especialidad"));
+                e.setNombre(rs.getString("nombre_especialidad"));
+
+                cita.setCodigo(rs.getInt("codigo_cita"));
+                cita.setPaciente(pac);
+                cita.setFecha(rs.getDate("fecha"));
+                cita.setHora(rs.getTime("hora"));
+                cita.setEspecialidad(e);
+                cita.setProfesional(pro);
+                cita.setEstado(new Objeto(rs.getString("codigo_estado"), rs.getString("nombre_estado")));
+
+                listaProcedimientos = new ArrayList<>();
+                listaProcedimientos.add(new Procedimiento(rs.getString("codigo_procedimiento"), rs.getString("nombre_procedimiento"), rs.getDate("fecha_procedimiento"), rs.getTime("hora_procedimiento"), rs.getInt("tipo_procedimiento")));
+                cita.setListaProcedimientos(listaProcedimientos);
+                cita.setTieneAtencion(rs.getBoolean("tiene_atencion"));
+
+                listaCitas.add(cita);
+            }
+
+            return listaCitas;
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            consulta.desconectar();
+        }
+    }
+    
+    public List<Cita> consultarCitasProfesionalPendienteEvolucion(String identificacion) throws SQLException {
+        Cita cita;
+        Profesional pro;
+        Especialidad e;
+        Entidad ent;
+        Paciente pac;
+        List<Cita> listaCitas = new ArrayList<>();
+        List<Procedimiento> listaProcedimientos;
+        Consulta consulta = null;
+        String sql;
+        ResultSet rs;
+
+        try {
+            consulta = new Consulta(getConexion());
+            sql
+                    = " select "
+                    + " c.codigo codigo_cita,c.id_paciente, "
+                    + " pac.nombre nombre_paciente, "
+                    + " pac.nombre||(case when character_length(coalesce(pac.segundo_nombre,''))=0 then '' else ' '||pac.segundo_nombre end)||(case when character_length(coalesce(pac.primer_apellido,''))=0 then '' else ' '||pac.primer_apellido end)||(case when character_length(coalesce(pac.segundo_apellido,''))=0 then '' else ' '||pac.segundo_apellido end) nombre_completo, "
+                    + " pac.fecha_nacimiento, "
+                    + " ((current_date-pac.fecha_nacimiento)/365)::integer edad, "
+                    + " l_sexo.label sexo, "
+                    + " l_estado_civil.label estado_civil, "
+                    + " pac.ocupacion, pac.grado_escolar, ent.nombre nombre_entidad,"
+                    + " l_tipo_afiliacion.label tipo_afiliacion, "
+                    + " l_tipo_identificacion.label tipo_identificacion, "
+                    + " pac.direccion1, pac.telefono1, pac.telefono2,"
+                    + " c.fecha,c.hora,c.codigo_especialidad,e.nombre nombre_especialidad, "
+                    + " c.id_profesional, pro.nombre nombre_profesional, "
+                    + " l_estados_cita.value codigo_estado,l_estados_cita.label nombre_estado, "
+                    + " l_condicion.value condicion, "
+                    + " proc.codigo codigo_procedimiento, proc.nombre nombre_procedimiento, rpc.fecha fecha_procedimiento, "
+                    + " rpc.hora hora_procedimiento, proc.tipo tipo_procedimiento, "
+                    + " case when v.codigo is null and est.codigo is null then false else true end tiene_atencion"
+                    + " from "
+                    + " citas c "
+                    + " inner join detalle_terapia dt on (c.codigo=dt.cod_cita) "
+                    + " inner join rel_procedimientos_cita rpc on (c.codigo=rpc.codigo_cita) "
+                    + " inner join procedimientos proc on (rpc.codigo_procedimiento=proc.codigo) "
+                    + " inner join especialidades e on (e.codigo=c.codigo_especialidad) "
+                    + " inner join profesionales pro on (pro.cedula=c.id_profesional) "
+                    + " inner join pacientes pac on (pac.identificacion=c.id_paciente) "
+                    + " left join entidades ent ON (ent.codigo=pac.entidad) "
+                    + " left join valoracion v on (c.codigo=v.cod_cita) " //inactivacion boton atender
+                    + " left join estudio_audiologico est on (c.codigo=est.cod_cita) " //inactivacion boton atender
+                    + " left join (lista l "
+                    + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='ESTADOS_CITA') ) l_estados_cita on (l_estados_cita.value=c.estado) "
+                    + " left join (lista l  "
+                    + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='SEXO') ) l_sexo on (l_sexo.value=pac.sexo) "
+                    + " left join (lista l  "
+                    + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='ESTADO_CIVIL') ) l_estado_civil on (l_estado_civil.value=pac.estado_civil) "
+                    + " left join (lista l "
+                    + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='TIPO_AFILIACION') ) l_tipo_afiliacion on (l_tipo_afiliacion.value=pac.tipo_afiliacion) "
+                    + " left join (lista l "
+                    + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='TIPO_IDENTIFICACION') ) l_tipo_identificacion on (l_tipo_identificacion.value=pac.tipo_identificacion) "
+                    + " left join (lista l "
+                    + " inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='CONDICION_TERAPIA') ) l_condicion on (l_condicion.value=pac.condicion) "
+                    + " where "
+                    + " id_profesional='" + identificacion + "' and c.fecha<current_date and c.estado<>'0' and dt.autorizada "
                     //+ " and l_estados_cita.label in ('Programada','Paciente en sala') "
                     + " order by c.fecha asc,c.hora asc ";
             rs = consulta.ejecutar(sql);

@@ -18,6 +18,7 @@ public class DetalleTerapia {
     private Date hora;
     private String estado;
     private Integer duracion;
+    private Boolean autorizada;
 
     public DetalleTerapia() {
     }
@@ -110,6 +111,20 @@ public class DetalleTerapia {
      */
     public void setDuracion(Integer duracion) {
         this.duracion = duracion;
+    }
+
+    /**
+     * @return the autorizada
+     */
+    public Boolean getAutorizada() {
+        return autorizada;
+    }
+
+    /**
+     * @param autorizada the autorizada to set
+     */
+    public void setAutorizada(Boolean autorizada) {
+        this.autorizada = autorizada;
     }
     
     

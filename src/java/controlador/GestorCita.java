@@ -83,6 +83,16 @@ public class GestorCita extends Gestor {
         }
     }
     
+    public List<Cita> consultarCitasProfesionalPendienteEvolucion(String identificacion) throws Exception {
+        try {
+            abrirConexion();
+            CitaDAO citaDAO = new CitaDAO(conexion);
+            return citaDAO.consultarCitasProfesionalPendienteEvolucion(identificacion);
+        } finally {
+            cerrarConexion();
+        }
+    }
+    
     public List<Cita> consultarCitasPaciente(String identificacion) throws Exception {
         try {
             abrirConexion();

@@ -117,6 +117,14 @@ public class UITerapia implements Serializable {
         }
     }
 
+    public void consultarTerapiasPacienteAutorizarEvolucion() {
+        try {
+            listaTerapias = gestorTerapia.consultarTerapiasPacienteAutorizarEvolucion(paciente, activa);
+        } catch (Exception ex) {
+            Logger.getLogger(UITerapia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void listarProfesionales() {
         List<Profesional> listaProfesionales;
         try {
@@ -167,6 +175,22 @@ public class UITerapia implements Serializable {
             resultado = gestorTerapia.actualizarTerapiaInformeTerapeutico(terapiaSeleccionada);
             if (resultado > 0) {
                 util.mostrarMensaje("La terapia Nro." + terapiaSeleccionada.getCodigo() + " se guardo exitosamente.");
+            } else {
+                util.mostrarMensaje("Se presento un error al guardar.");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(UITerapia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void autorizarEvolucion() {
+        Integer resultado;
+        try {
+            //GestorTerapia gestorTerapia = new GestorTerapia();
+            resultado = gestorTerapia.autorizarEvolucion(terapiaSeleccionada);
+            if (resultado > 0) {
+                util.mostrarMensaje("La terapia " + terapiaSeleccionada.getCodigo() + " consecutivo " + terapiaSeleccionada.getDetalleTerapia().get(0).getConsecutivo() + " se autorizó exitosamente.");
+                listaTerapias = gestorTerapia.consultarTerapiasPacienteAutorizarEvolucion(paciente, activa);
             } else {
                 util.mostrarMensaje("Se presento un error al guardar.");
             }
@@ -425,7 +449,7 @@ public class UITerapia implements Serializable {
             } else {
                 for (i = 0; i < Integer.parseInt(terapia.getCantSesiones()) - detalleTerapia.size(); i++) {
                     //seteo el consecutivo como el ultimo mas uno
-                    detalleTerapia.add(new DetalleTerapia(detalleTerapia.get(detalleTerapia.size()-1).getConsecutivo()+1));                    
+                    detalleTerapia.add(new DetalleTerapia(detalleTerapia.get(detalleTerapia.size() - 1).getConsecutivo() + 1));
                 }
             }
         }
