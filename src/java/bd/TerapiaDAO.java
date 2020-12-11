@@ -240,6 +240,205 @@ group by 1
         }
     }
 
+    public List<Terapia> consultarTerapiasPacienteAutorizarEvolucion(Paciente paciente, Boolean activa) throws SQLException {
+        Terapia t;
+        List<Terapia> listaTerapias = new ArrayList<>();
+        List<DetalleTerapia> listaDetalleTerapia = new ArrayList<>();
+        DetalleTerapia detalleTerapia;
+        //List<Procedimiento> listaP;
+        Profesional prof, prof_valora;
+        Valoracion v;
+        Entidad e;
+        Paciente pac;
+        Procedimiento proc;
+        Cita c, citaValora;
+        Consulta consulta = null;
+        String sql, filtro = "";
+        ResultSet rs;
+        Boolean primero = true;
+        //SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            if (!paciente.getIdentificacion().equalsIgnoreCase("")) {
+                filtro = " t.id_paciente='" + paciente.getIdentificacion() + "' ";
+                primero = false;
+            } else if (paciente.getNombreCompleto() != null) {
+                filtro = " pa.nombre||(case when character_length(coalesce(pa.segundo_nombre,''))=0 then '' else ' '||pa.segundo_nombre end)||(case when character_length(coalesce(pa.primer_apellido,''))=0 then '' else ' '||pa.primer_apellido end)||(case when character_length(coalesce(pa.segundo_apellido,''))=0 then '' else ' '||pa.segundo_apellido end)='" + paciente.getNombreCompleto() + "' ";
+                primero = false;
+            }
+            if (activa) {
+                filtro = filtro + (!primero ? " and " : "") + " t.activa=" + activa;
+                primero = false;
+            }
+
+            /*
+            
+            if (fechaInicial != null && fechaFinal != null) {
+                filtro = filtro + (!primero ? " and " : "") + " t.fecha between '" + formatoFecha.format(fechaInicial) + "' and '" + formatoFecha.format(fechaFinal) + "' ";
+                primero = false;
+            }
+
+            if (edadInicial != null && edadFinal != null) {
+                filtro = filtro + (!primero ? " and " : "") + " (current_date-pa.fecha_nacimiento)/365 between '" + edadInicial + "' and '" + edadFinal + "' ";
+                primero = false;
+            }
+
+            if (procedimiento != null) {
+                filtro = filtro + (!primero ? " and " : "") + " t.codigo_procedimiento='" + procedimiento + "' ";
+                primero = false;
+            }
+
+            if (paciente.getEntidad().getCodigo() != null) {
+                filtro = filtro + (!primero ? " and " : "") + " pa.entidad='" + paciente.getEntidad().getCodigo() + "' ";
+            }
+
+            if (autorizadas != null) {
+                if (autorizadas) {
+                    filtro = filtro + (!primero ? " and " : "") + " t.cantidad_autorizada > 0 ";
+                }
+            }
+             */
+            if (!filtro.equalsIgnoreCase("")) {
+                filtro = " where " + filtro;
+            }
+
+            consulta = new Consulta(getConexion());
+            sql
+                    = " select "
+                    + " t.codigo codigo_terapia, c.fecha, c.hora, t.codigo_procedimiento, proc.nombre nombre_procedimiento, t.id_paciente,  "
+                    + " pa.nombre||(case when character_length(coalesce(pa.segundo_nombre,''))=0 then '' else ' '||pa.segundo_nombre end)||(case when character_length(coalesce(pa.primer_apellido,''))=0 then '' else ' '||pa.primer_apellido end)||(case when character_length(coalesce(pa.segundo_apellido,''))=0 then '' else ' '||pa.segundo_apellido end) nombre_completo, "
+                    + " dt.autorizada, dt.consecutivo "
+                    + " from "
+                    + " terapia t "
+                    + " inner join detalle_terapia dt on (t.codigo=dt.codigo_terapia) "
+                    + " inner join citas c on (dt.cod_cita=c.codigo) "
+                    + " inner join procedimientos proc on (t.codigo_procedimiento=proc.codigo) "
+                    + " inner join pacientes pa on (t.id_paciente=pa.identificacion) "
+                    + filtro
+                    + " order by t.codigo, c.fecha, c.hora ";
+            /*
+            if (sinProximaCita) {
+                sql = "select * from (" + sql + ") sc where prox_cita is null";
+            }
+             */
+ /*
+            select
+t.codigo,count(case when c.estado='5' then c.codigo else null end)
+from
+terapia t
+left join detalle_terapia dt on (t.codigo=dt.codigo_terapia)
+left join citas c on (dt.cod_cita=c.codigo)
+group by 1
+             */
+            rs = consulta.ejecutar(sql);
+            while (rs.next()) {
+                t = new Terapia();
+                /*
+                e = new Entidad(rs.getString("codigo_entidad"), rs.getString("nombre_entidad"));
+                 */
+                pac = new Paciente();
+                listaDetalleTerapia = new ArrayList<>();
+                detalleTerapia = new DetalleTerapia();
+                detalleTerapia.setConsecutivo(rs.getInt("consecutivo"));
+                detalleTerapia.setAutorizada(rs.getBoolean("autorizada"));
+                listaDetalleTerapia.add(detalleTerapia);
+                t.setDetalleTerapia(listaDetalleTerapia);
+                /*
+                prof = new Profesional();
+                //listaP = new ArrayList<>();
+                 */
+                proc = new Procedimiento(rs.getString("codigo_procedimiento"), rs.getString("nombre_procedimiento"));
+
+                c = new Cita();
+                /*
+                //listaP.add(new Procedimiento(rs.getString("codigo_procedimiento"),rs.getString("nombre_procedimiento")));
+                 */
+                pac.setIdentificacion(rs.getString("id_paciente"));
+                //pac.setNombre(rs.getString("nombre_paciente"));
+                pac.setNombreCompleto(rs.getString("nombre_completo"));
+                /*
+                pac.setEmail(rs.getString("correo_electronico"));
+                pac.setTelefono1(rs.getString("telefono1"));
+                pac.setTelefono2(rs.getString("telefono2"));
+                pac.setEntidad(e);
+
+                pac.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
+                Date fa = new Date();
+                Calendar fechaNacimiento = Calendar.getInstance();
+                Calendar fechaActual = Calendar.getInstance();
+                fechaNacimiento.setTime(pac.getFechaNacimiento());
+                fechaActual.setTime(fa);
+                Long resta = (fechaNacimiento.getTimeInMillis() < 0 ? fechaActual.getTimeInMillis() + (fechaNacimiento.getTimeInMillis() * (-1)) : fechaActual.getTimeInMillis() - fechaNacimiento.getTimeInMillis()) / 1000 / 60 / 60 / 24 / 365;
+                Integer edad = resta.intValue();
+                pac.setEdad(edad.toString());
+
+                prof.setCedula(rs.getString("id_profesional"));
+                prof.setNombre(rs.getString("nombre_profesional"));
+                 */
+                t.setCodigo(rs.getInt("codigo_terapia"));
+
+                c.setPaciente(pac);
+
+                c.setFecha(rs.getDate("fecha"));
+                c.setHora(rs.getTime("hora"));
+                /*
+                //c.setProfesional(prof);
+                //c.setListaProcedimientos(listaP);
+                t.setNroAutorizacion(rs.getString("nro_autorizacion"));
+                t.setProfesionalPrescribe(prof);
+                 */
+                t.setProcedimiento(proc);
+
+                t.setCita(c);
+                /*
+                t.setFecha(rs.getDate("fecha"));
+                t.setCantidadFormulada(rs.getInt("cantidad_formulada"));
+                t.setCantidadAutorizada(rs.getInt("cantidad_autorizada"));
+                t.setCantidadPendiente(rs.getInt("cantidad_pendiente"));
+                t.setCantidadAtendida(rs.getInt("cantidad_atendida"));
+                t.setCantidadInasistidas(rs.getInt("cantidad_inasistidas"));
+                t.setActiva(rs.getBoolean("activa"));
+                t.setCodigoValoracion(rs.getInt("codigo_valoracion"));
+                t.setNombreAcompanante(rs.getString("nombre_acompanante"));
+                t.setParentescoAcompanante(rs.getString("parentesco_acompanante"));
+                t.setCodigoRIPS(rs.getString("codigo_rips"));
+                t.setCodigoDiagnostico(rs.getString("codigo_diagnostico"));
+                t.setPrimeraVez(rs.getBoolean("primera_vez"));
+                t.setControl(rs.getBoolean("control"));
+                t.setDiagnostico(rs.getString("diagnostico"));
+                t.setPlanTratamiento(rs.getString("plan_tratamiento"));
+                t.setEvolucion(rs.getString("evolucion"));
+
+                t.setFechaSolicitud(rs.getDate("fecha_solicitud"));
+                t.setHorarioPreferencial(rs.getString("horario_preferencial"));
+                t.setObservaciones(rs.getString("observaciones_terapia"));
+                t.setSeguimiento1(rs.getString("seguimiento_1"));
+                t.setSeguimiento2(rs.getString("seguimiento_2"));
+                t.setSeguimiento3(rs.getString("seguimiento_3"));
+                t.setInformeTerapeutico(rs.getString("informe_terapeutico"));
+
+                //seteo del profesional que valora-> terapia.valoracion.cita.profesional.nombre
+                prof_valora = new Profesional();
+                prof_valora.setNombre(rs.getString("nombre_prof_valora"));
+                v = new Valoracion();
+                citaValora = new Cita();
+                citaValora.setProfesional(prof_valora);
+                v.setCita(citaValora);
+                v.setCodigoDiagnostico(rs.getString("dx_valora"));
+                t.setValoracion(v);
+                 */
+
+                listaTerapias.add(t);
+            }
+
+            return listaTerapias;
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            consulta.desconectar();
+        }
+    }
+
     public Integer actualizarTerapia(Terapia terapia) {
         Consulta consulta = null;
         String sql, fechaSolicitud = "";
@@ -286,6 +485,28 @@ group by 1
                     + " activa = false, "
                     + " fecha_informe_terapeutico = current_date "
                     + " where codigo=" + terapia.getCodigo();
+            resultado = consulta.actualizar(sql);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TerapiaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            consulta.desconectar();
+        }
+        return resultado;
+    }
+
+    public Integer autorizarEvolucion(Terapia terapia) {
+        Consulta consulta = null;
+        String sql;
+        //ResultSet rs;
+        Integer resultado = 0;
+        //SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            consulta = new Consulta(getConexion());
+
+            sql = " update detalle_terapia set autorizada = true "
+                    + " where "
+                    + " consecutivo=" + terapia.getDetalleTerapia().get(0).getConsecutivo() + " and codigo_terapia=" + terapia.getCodigo();
             resultado = consulta.actualizar(sql);
 
         } catch (SQLException ex) {
@@ -436,6 +657,7 @@ group by 1
                 sql = " UPDATE detalle_terapia SET "
                         + " actividad = '" + detalleTerapia.get(0).getActividad() + "', "
                         + " fecha = current_date, "
+                        + " autorizada = false, "
                         + " hora = current_time, "
                         + " estado='E' "
                         + " where "
@@ -451,6 +673,7 @@ group by 1
                     sql = " UPDATE detalle_terapia SET "
                             + " actividad = '" + detalleTerapia.get(0).getActividad() + "', "
                             + " fecha = current_date, "
+                            + " autorizada = false, "
                             + " hora = current_time, "
                             + " estado='E' "
                             + " where "
@@ -526,6 +749,7 @@ group by 1
                         sql = " UPDATE detalle_terapia SET "
                                 + " actividad = '" + detalleTerapia.get(i).getActividad() + "', "
                                 + " fecha = current_date, "
+                                + " autorizada = false, "
                                 //no actualizar la hora al momento de las evoluciones
                                 //+ " hora = current_time, "
                                 + " estado='E' "

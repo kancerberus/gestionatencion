@@ -32,6 +32,7 @@ public class UIProfesional implements Serializable {
     private Profesional profesional;
     private Boolean existe;
     private List<Cita> listaCitasProfesionalDia;
+    private List<Cita> listaCitasProfesionalPendienteEvolucion;
     private List<Cita> listaCitasPaciente;
     private Cita citaSeleccionada;
     private GestorProfesional gestorProfesional;
@@ -55,6 +56,7 @@ public class UIProfesional implements Serializable {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             UILogin uilogin = (UILogin) facesContext.getExternalContext().getSessionMap().get("loginBean");
             listaCitasProfesionalDia = gestorCita.consultarCitasProfesionalDia(uilogin.getSesion().getUsuario().getId());
+            listaCitasProfesionalPendienteEvolucion = gestorCita.consultarCitasProfesionalPendienteEvolucion(uilogin.getSesion().getUsuario().getId());
         } catch (Exception ex) {
             Logger.getLogger(UIProfesional.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -314,6 +316,20 @@ public class UIProfesional implements Serializable {
      */
     public void setRutaRecetario(String rutaRecetario) {
         this.rutaRecetario = rutaRecetario;
+    }
+
+    /**
+     * @return the listaCitasProfesionalPendienteEvolucion
+     */
+    public List<Cita> getListaCitasProfesionalPendienteEvolucion() {
+        return listaCitasProfesionalPendienteEvolucion;
+    }
+
+    /**
+     * @param listaCitasProfesionalPendienteEvolucion the listaCitasProfesionalPendienteEvolucion to set
+     */
+    public void setListaCitasProfesionalPendienteEvolucion(List<Cita> listaCitasProfesionalPendienteEvolucion) {
+        this.listaCitasProfesionalPendienteEvolucion = listaCitasProfesionalPendienteEvolucion;
     }
 
 }

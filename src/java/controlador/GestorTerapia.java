@@ -33,6 +33,16 @@ public class GestorTerapia extends Gestor {
             cerrarConexion();
         }
     }
+    
+    public List<Terapia> consultarTerapiasPacienteAutorizarEvolucion(Paciente paciente, Boolean activa) throws Exception {
+        try {
+            abrirConexion();
+            TerapiaDAO terapiaDAO = new TerapiaDAO(conexion);
+            return terapiaDAO.consultarTerapiasPacienteAutorizarEvolucion(paciente, activa);
+        } finally {
+            cerrarConexion();
+        }
+    }
 
     public Integer actualizarTerapia(Terapia terapia) throws Exception {
         try {
@@ -49,6 +59,16 @@ public class GestorTerapia extends Gestor {
             abrirConexion();
             TerapiaDAO terapiaDAO = new TerapiaDAO(conexion);
             return terapiaDAO.actualizarTerapiaInformeTerapeutico(terapia);
+        } finally {
+            cerrarConexion();
+        }
+    }
+    
+    public Integer autorizarEvolucion(Terapia terapia) throws Exception {
+        try {
+            abrirConexion();
+            TerapiaDAO terapiaDAO = new TerapiaDAO(conexion);
+            return terapiaDAO.autorizarEvolucion(terapia);
         } finally {
             cerrarConexion();
         }

@@ -911,6 +911,8 @@ public class UICita implements Serializable {
                     limpiarCita();
                 } else if (resultado == -4) {
                     util.mostrarMensaje("Marcó extender franja pero no se ha escogido una cita extendida.");
+                } else if (resultado == -5) {
+                    util.mostrarMensaje("Uno o mas pacientes seleccionados tienen citas de terapia pendientes por evolucionar.");
                 } else {
                     util.mostrarMensaje("Se presento un error al guardar.");
                 }
