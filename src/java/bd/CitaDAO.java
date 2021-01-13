@@ -705,9 +705,9 @@ public class CitaDAO {
                                     + " VALUES "
                                     + " ( '" + c.getPaciente().getIdentificacion() + "', '" + formatoFecha.format(dia.getStartDate()) + "',"
                                     + " '" + formatoHora.format(c.getListaProcedimientos().get(0).getHora()) + "', '" + c.getEspecialidad().getCodigo() + "', "
-                                    + " '" + c.getProfesional().getCedula() + "', '" + c.getPaciente().getEntidad().getCodigo() + "', "
-                                    + " '', '" + c.getObservaciones() + "','" + c.getOportunidadDeseada() + "','" + c.getObservaciones() + "', "
-                                    + " 'REPLICA','1','') returning codigo;";
+                                    + " '" + c.getProfesional().getCedula() + "','" + c.getPaciente().getEntidad().getCodigo() + "', "
+                                    + " '', '" + c.getObservaciones() + "','admin','2', "
+                                    + " '','" + formatoFecha.format(dia.getStartDate()) + "','REPLICA') returning codigo;";
                             rs = consulta.ejecutar(sql);
                             if (rs.next()) {
                                 resultado = rs.getInt("codigo");

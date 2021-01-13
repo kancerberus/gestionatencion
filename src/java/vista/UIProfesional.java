@@ -110,7 +110,7 @@ public class UIProfesional implements Serializable {
                 uiterapia.setTerapia(gestorTerapia.consultarTerapiaPorCita(cita));
                 dt = gestorTerapia.consultarDetalleTerapiaPorCita(uiterapia.getTerapia());
                 uiterapia.setDetalleTerapia(dt);
-                uiterapia.setPermiteDividir(dt.size() == 1 && dt.get(0).getEstado().equalsIgnoreCase("i"));
+                uiterapia.setPermiteDividir(dt.size() == 1 && dt.get(0).getEstado().equalsIgnoreCase("I"));
                 uiterapia.setGuardado(Boolean.FALSE);                
                 //
                 contextoJSF.getExternalContext().getRequestMap().put("uiterapia", UITerapia.class);
