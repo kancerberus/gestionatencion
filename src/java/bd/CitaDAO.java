@@ -100,9 +100,10 @@ public class CitaDAO {
                                     + " from "
                                     + " terapia t "
                                     + " inner join detalle_terapia dt on (t.codigo=dt.codigo_terapia) "
+                                    + " inner join citas c on (dt.cod_cita=c.codigo) "
                                     + " where "
                                     + " t.id_paciente='" + c.getPaciente().getIdentificacion() + "' and t.codigo_procedimiento='" + c.getListaProcedimientos().get(0).getCodigo() + "' "
-                                    + " and dt.estado='I' and t.activa and cantidad_pendiente>=0 ";
+                                    + " and dt.estado='I' and t.activa and cantidad_pendiente>=0 and c.fecha <= current_date ";
                             rs = consulta.ejecutar(sql);
                             if (rs.next()) {
                                 cantidad_no_evolucion = rs.getInt("cantidad");
@@ -228,9 +229,10 @@ public class CitaDAO {
                                 + " from "
                                 + " terapia t "
                                 + " inner join detalle_terapia dt on (t.codigo=dt.codigo_terapia) "
+                                + " inner join citas c on (dt.cod_cita=c.codigo) "
                                 + " where "
                                 + " t.id_paciente='" + cita.getPaciente().getIdentificacion() + "' and t.codigo_procedimiento='" + cita.getListaProcedimientos().get(0).getCodigo() + "' "
-                                + " and dt.estado='I' and t.activa and cantidad_pendiente>=0 ";
+                                + " and dt.estado='I' and t.activa and cantidad_pendiente>=0 and c.fecha <= current_date ";
                         rs = consulta.ejecutar(sql);
                         if (rs.next()) {
                             cantidad_no_evolucion = rs.getInt("cantidad");
@@ -330,9 +332,10 @@ public class CitaDAO {
                                     + " from "
                                     + " terapia t "
                                     + " inner join detalle_terapia dt on (t.codigo=dt.codigo_terapia) "
+                                    + " inner join citas c on (dt.cod_cita=c.codigo) "
                                     + " where "
                                     + " t.id_paciente='" + c.getPaciente().getIdentificacion() + "' and t.codigo_procedimiento='" + c.getListaProcedimientos().get(0).getCodigo() + "' "
-                                    + " and dt.estado='I' and t.activa and cantidad_pendiente>=0 ";
+                                    + " and dt.estado='I' and t.activa and cantidad_pendiente>=0 and c.fecha <= current_date ";
                             rs = consulta.ejecutar(sql);
                             if (rs.next()) {
                                 cantidad_no_evolucion = rs.getInt("cantidad");

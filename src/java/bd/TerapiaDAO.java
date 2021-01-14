@@ -959,10 +959,14 @@ group by 1
         try {
 
             consulta = new Consulta(getConexion());
-            sql = " select dt.*,a.duracion from "
+            sql = " select dt.*,a.duracion "
+                    + " from "
                     + " detalle_terapia dt "
                     + " inner join agenda a on (dt.cod_cita=a.codigo_cita) "
-                    + " where dt.codigo_terapia = " + terapia.getCodigo() + " and estado in ('I','E') order by consecutivo asc";
+                    + " inner join citas c on (dt.cod_cita=c.codigo) "
+                    + " where "
+                    + " dt.codigo_terapia = " + terapia.getCodigo() + " and dt.estado in ('I','E') and c.fecha < current_date "
+                    + " order by consecutivo asc ";
             rs = consulta.ejecutar(sql);
             while (rs.next()) {
                 dt = new DetalleTerapia();
