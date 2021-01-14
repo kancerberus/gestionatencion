@@ -965,7 +965,7 @@ group by 1
                     + " inner join agenda a on (dt.cod_cita=a.codigo_cita) "
                     + " inner join citas c on (dt.cod_cita=c.codigo) "
                     + " where "
-                    + " dt.codigo_terapia = " + terapia.getCodigo() + " and dt.estado in ('I','E') and c.fecha < current_date "
+                    + " dt.codigo_terapia = " + terapia.getCodigo() + " and dt.estado in ('I','E') and c.fecha <= current_date "
                     + " order by consecutivo asc ";
             rs = consulta.ejecutar(sql);
             while (rs.next()) {
