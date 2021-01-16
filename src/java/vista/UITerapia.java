@@ -83,6 +83,9 @@ public class UITerapia implements Serializable {
 
     private List<Cita> listaCitasReplicar;
     private ScheduleModel eventModelReplicar;
+    
+    private String manejoVentana;
+
 
     public UITerapia() throws Exception {
         activa = Boolean.TRUE;
@@ -277,21 +280,71 @@ public class UITerapia implements Serializable {
     }
 
     public void actualizarTerapiaCita() {
+        manejoVentana = "";
         Integer resultado;
         Integer codigoTerapia;
-        try {
-            resultado = gestorTerapia.actualizarTerapiaCita(terapia, getDetalleTerapia(), permiteDividir);
-            if (resultado != null) {
-                guardado = Boolean.TRUE;
-                util.mostrarMensaje("La terapia Nro." + terapia.getCodigo() + " se guardo exitosamente.");
-                codigoTerapia = terapia.getCodigo();
-                terapia = new Terapia();
-                terapia.setCodigo(codigoTerapia);
-            } else {
-                guardado = Boolean.FALSE;
-                util.mostrarMensaje("Se presento un error al guardar.");
+        Boolean valido = Boolean.TRUE;
+        
+        try {         
+            
+            if (terapia.getControl().equals(false) && terapia.getPrimeraVez().equals(false)) {
+                util.mostrarMensaje("Debe marcar si es PRIMERA VEZ o CONTROL");
+                valido = Boolean.FALSE;
+            }            
+            
+            if (terapia.getCodigoRIPS().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe ingresar un RIPS.");
+                valido = Boolean.FALSE;
             }
+            
+            if (terapia.getNombreAcompanante().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe ingresar un acudiente.");
+                valido = Boolean.FALSE;
+            }
+            
+            if (terapia.getDiagnostico().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe ingresar un diagnóstico.");
+                valido = Boolean.FALSE;
+            }
+            
+            if (terapia.getParentescoAcompanante().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe ingresar un parentesco.");
+                valido = Boolean.FALSE;
+            }
+            
+            if (terapia.getPlanTratamiento().equalsIgnoreCase("")) {
+                util.mostrarMensaje("Debe ingresar un plan de tratamiento.");
+                valido = Boolean.FALSE;
+            }
+            
+            //Verifica que esten llenas cada una de las actividades
+                 for(int i = 0; i<detalleTerapia.size() ; i++){
+                       String campodetalle = detalleTerapia.get(i).getActividad();
+                        if (campodetalle == null || campodetalle.equalsIgnoreCase(""))  {
+                                i++;
+                                util.mostrarMensaje("Debe ingresar la actividad # "+ i );
+                                 valido = Boolean.FALSE;
+                    }            
+             }
+             
+
+            if (valido){
+                            resultado = gestorTerapia.actualizarTerapiaCita(terapia, getDetalleTerapia(), permiteDividir);
+                            if (resultado != null) {
+                                guardado = Boolean.TRUE;
+                                util.mostrarMensaje("La terapia Nro." + terapia.getCodigo() + " se guardo exitosamente.");
+                                codigoTerapia = terapia.getCodigo();
+                                terapia = new Terapia();
+                                terapia.setCodigo(codigoTerapia);
+                                manejoVentana = "window.close();";
+                            } else {
+                                guardado = Boolean.FALSE;
+                                util.mostrarMensaje("Se presento un error al guardar.");
+                            }
+            }
+
         } catch (Exception ex) {
+            util.mostrarMensaje(ex.getMessage());
             Logger.getLogger(UITerapia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -854,5 +907,13 @@ public class UITerapia implements Serializable {
     public void setPermiteDividir(Boolean permiteDividir) {
         this.permiteDividir = permiteDividir;
     }
+
+    public String getManejoVentana() {
+        return manejoVentana;
+    }
+
+    public void setManejoVentana(String manejoVentana) {
+        this.manejoVentana = manejoVentana;
+    }        
 
 }

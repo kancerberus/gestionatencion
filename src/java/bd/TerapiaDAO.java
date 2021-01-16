@@ -5,7 +5,6 @@
  */
 package bd;
 
-import static com.sun.faces.facelets.tag.jstl.fn.JstlFunction.trim;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -539,16 +538,7 @@ group by 1
             if (rs.next()) {
                 terapia.getDiagnostico2().setCodigo_diagnostico(rs.getString("cod_diagnostico"));
             }
-//            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
-//            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
-//            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
-//            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
 
-            // En este momento tenemos un array en el que cada elemento es un color.
-//            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
-//            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
-//            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
-//            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
             sql = "select count(*) cantidad from terapia where id_paciente='" + terapia.getCita().getPaciente().getIdentificacion() + "' "
                     + " and codigo_procedimiento='" + terapia.getProcedimiento().getCodigo() + "' and activa";
             rs = consulta.ejecutar(sql);
@@ -610,49 +600,28 @@ group by 1
             if (rs.next()) {
                 terapia.getDiagnostico2().setCodigo_diagnostico(rs.getString("cod_diagnostico"));
             }
-//            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
-//            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
-//            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
-//            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
 
-            // En este momento tenemos un array en el que cada elemento es un color.
-//            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
-//            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
-//            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
-//            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
             sql = "begin";
-            consulta.actualizar(sql);
+            consulta.actualizar(sql);                        
 
             sql = " UPDATE terapia "
-                    + " SET nombre_acompanante='" + terapia.getNombreAcompanante() + "', "
-                    + " parentesco_acompanante='" + terapia.getParentescoAcompanante() + "', codigo_rips='" + terapia.getCodigoRIPS() + "', "
-                    + " codigo_diagnostico='" + terapia.getDiagnostico1().getCodigo_diagnostico() + "', "
-                    + " codigo_diagnostico2='" + terapia.getDiagnostico2().getCodigo_diagnostico() + "', "
-                    + " primera_vez=" + terapia.getPrimeraVez() + ", "
-                    + " control=" + terapia.getControl() + ", diagnostico='" + terapia.getDiagnostico() + "', "
-                    + " plan_tratamiento='" + terapia.getPlanTratamiento() + "', evolucion='" + terapia.getEvolucion() + "', "
-                    + " cantidad_atendida=cantidad_atendida+" + detalleTerapia.size() + ","
-                    + " cantidad_pendiente=cantidad_pendiente-" + detalleTerapia.size() + ","
-                    //+ " cantidad_pendiente=" + terapia.getCantSesiones() + "-cantidad_pendiente, "
-                    + " recomendacion = '" + terapia.getRecomendacion() + "' "
-                    + " WHERE codigo=" + terapia.getCodigo();
+                + " SET nombre_acompanante='" + terapia.getNombreAcompanante() + "', "
+                + " parentesco_acompanante='" + terapia.getParentescoAcompanante() + "', codigo_rips='" + terapia.getCodigoRIPS() + "', "
+                + " codigo_diagnostico='" + terapia.getDiagnostico1().getCodigo_diagnostico() + "', "
+                + " codigo_diagnostico2='" + terapia.getDiagnostico2().getCodigo_diagnostico() + "', "
+                + " primera_vez=" + terapia.getPrimeraVez() + ", "
+                + " control=" + terapia.getControl() + ", diagnostico='" + terapia.getDiagnostico() + "', "
+                + " plan_tratamiento='" + terapia.getPlanTratamiento() + "', evolucion='" + terapia.getEvolucion() + "', "
+                + " cantidad_atendida=cantidad_atendida+" + detalleTerapia.size() + ","
+                + " cantidad_pendiente=cantidad_pendiente-" + detalleTerapia.size() + ","
+                + " recomendacion = '" + terapia.getRecomendacion() + "' "
+                + " WHERE codigo=" + terapia.getCodigo();
             consulta.actualizar(sql);
 
             sql = "update pacientes set condicion='" + (terapia.getCita().getPaciente().getCondicion() == null ? "" : terapia.getCita().getPaciente().getCondicion()) + "' where identificacion='" + terapia.getCita().getPaciente().getIdentificacion() + "'";
             consulta.actualizar(sql);
 
-            /*
-            EL DETALLE SE INSERTA A LA HORA DE AGENDAR LA CITA
-            sql = "select coalesce(max(consecutivo)+1,1) resultado from detalle_terapia where codigo_terapia=" + terapia.getCodigo();
-            rs = consulta.ejecutar(sql);
-            if (rs.next()) {
-                consecutivo = rs.getString("resultado");
-            }
-             */
- /*
-            Si no hay division de franja no importa si es guardar o evolucionar
-            Si hay division de franja, se evalua si es guardar o evolucionar, bandera permite dividir
-             */
+
             if (detalleTerapia.size() == 1) {
                 sql = " UPDATE detalle_terapia SET "
                         + " actividad = '" + detalleTerapia.get(0).getActividad() + "', "
@@ -708,7 +677,7 @@ group by 1
                                 + " select  "
                                 + " id_paciente, fecha, '" + formatoHora.format(horaDuracion.getTime()) + "', codigo_especialidad,  "
                                 + " id_profesional, codigo_entidad, numero_autorizacion, observaciones,  "
-                                + " usuario, '0', motivo, fecha_registro_estado, responsable,  "
+                                + " usuario, '2', motivo, fecha_registro_estado, responsable,  "
                                 + " medio, codigo_observacion, observaciones2, fecha_deseada "
                                 + " from citas "
                                 + " where codigo=" + terapia.getCita().getCodigo() + " returning codigo";
@@ -716,11 +685,19 @@ group by 1
                         if (rs.next()) {
                             codigoCita = rs.getInt("codigo");
                         }
-                        //DETALLE_TERAPIA
+                        
+                        //Verifica el consecutivo del detalle terapia, para insertarlo en el mayor
+                        sql = "select max(consecutivo) from detalle_terapia where codigo_terapia ='" + terapia.getCodigo() + "' ";                                
+                        rs = consulta.ejecutar(sql);
+                        if (rs.next()) {
+                            resultado = rs.getInt("max") + 1;
+                        }                                   
+                        
+                        //DETALLE_TERAPIA                        
                         sql = " INSERT INTO detalle_terapia( "
                                 + " consecutivo, codigo_terapia, actividad, fecha, hora, estado,  "
                                 + " cod_cita) "
-                                + " VALUES (" + detalleTerapia.get(i).getConsecutivo() + ", " + terapia.getCodigo() + ", '" + detalleTerapia.get(i).getActividad() + "', current_date, current_time, 'E',  "
+                                + " VALUES (" + resultado  + ", " + terapia.getCodigo() + ", '" + detalleTerapia.get(i).getActividad() + "', current_date, current_time, 'E',  "
                                 + " " + codigoCita + ") ";
                         resultado = consulta.actualizar(sql);
 
@@ -764,6 +741,24 @@ group by 1
 
             sql = "commit";
             consulta.actualizar(sql);
+            
+            //Revisar el conteo de terapias atendidas y faltantes este ok
+            sql = "select count(*), t.cantidad_formulada from detalle_terapia dt "
+                    + " inner join terapia t on (t.codigo=dt.codigo_terapia) "
+                    + " where dt.codigo_terapia =" + terapia.getCodigo() + " and dt.estado <> 'I' "
+                    + " group by t.cantidad_formulada";            
+            rs = consulta.ejecutar(sql);                        
+            
+            if (rs.next()) {
+                    int cant_atendidas = rs.getInt("count"); 
+                    int cant_formuladas = rs.getInt("cantidad_formulada");
+                    int cant_pendiente = cant_formuladas - cant_atendidas;
+                     
+                    sql = " UPDATE terapia "
+                        + " set cantidad_atendida = " + cant_atendidas +", cantidad_pendiente = " + cant_pendiente + ""
+                        + " WHERE codigo=" + terapia.getCodigo();
+                    consulta.actualizar(sql);                                    
+             }
 
         } catch (SQLException ex) {
             Logger.getLogger(TerapiaDAO.class.getName()).log(Level.SEVERE, null, ex);

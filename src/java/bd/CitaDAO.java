@@ -709,7 +709,7 @@ public class CitaDAO {
                                     + " ( '" + c.getPaciente().getIdentificacion() + "', '" + formatoFecha.format(dia.getStartDate()) + "',"
                                     + " '" + formatoHora.format(c.getListaProcedimientos().get(0).getHora()) + "', '" + c.getEspecialidad().getCodigo() + "', "
                                     + " '" + c.getProfesional().getCedula() + "','" + c.getPaciente().getEntidad().getCodigo() + "', "
-                                    + " '', '" + c.getObservaciones() + "','admin','2', "
+                                    + " '', '" + c.getObservaciones() + "','admin','1', "
                                     + " '','" + formatoFecha.format(dia.getStartDate()) + "','REPLICA') returning codigo;";
                             rs = consulta.ejecutar(sql);
                             if (rs.next()) {
@@ -733,25 +733,7 @@ public class CitaDAO {
                                     consulta.actualizar(sql);
                                     return -2;
                                 }
-                                //}
 
-                                //PENDIENTE validar duplicidad (fecha, hora, profesional, estado)
-//                            sql = " select count(*) cantidad from citas c "
-//                                    + " inner join (lista l inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='ESTADOS_CITA')) ec on (c.estado=ec.value) "
-//                                    + " where "
-//                                    + " fecha='" + formatoFecha.format(c.getFecha()) + "' "
-//                                    + " and hora='" + formatoHora.format(c.getHora()) + "' "
-//                                    + " and id_profesional='" + cita.getProfesional().getCedula() + "' and ec.label='Programada' ";
-//                            rs = consulta.ejecutar(sql);
-//                            if (rs.next()) {
-//                                cantidad = rs.getInt("cantidad");
-//                            }
-//                            if (cantidad > 0) {//ya existe una cita
-//                                sql = " rollback;";
-//                                consulta.actualizar(sql);
-//                                return -2;
-//                            }
-                                // =0 viene sin modificar o reseteado del ultimo ciclo, supone que no es procedimiento tipo 1  >0 procedimiento tipo 1 <0 deberia haber retornado -1
                                 sql = " insert into detalle_terapia(consecutivo, codigo_terapia, cod_cita) "
                                         + " select coalesce(max(consecutivo),0)+1," + codigoTerapia + "," + resultado + " consecutivo "
                                         + " from detalle_terapia where codigo_terapia=" + codigoTerapia;

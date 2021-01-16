@@ -25,18 +25,18 @@ and open the template in the editor.
                         <td colspan="5" align="left"><h:outputText value="#{uiterapia.terapia.nroAutorizacion}" /></td>
                     </tr>
                     <tr>
-                        <td>Fecha/Hora</td><td><p:calendar id="fecha" value="#{uiterapia.terapia.fecha}" locale="es" /></td>
+                        <td>Fecha Creación Ciclo</td><td><p:calendar disabled="true" id="fecha" value="#{uiterapia.terapia.fecha}" locale="es" /></td>                        
                         <td>Primera vez</td><td><p:selectBooleanCheckbox value="#{uiterapia.terapia.primeraVez}" /></td>
                         <td>Control</td><td align="left"><p:selectBooleanCheckbox value="#{uiterapia.terapia.control}" /></td>
-                    </tr>
-
+                    </tr>  
                     <tr>
+                        <td>Código Ciclo</td><td><h:outputText value="#{uiterapia.terapia.codigo}" /></td>
                         <td>Condicion</td>
                         <td><p:selectOneMenu value="#{uiterapia.terapia.cita.paciente.condicion}" id="condicion">
                                 <f:selectItem itemLabel="" itemValue="" />
                                 <f:selectItems value="#{uipaciente.listaCondicion}"  />
-                            </p:selectOneMenu></td><td>Codigo RIPS</td>
-                        <td colspan="3"><p:inputText id="codigoRIPS" value="#{uiterapia.terapia.codigoRIPS}" /></td>
+                            </p:selectOneMenu></td><td>Codigo RIPS</td>                            
+                        <td colspan="1"><p:inputText id="codigoRIPS" value="#{uiterapia.terapia.codigoRIPS}" /></td>                            
                     </tr>
 
                     <tr>
@@ -88,7 +88,7 @@ and open the template in the editor.
                                     <tr valign="center">
                                         <td>
                                             <p:dataTable var="itemDetalleTerapiaEvolucion" value="#{uiterapia.detalleTerapia}" id="dtListaActividadesEvolucion"
-                                                         style="font-size: 90%; width: 700px;" paginator="false" editable="true" editMode="cell">
+                                                                                                                 style="font-size: 90%; width: 700px;" paginator="false" editable="true" editMode="cell">
                                                 <p:column headerText="Actividad" style="height: 15px;">
                                                     <p:cellEditor>
                                                         <f:facet name="output"><h:outputText value="#{itemDetalleTerapiaEvolucion.actividad}" /></f:facet>
@@ -123,27 +123,34 @@ and open the template in the editor.
                                     </p:column>
                                 </p:dataTable>
                             </p:fieldset></td></tr>
-                    <tr><td colspan="6"><p:fieldset legend="OBSERVACIONES" style="width: 98%">
+                    
+                            <tr><td colspan="6">
+                            <p:fieldset legend="OBSERVACIONES" style="width: 98%">
                                 <p:inputTextarea rows="3" cols="145" value="#{uiterapia.terapia.evolucion}"
-                                                 style="width: 98%" maxlength="300" autoResize="false" />
-                            </p:fieldset></td></tr>
-                    <tr><td colspan="6"><p:fieldset legend="RECOMENDACION" style="width: 98%">
+                                                                                                style="width: 98%" maxlength="300" autoResize="false" />
+                            </p:fieldset>
+                            
+                            </td></tr>
+                            <tr><td colspan="6">
+                            
+                            <p:fieldset legend="RECOMENDACION" style="width: 98%">
                                 <p:inputTextarea rows="3" cols="145" value="#{uiterapia.terapia.recomendacion}"
-                                                 style="width: 98%" maxlength="300" autoResize="false" />
+                                                                                                 style="width: 98%" maxlength="300" autoResize="false" />
                             </p:fieldset></td></tr>
 
-                    <tr>
+                        <tr>
                         <td></td>
                         <td></td>
-                        <td colspan="4" align="center"><p:commandButton value="Guardar" id="btnGuardar" update="mensajesTerapia,btnGuardar"
+                        <td colspan="4" align="center"><p:commandButton value="Guardar" id="btnGuardar" 
+                                                                        update="mensajesTerapia,btnGuardar,:frmFormularioTerapia:dialogoCerrar"
                                                                         disabled="#{uiterapia.guardado}"
                                                                         actionListener="#{uiterapia.actualizarTerapiaCita()}"
-                                                                        oncomplete="window.close()" /></td>
-                    </tr>
-
-
+                                                                        oncomplete="PF('dialogoCerrarW').show()"/></td>
+                        </tr>                                        
                 </table>
             </p:panel>
+                <p:dialog  id="dialogoCerrar" header="Cerrando..." widgetVar="dialogoCerrarW" onShow="#{uiterapia.manejoVentana} PF('dialogoCerrarW').hide();" >
+                </p:dialog>
         </h:form>
     </h:body>
 </html>

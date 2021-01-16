@@ -53,15 +53,6 @@ public class ValoracionDAO {
                 valoracion.getDiagnostico2().setCodigo_diagnostico(rs.getString("cod_diagnostico"));
             }
 
-//            String nom_diagnostico1 = diagnostico1.getNombre_diagostico();
-//            String nom_diagnostico2 = diagnostico2.getNombre_diagostico();
-//            String[] arrayDiagnostico1 = nom_diagnostico1.split("-");
-//            String[] arrayDiagnostico2 = nom_diagnostico2.split("-");
-            // En este momento tenemos un array en el que cada elemento es un color.
-//            diagnostico1.setCodigo_diagnostico(trim(arrayDiagnostico1[0]));
-//            diagnostico1.setNombre_diagostico(trim(arrayDiagnostico1[1]));
-//            diagnostico2.setCodigo_diagnostico(trim(arrayDiagnostico2[0]));
-//            diagnostico2.setNombre_diagostico(trim(arrayDiagnostico2[1]));
             sql = "begin";
             consulta.actualizar(sql);
             //actualizo paciente
