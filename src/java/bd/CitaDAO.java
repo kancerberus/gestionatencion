@@ -73,6 +73,7 @@ public class CitaDAO {
 
         try {
             consulta = new Consulta(getConexion());
+            
             if (cita.getCodigo() == null) {
                 if (usarFranjaExtendida) {
                     sql = " begin;";
@@ -95,7 +96,7 @@ public class CitaDAO {
                                 return -1;
                             }
 
-                            //validar que el paciente no tenga citas de terapia pendientes por evolucionar                             
+                            //validar que el paciente no tenga citas de terapia pendientes por evolucionar1                             
                             sql = " select count(*) cantidad "
                                     + " from "
                                     + " terapia t "
@@ -113,9 +114,25 @@ public class CitaDAO {
                                 consulta.actualizar(sql);
                                 return -5;
                             }
+                            
+                            //Validar que el paciente no este al límite de las terapias1                        
+                            int cantidadFormulada = 0;
+                            int cantidadAtendida = 0;
+                            sql = " select * from terapia where codigo ='" + codigoTerapia + "'";
+                            rs = consulta.ejecutar(sql);
+                            if (rs.next()) {
+                                cantidadFormulada = rs.getInt("cantidad_formulada");
+                                cantidadAtendida = rs.getInt("cantidad_atendida");
+                            }
+                            if (cantidadAtendida >= cantidadFormulada) {
+                                sql = " rollback;";
+                                consulta.actualizar(sql);
+                                return -6;
+                            }
+                            
                         }
 
-                        //validar duplicidad (fecha, hora, profesional, estado)
+                        //validar duplicidad (fecha, hora, profesional, estado)1
                         sql = " select count(*) cantidad from citas c "
                                 + " inner join (lista l inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='ESTADOS_CITA')) ec on (c.estado=ec.value) "
                                 + " where "
@@ -131,6 +148,7 @@ public class CitaDAO {
                             consulta.actualizar(sql);
                             return -2;
                         }
+                        
 
                         sql = " INSERT INTO citas("
                                 + " id_paciente, fecha, hora,  codigo_especialidad, "
@@ -224,7 +242,7 @@ public class CitaDAO {
                             return -1;
                         }
 
-                        //validar que el paciente no tenga citas de terapia pendientes por evolucionar                             
+                        //validar que el paciente no tenga citas de terapia pendientes por evolucionar2                             
                         sql = " select count(*) cantidad "
                                 + " from "
                                 + " terapia t "
@@ -243,9 +261,24 @@ public class CitaDAO {
                             //consulta.actualizar(sql);
                             return -5;
                         }
+                        
+                        //Validar que el paciente no este al límite de las terapias2                        
+                        int cantidadFormulada = 0;
+                        int cantidadAtendida = 0;
+                        sql = " select * from terapia where codigo ='" + codigoTerapia + "'";
+                        rs = consulta.ejecutar(sql);
+                        if (rs.next()) {
+                            cantidadFormulada = rs.getInt("cantidad_formulada");
+                            cantidadAtendida = rs.getInt("cantidad_atendida");
+                        }
+                        if (cantidadAtendida >= cantidadFormulada) {
+                            sql = " rollback;";
+                            consulta.actualizar(sql);
+                            return -6;
+                        }
                     }
 
-                    //validar duplicidad (fecha, hora, profesional, estado)
+                    //validar duplicidad (fecha, hora, profesional, estado)2
                     sql = " select count(*) cantidad from citas c "
                             + " inner join (lista l inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='ESTADOS_CITA')) ec on (c.estado=ec.value) "
                             + " where "
@@ -258,7 +291,7 @@ public class CitaDAO {
                     }
                     if (cantidad > 0) {//ya existe una cita
                         return -2;
-                    }
+                    }                    
 
                     sql = " begin;";
                     consulta.actualizar(sql);
@@ -311,7 +344,7 @@ public class CitaDAO {
                     consulta.actualizar(sql);
                     for (Cita c : listaCitaMultiple) {
 
-                        //if (cita.getProcedimiento().getTipo() == 1) {
+                        //Este if controla que las condiciones sean revisadas si son terapia
                         if (c.getListaProcedimientos().get(0).getTipo() == 1) {
                             //aqui tiene sentido analizar solo un procedimiento para terapia
                             sql = "select coalesce(codigo,-1) codigo from ( "
@@ -327,7 +360,7 @@ public class CitaDAO {
                                 return -1;
                             }
 
-                            //validar que el paciente no tenga citas de terapia pendientes por evolucionar                             
+                            //validar que el paciente no tenga citas de terapia pendientes por evolucionar3                             
                             sql = " select count(*) cantidad "
                                     + " from "
                                     + " terapia t "
@@ -345,9 +378,25 @@ public class CitaDAO {
                                 consulta.actualizar(sql);
                                 return -5;
                             }
+                            
+                            //Validar que el paciente no este al límite de las terapias3
+                            int cantidadFormulada = 0;
+                            int cantidadAtendida = 0;
+                            sql = " select * from terapia where codigo ='" + codigoTerapia + "'";
+                            rs = consulta.ejecutar(sql);
+                            if (rs.next()) {
+                                cantidadFormulada = rs.getInt("cantidad_formulada");
+                                cantidadAtendida = rs.getInt("cantidad_atendida");
+                            }
+                            if (cantidadAtendida >= cantidadFormulada) {
+                                sql = " rollback;";
+                                consulta.actualizar(sql);
+                                return -6;
+                            }
+                        
                         }
 
-                        //validar duplicidad (fecha, hora, profesional, estado)
+                        //validar duplicidad (fecha, hora, profesional, estado)3
                         sql = " select count(*) cantidad from citas c "
                                 + " inner join (lista l inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='ESTADOS_CITA')) ec on (c.estado=ec.value) "
                                 + " where "
@@ -362,7 +411,7 @@ public class CitaDAO {
                             sql = " rollback;";
                             consulta.actualizar(sql);
                             return -2;
-                        }
+                        }                        
 
                         sql = " INSERT INTO citas("
                                 + " id_paciente, fecha, hora,  codigo_especialidad, "
@@ -426,7 +475,7 @@ public class CitaDAO {
 
                 // "4";"Cancelada Entidad" "3";"Cancelada Paciente"
                 //liberar la agenda si la opcion fue cancelar
-                if (cita.getEstado().getCodigo().equalsIgnoreCase("3") || cita.getEstado().getCodigo().equalsIgnoreCase("4")) {
+                if (cita.getEstado().getCodigo().equalsIgnoreCase("3") || cita.getEstado().getCodigo().equalsIgnoreCase("4")|| cita.getEstado().getCodigo().equalsIgnoreCase("5")) {
                     sql = "update agenda set codigo_cita = null where codigo_cita=" + cita.getCodigo();
                     consulta.actualizar(sql);
                 }

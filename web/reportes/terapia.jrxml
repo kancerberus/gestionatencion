@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="valoracion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="532" leftMargin="50" rightMargin="30" topMargin="30" bottomMargin="20" uuid="4c397d89-bd39-4341-be50-9f737236b7aa">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="terapia" language="groovy" pageWidth="612" pageHeight="1008" columnWidth="532" leftMargin="50" rightMargin="30" topMargin="15" bottomMargin="20" uuid="4c397d89-bd39-4341-be50-9f737236b7aa">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="439"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="codigoTerapia" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\cavl_\\Google Drive\\Proyecto Siceh\\SICEH\\20180715\\gestionatencion\\build\\web\\reportes\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:\\git1\\gestionatencion\\build\\web\\reportes\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[select
@@ -16,7 +16,7 @@ case when primera_vez=true then 'SI' else 'NO' end primera_vez_label,
 case when control=true then 'SI' else 'NO' end control_label,
 p.nombre||(case when character_length(coalesce(p.segundo_nombre,''))=0 then '' else ' '||p.segundo_nombre end)||(case when character_length(coalesce(p.primer_apellido,''))=0 then '' else ' '||p.primer_apellido end)||(case when character_length(coalesce(p.segundo_apellido,''))=0 then '' else ' '||p.segundo_apellido end) nombre_paciente,
 e.nombre nombre_entidad,fecha_nacimiento,
-((current_date-p.fecha_nacimiento)/365)::integer edad,direccion1,ciudad_residencia,telefono1,telefono2,
+((current_date-p.fecha_nacimiento)/365)::integer edad,direccion1,ciudad_residencia,m.nombre as ciudad,telefono1,telefono2,
 l_sexo.label sexo,
 l_estado_civil.label estado_civil,
 p.ocupacion,
@@ -30,6 +30,7 @@ terapia t
 inner join detalle_terapia dt on (t.codigo=dt.codigo_terapia)
 inner join pacientes p on (t.id_paciente=p.identificacion)
 inner join entidades e on (p.entidad=e.codigo)
+inner join municipios m on (p.ciudad_residencia=m.codigo)
 left join (lista l
 inner join detalle_lista dl on (l.codigo=dl.codigo_lista and l.nombre='SEXO') ) l_sexo on (l_sexo.value=p.sexo)
 left join (lista l
@@ -65,6 +66,16 @@ t.codigo=$P{codigoTerapia}]]>
 	<field name="evolucion" class="java.lang.String"/>
 	<field name="nro_autorizacion" class="java.lang.String"/>
 	<field name="recomendacion" class="java.lang.String"/>
+	<field name="fecha_solicitud" class="java.sql.Date"/>
+	<field name="horario_preferencial" class="java.lang.String"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<field name="seguimiento_1" class="java.lang.String"/>
+	<field name="seguimiento_2" class="java.lang.String"/>
+	<field name="seguimiento_3" class="java.lang.String"/>
+	<field name="codigo_diagnostico2" class="java.lang.String"/>
+	<field name="informe_terapeutico" class="java.lang.String"/>
+	<field name="fecha_informe_terapeutico" class="java.sql.Date"/>
+	<field name="observacion_recetario" class="java.lang.String"/>
 	<field name="fecha_terapia" class="java.sql.Date"/>
 	<field name="hora_terapia" class="java.sql.Time"/>
 	<field name="primera_vez_label" class="java.lang.String"/>
@@ -75,6 +86,7 @@ t.codigo=$P{codigoTerapia}]]>
 	<field name="edad" class="java.lang.Integer"/>
 	<field name="direccion1" class="java.lang.String"/>
 	<field name="ciudad_residencia" class="java.lang.String"/>
+	<field name="ciudad" class="java.lang.String"/>
 	<field name="telefono1" class="java.lang.String"/>
 	<field name="telefono2" class="java.lang.String"/>
 	<field name="sexo" class="java.lang.String"/>
@@ -87,39 +99,44 @@ t.codigo=$P{codigoTerapia}]]>
 	<field name="hora_actividad" class="java.sql.Time"/>
 	<field name="actividad" class="java.lang.String"/>
 	<field name="condicion" class="java.lang.String"/>
-	<group name="recomendacion">
-		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
-		<groupFooter>
-			<band height="59">
-				<rectangle radius="10">
-					<reportElement x="0" y="0" width="520" height="59" uuid="eacdcf47-8402-4fc4-849f-c1e19b49d683"/>
-				</rectangle>
-				<staticText>
-					<reportElement x="11" y="0" width="509" height="15" uuid="e76a4f6c-b4dc-49ed-ab87-1139b7424d25"/>
-					<text><![CDATA[RECOMENDACION]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="11" y="15" width="509" height="44" uuid="da66687b-794e-4409-b557-fae18d56c172"/>
-					<textFieldExpression><![CDATA[$F{recomendacion}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupFooter>
-	</group>
 	<group name="evolucion">
 		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
 		<groupFooter>
-			<band height="60">
+			<band height="131">
 				<rectangle radius="10">
-					<reportElement x="0" y="0" width="520" height="60" uuid="198de6e0-13c9-46db-9980-d39ed578f2ab"/>
+					<reportElement x="-16" y="0" width="548" height="65" uuid="198de6e0-13c9-46db-9980-d39ed578f2ab"/>
 				</rectangle>
 				<textField>
-					<reportElement x="11" y="15" width="509" height="45" uuid="369cb5ff-6204-49b3-881f-0d9e913de06a"/>
+					<reportElement x="0" y="15" width="532" height="50" uuid="369cb5ff-6204-49b3-881f-0d9e913de06a"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{evolucion}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="11" y="0" width="509" height="15" uuid="dfa4edcb-06bd-446b-bb2a-c5b24cb089c0"/>
+					<reportElement x="0" y="0" width="532" height="15" uuid="dfa4edcb-06bd-446b-bb2a-c5b24cb089c0"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
 					<text><![CDATA[OBSERVACIONES]]></text>
 				</staticText>
+				<rectangle radius="10">
+					<reportElement x="-16" y="65" width="548" height="65" uuid="eacdcf47-8402-4fc4-849f-c1e19b49d683"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="0" y="65" width="531" height="15" uuid="e76a4f6c-b4dc-49ed-ab87-1139b7424d25"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[RECOMENDACIÓN]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="80" width="531" height="50" uuid="da66687b-794e-4409-b557-fae18d56c172"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{recomendacion}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
@@ -128,7 +145,7 @@ t.codigo=$P{codigoTerapia}]]>
 		<groupFooter>
 			<band height="18" splitType="Stretch">
 				<subreport>
-					<reportElement x="0" y="0" width="520" height="17" uuid="d016886f-aca7-4a43-932d-8cf6e3ae7d34"/>
+					<reportElement x="-16" y="0" width="548" height="17" uuid="d016886f-aca7-4a43-932d-8cf6e3ae7d34"/>
 					<subreportParameter name="codigo_terapia_sub">
 						<subreportParameterExpression><![CDATA[$P{codigoTerapia}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -142,19 +159,22 @@ t.codigo=$P{codigoTerapia}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="336" splitType="Stretch">
+		<band height="337" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="0" y="136" width="520" height="200" uuid="5165e14a-90a5-4c7c-87e2-c46ba1dad76d"/>
+				<reportElement x="-16" y="271" width="548" height="65" uuid="1c46c012-593b-4231-90d8-dd9ae25c122e"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="-16" y="136" width="547" height="135" uuid="5165e14a-90a5-4c7c-87e2-c46ba1dad76d"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="0" width="532" height="19" uuid="1a49e73c-d398-4d8f-9f1a-890cedf0bc63"/>
+				<reportElement x="-16" y="0" width="547" height="19" uuid="1a49e73c-d398-4d8f-9f1a-890cedf0bc63"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="16" isBold="true"/>
+					<font fontName="Arial" size="15" isBold="true"/>
 				</textElement>
 				<text><![CDATA[INSTITUTO DE AUDIOLOGIA INTEGRAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="19" width="532" height="52" uuid="4e636414-95e9-40f2-bfdc-b0e8316c57f1"/>
+				<reportElement x="-16" y="19" width="547" height="52" uuid="4e636414-95e9-40f2-bfdc-b0e8316c57f1"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9"/>
 				</textElement>
@@ -165,65 +185,68 @@ Cra 3ª Nº19-51 - PBX (6)3353838 - FAX (6)3338092
 Pereira - Risaralda - Colombia]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="77" width="532" height="17" uuid="a5cd68c1-4a37-40f3-ad72-6283e94202a6"/>
+				<reportElement x="-16" y="77" width="547" height="17" uuid="a5cd68c1-4a37-40f3-ad72-6283e94202a6"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="14" isBold="true" isItalic="true" isUnderline="false"/>
+					<font fontName="Arial" size="13" isBold="true" isItalic="true" isUnderline="false"/>
 				</textElement>
 				<text><![CDATA[EVOLUCIÓN CONSULTA EXTERNA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="11" y="119" width="103" height="15" uuid="66bd25a2-b2e6-41d6-bd2c-f964b249ef93"/>
+				<reportElement x="11" y="121" width="57" height="15" uuid="66bd25a2-b2e6-41d6-bd2c-f964b249ef93"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="116" y="119" width="84" height="15" uuid="19cbc2a3-d647-438e-8c7d-9c74c992e6c7"/>
+				<reportElement x="68" y="121" width="132" height="15" uuid="19cbc2a3-d647-438e-8c7d-9c74c992e6c7"/>
 				<textFieldExpression><![CDATA[$F{fecha_terapia}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="206" y="119" width="34" height="15" uuid="af834b44-d360-4217-856b-06391cb544b0"/>
+				<reportElement x="206" y="121" width="34" height="15" uuid="af834b44-d360-4217-856b-06391cb544b0"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Hora]]></text>
 			</staticText>
 			<textField pattern="h:mm a">
-				<reportElement x="240" y="119" width="48" height="15" uuid="62fe71a6-97f8-4a8d-bc9d-cb708cc8411c"/>
+				<reportElement x="240" y="121" width="48" height="15" uuid="62fe71a6-97f8-4a8d-bc9d-cb708cc8411c"/>
 				<textFieldExpression><![CDATA[$F{hora_terapia}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="333" y="119" width="62" height="15" uuid="e0668d40-d5fc-429c-a8a4-8b5513d24cae"/>
+				<reportElement x="333" y="121" width="62" height="15" uuid="e0668d40-d5fc-429c-a8a4-8b5513d24cae"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Primera Vez]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="454" y="119" width="37" height="15" uuid="9f21f3ce-2f17-4d40-81ab-225360c50004"/>
+				<reportElement x="454" y="121" width="37" height="15" uuid="9f21f3ce-2f17-4d40-81ab-225360c50004"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Control]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="395" y="119" width="22" height="15" uuid="ce1d9c42-38c7-4372-862c-7a868f44ca45"/>
+				<reportElement x="395" y="121" width="22" height="15" uuid="ce1d9c42-38c7-4372-862c-7a868f44ca45"/>
 				<textFieldExpression><![CDATA[$F{primera_vez_label}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="491" y="119" width="21" height="15" uuid="3b160ce2-6715-4433-b952-5319fdb2b9b1"/>
+				<reportElement x="491" y="121" width="21" height="15" uuid="3b160ce2-6715-4433-b952-5319fdb2b9b1"/>
 				<textFieldExpression><![CDATA[$F{control_label}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="333" y="136" width="110" height="15" uuid="a776ca9a-5d87-49cc-82b4-f79f5b9c300e"/>
+				<reportElement x="333" y="136" width="74" height="15" uuid="a776ca9a-5d87-49cc-82b4-f79f5b9c300e"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Código Diagnóstico]]></text>
+				<text><![CDATA[Diagnóstico 1]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="454" y="136" width="59" height="15" uuid="5fe5a200-d7ba-4cf4-a097-bcd6cb57a840"/>
+				<reportElement x="407" y="136" width="104" height="15" uuid="5fe5a200-d7ba-4cf4-a097-bcd6cb57a840"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{codigo_diagnostico}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -271,25 +294,25 @@ Pereira - Risaralda - Colombia]]></text>
 				<textFieldExpression><![CDATA[$F{edad}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="344" y="166" width="73" height="15" uuid="befbd906-edb4-443b-8cb8-39ac6ca86682"/>
+				<reportElement x="334" y="181" width="73" height="15" uuid="befbd906-edb4-443b-8cb8-39ac6ca86682"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Sexo]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="417" y="166" width="95" height="15" uuid="da640658-43bf-4698-a51c-f5506bf02e12"/>
+				<reportElement x="407" y="181" width="104" height="15" uuid="da640658-43bf-4698-a51c-f5506bf02e12"/>
 				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="344" y="181" width="73" height="15" uuid="d26c22ce-5136-46d3-b41c-0ddbc44231a1"/>
+				<reportElement x="334" y="196" width="73" height="15" uuid="d26c22ce-5136-46d3-b41c-0ddbc44231a1"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Estado Civil]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="417" y="181" width="94" height="15" uuid="54c73392-3225-4484-9c37-4645ca6ac59d"/>
+				<reportElement x="407" y="196" width="104" height="15" uuid="54c73392-3225-4484-9c37-4645ca6ac59d"/>
 				<textFieldExpression><![CDATA[$F{estado_civil}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -304,36 +327,36 @@ Pereira - Risaralda - Colombia]]></text>
 				<textFieldExpression><![CDATA[$F{ocupacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="344" y="196" width="73" height="15" uuid="5bbe0df4-21ef-41a6-be5a-f50b0d5f12ca"/>
+				<reportElement x="334" y="211" width="73" height="15" uuid="5bbe0df4-21ef-41a6-be5a-f50b0d5f12ca"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tipo Afiliación]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="417" y="196" width="95" height="15" uuid="464844a9-04a4-4aac-b414-871f4a7122f5"/>
+				<reportElement x="407" y="211" width="104" height="15" uuid="464844a9-04a4-4aac-b414-871f4a7122f5"/>
 				<textFieldExpression><![CDATA[$F{tipo_afiliacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="344" y="151" width="38" height="15" uuid="d09dd263-26a5-44f7-bbad-8a880097cf56"/>
+				<reportElement x="334" y="166" width="52" height="15" uuid="d09dd263-26a5-44f7-bbad-8a880097cf56"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tipo Id.]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="382" y="151" width="21" height="15" uuid="4bb8b9a9-d665-4b09-8dc3-11259edddf4d"/>
+				<reportElement x="386" y="166" width="21" height="15" uuid="4bb8b9a9-d665-4b09-8dc3-11259edddf4d"/>
 				<textFieldExpression><![CDATA[$F{tipo_identificacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="403" y="151" width="14" height="15" uuid="f4cc0794-69f6-4813-ae34-9aaf666fa5b4"/>
+				<reportElement x="407" y="166" width="14" height="15" uuid="f4cc0794-69f6-4813-ae34-9aaf666fa5b4"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nº]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="417" y="151" width="94" height="15" uuid="689dc41d-61b6-4e57-95b7-9808b495c88a"/>
+				<reportElement x="421" y="166" width="90" height="15" uuid="689dc41d-61b6-4e57-95b7-9808b495c88a"/>
 				<textFieldExpression><![CDATA[$F{id_paciente}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -359,27 +382,23 @@ Pereira - Risaralda - Colombia]]></text>
 				<textFieldExpression><![CDATA[$F{nombre_acompanante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="334" y="256" width="61" height="15" uuid="0da6eb56-30dc-40f4-9cdf-e766d401e2c1"/>
+				<reportElement x="334" y="256" width="73" height="15" uuid="0da6eb56-30dc-40f4-9cdf-e766d401e2c1"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Parentesco]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="396" y="256" width="115" height="15" uuid="2c5f2640-0c0e-4569-ad99-59befd748b5a"/>
+				<reportElement x="407" y="256" width="104" height="15" uuid="2c5f2640-0c0e-4569-ad99-59befd748b5a"/>
 				<textFieldExpression><![CDATA[$F{parentesco_acompanante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="334" y="226" width="61" height="15" uuid="906e6a2c-fc98-4010-906e-5a57ca3a00e2"/>
+				<reportElement x="334" y="226" width="73" height="15" uuid="906e6a2c-fc98-4010-906e-5a57ca3a00e2"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ciudad]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="395" y="226" width="116" height="15" uuid="c971ea0b-a146-40a5-8bff-c9cae0f1f250"/>
-				<textFieldExpression><![CDATA[$F{ciudad_residencia}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="11" y="241" width="103" height="15" uuid="8c673d9c-427c-41e5-8239-d408eb1ed23d"/>
 				<textElement>
@@ -392,36 +411,42 @@ Pereira - Risaralda - Colombia]]></text>
 				<textFieldExpression><![CDATA[$F{telefono1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="334" y="241" width="61" height="15" uuid="59401eee-38fe-4183-9171-403dd425ba45"/>
+				<reportElement x="334" y="241" width="73" height="15" uuid="59401eee-38fe-4183-9171-403dd425ba45"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Telefono2]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="395" y="241" width="116" height="15" uuid="615d389f-d5fd-469a-aa15-923b6af817aa"/>
+				<reportElement x="407" y="241" width="104" height="15" uuid="615d389f-d5fd-469a-aa15-923b6af817aa"/>
 				<textFieldExpression><![CDATA[$F{telefono2}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="11" y="271" width="103" height="15" uuid="c2c63258-2d72-4c54-be20-ffde2060530a"/>
-				<textElement>
+				<reportElement x="0" y="271" width="84" height="30" uuid="c2c63258-2d72-4c54-be20-ffde2060530a"/>
+				<textElement verticalAlignment="Top">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[DIAGNOSTICO]]></text>
+				<text><![CDATA[DIAGNÓSTICO]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="116" y="271" width="395" height="15" uuid="5a4ce6e1-e651-4086-b35f-ed05124d06ed"/>
+				<reportElement x="84" y="271" width="427" height="30" uuid="5a4ce6e1-e651-4086-b35f-ed05124d06ed"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{diagnostico}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="11" y="286" width="103" height="15" uuid="a8056b2e-7269-4a9c-a903-b063f1d1968f"/>
-				<textElement>
+				<reportElement x="0" y="301" width="84" height="30" uuid="a8056b2e-7269-4a9c-a903-b063f1d1968f"/>
+				<textElement verticalAlignment="Top">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Plan de tratamiento]]></text>
+				<text><![CDATA[PLAN DE TRATAMIENTO]]></text>
 			</staticText>
 			<textField>
-				<reportElement stretchType="RelativeToBandHeight" x="11" y="301" width="501" height="30" uuid="d728b453-f031-4ecd-86bf-fe1c2a047b3f"/>
+				<reportElement stretchType="RelativeToBandHeight" x="84" y="301" width="428" height="30" uuid="d728b453-f031-4ecd-86bf-fe1c2a047b3f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{plan_tratamiento}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -436,18 +461,21 @@ Pereira - Risaralda - Colombia]]></text>
 				<text><![CDATA[Condicion]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="431" y="103" width="80" height="15" uuid="ea8bc529-b596-463e-9367-64bc7e473e91"/>
-				<textFieldExpression><![CDATA[$F{nro_autorizacion}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="308" y="103" width="123" height="15" uuid="cae68da5-b847-429f-b2e5-cb70e92bfe83"/>
+				<reportElement x="431" y="105" width="80" height="15" forecolor="#0033FF" uuid="ea8bc529-b596-463e-9367-64bc7e473e91"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Número de Autorización]]></text>
+				<textFieldExpression><![CDATA[$F{nro_autorizacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="308" y="105" width="123" height="15" forecolor="#0033FF" uuid="cae68da5-b847-429f-b2e5-cb70e92bfe83"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº AUTORIZACIÓN]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="116" y="211" width="395" height="15" uuid="f6c433ec-5dcc-4341-ba95-88d72c659660"/>
+				<reportElement x="116" y="211" width="203" height="15" uuid="f6c433ec-5dcc-4341-ba95-88d72c659660"/>
 				<textFieldExpression><![CDATA[$F{nombre_entidad}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -458,33 +486,61 @@ Pereira - Risaralda - Colombia]]></text>
 				<text><![CDATA[Entidad]]></text>
 			</staticText>
 			<image>
-				<reportElement x="30" y="0" width="54" height="94" uuid="08d7d7f9-6e97-4890-a656-fb556803741f"/>
+				<reportElement x="14" y="0" width="54" height="94" uuid="08d7d7f9-6e97-4890-a656-fb556803741f"/>
 				<imageExpression><![CDATA["C:\\Imagenes\\LogoIDEAIbmp2.jpg"]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="334" y="151" width="73" height="15" uuid="36ea02fe-9c46-43a8-ac05-4aea1f09a724"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Diagnóstico 2]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="407" y="151" width="105" height="15" uuid="fcfb7088-bd26-4ace-9960-e373b61c75d8"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_diagnostico2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="407" y="226" width="104" height="15" uuid="0dd0ef14-dac7-457f-b767-35447b9ebb59"/>
+				<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="106" width="148" height="15" uuid="abaaeefb-84d3-4a8f-8a44-b9e4fac68935"/>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="11" y="106" width="57" height="15" uuid="1224ad05-5710-4da6-b3c1-12ed1bc9758c"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Terapia # ]]></text>
+			</staticText>
 		</band>
 	</title>
 	<summary>
-		<band height="107" splitType="Stretch">
+		<band height="63" splitType="Stretch">
 			<line>
-				<reportElement x="15" y="68" width="150" height="1" uuid="249ea4b1-5a72-4e58-b6eb-fc2a8d684f08"/>
+				<reportElement x="7" y="47" width="150" height="1" uuid="249ea4b1-5a72-4e58-b6eb-fc2a8d684f08"/>
 			</line>
 			<staticText>
-				<reportElement x="42" y="69" width="100" height="28" uuid="dc96bb49-eedb-47de-a24c-079719b12887"/>
+				<reportElement x="24" y="48" width="98" height="15" uuid="dc96bb49-eedb-47de-a24c-079719b12887"/>
 				<textElement>
-					<font fontName="Arial" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PROFESIONAL
-T.P. No.]]></text>
+				<text><![CDATA[PROFESIONAL T.P. No.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="411" y="69" width="80" height="15" uuid="e7b4a929-b7e4-451b-a68e-7e244843732b"/>
+				<reportElement x="403" y="48" width="45" height="15" uuid="e7b4a929-b7e4-451b-a68e-7e244843732b"/>
 				<textElement>
-					<font fontName="Arial" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PACIENTE]]></text>
 			</staticText>
 			<line>
-				<reportElement x="372" y="68" width="148" height="1" uuid="b8e6a755-904d-4771-be59-305492b1e451"/>
+				<reportElement x="364" y="47" width="148" height="1" uuid="b8e6a755-904d-4771-be59-305492b1e451"/>
 			</line>
 		</band>
 	</summary>

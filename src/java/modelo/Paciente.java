@@ -30,11 +30,15 @@ public class Paciente {
     private String padres = "";
     private String email = "";
     private String sexo;
+    private String sexo2;
     private String estadoCivil;
+    private String estadoCivil2;
     private String ocupacion;
     private String gradoEscolar;
     private String tipoAfiliacion;
+    private String tipoAfiliacion2;
     private String tipoIdentificacion;
+    private String tipoIdentificacion2;
     private String condicion = "";
 
     private String segundoNombre;
@@ -427,5 +431,39 @@ public class Paciente {
     public void setCondicion(String condicion) {
         this.condicion = condicion;
     }
+
+    public String getSexo2() {
+        return sexo2;
+    }
+
+    public void setSexo2(String sexo2) {
+        this.sexo2 = sexo2;
+    }
+
+    public String getEstadoCivil2() {
+        return estadoCivil2;
+    }
+
+    public void setEstadoCivil2(String estadoCivil2) {
+        this.estadoCivil2 = estadoCivil2;
+    }
+
+    public String getTipoAfiliacion2() {
+        return tipoAfiliacion2;
+    }
+
+    public void setTipoAfiliacion2(String tipoAfiliacion2) {
+        this.tipoAfiliacion2 = tipoAfiliacion2;
+    }
+
+    public String getTipoIdentificacion2() {
+        return tipoIdentificacion2;
+    }
+
+    public void setTipoIdentificacion2(String tipoIdentificacion2) {
+        this.tipoIdentificacion2 = tipoIdentificacion2;
+    }
+    
+    
 
 }

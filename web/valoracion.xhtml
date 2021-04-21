@@ -15,8 +15,8 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        <h:outputStylesheet name="general.css"  />
-        <h:form id="frmValoracion">
+        <h:outputStylesheet name="general.css"  />        
+        <h:form id="frmValoracion1">
             <p:growl id="mensajesValoracion" showDetail="true" life="5000"  />
             <p:panel header="FORMULARIO VALORACIÓN" style="width: 100%;" id="pnlHistoriaClinicaValoracion">
                 <table cellpadding="5" class="" border="0" style="width: 100%" >
@@ -28,53 +28,64 @@ and open the template in the editor.
 
                     <tr><td>Especialidad:</td><td><h:outputText id="especialidad" value="#{uivaloracion.valoracion.cita.especialidad.nombre}" /></td>
                         <td>Procedimiento:</td><td><h:outputText id="procedimiento" value="#{uivaloracion.valoracion.cita.listaProcedimientos.get(0).nombre}" /></td>                        
-                        <td>Codigo RIPS:</td><td><p:inputText id="codigoRIPS" value="#{uivaloracion.valoracion.codigoRIPS}" /></td>
+                        <td>Codigo RIPS:</td><td><p:inputText id="codigoRIPS" value="#{uivaloracion.valoracion.codigoRIPS}">  
+                                                                          <p:ajax event="focus" listener="#{uivaloracion.consultarPaciente2()}" update="tblDatosPaciente"/>
+                                                                    </p:inputText>
+                        </td>
                     </tr>                       
                     
                     <tr>
-                            <td>Código Diagnóstico Primario</td><td colspan="5">                            
+                            <div class="p-field p-col-12 p-md-4">
+                            <td><p:outputLabel value="Código Diagnóstico Primario" for="@next"/></td><td colspan="5">                                                       
                             <p:autoComplete id="cod_diagnostico1" dropdown="true" value="#{uivaloracion.valoracion.diagnostico1.nombre_diagostico}" 
-                                                                                                completeMethod="#{uivaloracion.listarDiagnosticos}"  scrollHeight="100"
-                                                                                                style="width:70%" size="100" onkeyup="this.value = this.value.toUpperCase();"
-                                                                                                forceSelection="true">                                                 
-                                                </p:autoComplete></td>                            
+                                                                                                completeMethod="#{uivaloracion.listarDiagnosticos}"  scrollHeight="250"
+                                                                                                size="100" onkeyup="this.value = this.value.toUpperCase();"
+                                                                                                forceSelection="true"/></td></div>                            
                     </tr>     
-                    
                     <tr>
-                            <td>Código Diagnóstico Secundario</td><td colspan="5">                            
+                            <td><p:outputLabel value="Código Diagnóstico Secundario" for="@next"/></td><td colspan="5">                                                       
                             <p:autoComplete id="cod_diagnostico2" dropdown="true" value="#{uivaloracion.valoracion.diagnostico2.nombre_diagostico}" 
-                                                                                        completeMethod="#{uivaloracion.listarDiagnosticos}"  scrollHeight="100" 
-                                                                                        style="width:70%" size="100" onkeyup="this.value = this.value.toUpperCase();"
+                                                                                        completeMethod="#{uivaloracion.listarDiagnosticos}"  scrollHeight="250"
+                                                                                        size="100" onkeyup="this.value = this.value.toUpperCase();"
                                                                                         forceSelection="true" /></td>                            
                     </tr> 
 
-                    <tr><td colspan="6" align="center"><p:panelGrid id="tblDatosPaciente" columns="6" style=" font-size: 80%; width: 90%;">
+                    <tr><td colspan="6" align="center"><p:panelGrid id="tblDatosPaciente" columns="6" style="font-size: 80%; width: 100%;">
                                 <f:facet name="header">
                                     <h:outputText value="Nombre: " />
                                     <h:outputText value="#{uivaloracion.valoracion.cita.paciente.nombreCompleto}" />
                                 </f:facet>
-                                <h:outputText value="Fecha Nacimiento" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.fechaNacimiento}" ><f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5" locale="es" /></h:outputText>
+                                <h:outputText value="Fecha Nacimiento" style="font-weight: bold;" />
+                                <h:outputText value="#{uivaloracion.valoracion.cita.paciente.fechaNacimiento}" ><f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5" locale="es" /></h:outputText>
                                 <h:outputText value="Edad" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.edad}" />
-                                <h:outputText value="Sexo" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.sexo}" />
-                                <h:outputText value="Estado Civil" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.estadoCivil}" />
+                                <h:outputText value="Sexo" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.sexo2}" />
+                                <h:outputText value="Estado Civil" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.estadoCivil2}" />
                                 <h:outputText value="Ocupacion" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.ocupacion}" />
                                 <h:outputText value="Grado Escolar" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.gradoEscolar}" />
                                 <h:outputText value="Entidad" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.entidad.nombre}" />
-                                <h:outputText value="Tipo Afiliado" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.tipoAfiliacion}" />
-                                <h:outputText value="Tipo Identificacion" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.tipoIdentificacion}" />
+                                <h:outputText value="Tipo Afiliado" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.tipoAfiliacion2}" />
+                                <h:outputText value="Tipo Identificacion" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.tipoIdentificacion2}" />
                                 <h:outputText value="Identificacion" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.identificacion}" />
                                 <h:outputText value="Dirección1" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.direccion1}" />
                                 <h:outputText value="Telefono1" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.telefono1}" />
                                 <h:outputText value="Telefono2" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.telefono2}" />
-
-                            </p:panelGrid></td></tr>
+                                <h:outputText value="Correo E" style="font-weight: bold;" /><h:outputText value="#{uivaloracion.valoracion.cita.paciente.email}" />
+                            </p:panelGrid>                                           
+                                <!-- Esta botón llama un módulo que se encargará de modificar datos del paciente -->
+                                <div align="left">   
+                                        <p:commandButton oncomplete="PF('modificarPaciente').show()" icon=" ui-icon-newwin" title="Editar Paciente" style="font-size: 80%; width: 2.5%;"
+                                             update="pnlModificarPaciente" actionListener="#{uipaciente.consultarPacientePorId2()}"> 
+                                        </p:commandButton>  
+                                </div>
+                           </td></tr>                                                                                                                      
+                    
                     <tr><td>Nombre Acompañante</td>
                         <td><p:inputText id="nombreAcompanante" value="#{uivaloracion.valoracion.nombreAcompanante}" onkeyup="this.value = this.value.toUpperCase();"/></td>
                         <td>Parentesco</td>
                         <td><p:inputText id="parentescoAcompanante" value="#{uivaloracion.valoracion.parentescoAcompanante}" onkeyup="this.value = this.value.toUpperCase();"/></td>
                         <td>Remitido por</td>
                         <td><p:inputText id="remitidoPor" value="#{uivaloracion.valoracion.remitidoPor}" onkeyup="this.value = this.value.toUpperCase();"/></td></tr>
-                    <tr><td>Dirección</td>
+                        <tr><td>Dirección</td>
                         <td><p:inputText id="direccionAcompanante" value="#{uivaloracion.valoracion.direccionAcompanante}" onkeyup="this.value = this.value.toUpperCase();"/></td>
                         <td>Teléfono</td>
                         <td><p:inputText id="telefonoAcompanante" value="#{uivaloracion.valoracion.telefonoAcompanante}" onkeyup="this.value = this.value.toUpperCase();"/></td>
@@ -82,7 +93,7 @@ and open the template in the editor.
                                 <f:selectItem itemLabel="" itemValue="-1" />
                                 <f:selectItems value="#{uivaloracion.listaTipoFormato}"  />
                             </p:selectOneMenu></td></tr>
-                    <tr><td>Condicion</td><td colspan="5"><p:selectOneMenu value="#{uivaloracion.valoracion.cita.paciente.condicion}" id="condicion">
+                    <tr><td>Condicion</td><td colspan="5"><p:selectOneMenu value="#{uivaloracion.valoracion.cita.paciente.condicion}" id="condicion1">
                                 <f:selectItem itemLabel="" itemValue="" />
                                 <f:selectItems value="#{uipaciente.listaCondicion}"  />
                             </p:selectOneMenu></td></tr>
@@ -143,11 +154,11 @@ and open the template in the editor.
                     
                     <tr><td colspan="6">
                             <p:fieldset id="lgdObservacionRecetario" legend="OBSERVACION RECETARIO" style="width: 98%">
-                                <p:inputTextarea id="txtObservacionRecetario" disabled="#{!uivaloracion.enviaTerapia}" 
+                                <p:inputTextarea id="txtObservacionRecetario" 
                                                                                                  rows="3" cols="145" value="#{uivaloracion.valoracion.observacionRecetario}" 
                                                                                                  maxlength="500" autoResize="false" />
-                            </p:fieldset></td></tr>
-
+                            </p:fieldset></td></tr><!-- disabled="{!uivaloracion.enviaTerapia}" -->
+                    
                     <tr>
                         <td colspan="6" align="center">
                             <p:dataTable var="itemTerapia" value="#{uivaloracion.valoracion.listaTerapias}" 
@@ -196,19 +207,155 @@ and open the template in the editor.
                     </tr>
                     <tr>
                         <td colspan="6" align="center"><p:commandButton value="Guardar" id="btnGuardar" 
-                                                                                        update="mensajesValoracion,:frmValoracion:dialogoCerrar" 
-                                                                                        disabled="#{uivaloracion.guardado}" 
-                                                                                        actionListener="#{uivaloracion.guardarValoracion}"  
-                                                                                        oncomplete="PF('dialogoCerrarW').show()"
-                                                                                        /></td>
-
+                                                                                        update="mensajesValoracion,:frmValoracion1:dialogoCerrar" disabled="#{uivaloracion.guardado}" actionListener="#{uivaloracion.guardarValoracion}"  
+                                                                                        oncomplete="PF('dialogoCerrarW').show()"/></td>
                     </tr>
-
-
                 </table>
             </p:panel>
             <p:dialog  id="dialogoCerrar" header="Cerrando..." widgetVar="dialogoCerrarW" onShow="#{uivaloracion.manejoVentana} PF('dialogoCerrarW').hide();" >
             </p:dialog>
+            
+                    <!--Modifica los datos del paciente -->            
+                    <p:dialog header="MODIFICAR DATOS PACIENTE" widgetVar="modificarPaciente" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="pnlModificarPaciente" style="text-align:center;">
+                         
+                            <p:panel header="MODIFICAR" id="pnlModPaciente" style="width: 750px;" >
+                                    <table cellpadding="5" border="0">                        
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="* Doc. Identificación:" /></td>
+                                            <td><p:inputText id="identificacion" value="#{uivaloracion.valoracion.cita.paciente.identificacion}" readonly="true"/></td>
+                                            <td></td>
+                                            <td align="right"><h:outputLabel value="Tipo identificación:" /></td>
+                                            <td><p:selectOneMenu value="#{uipaciente.paciente.tipoIdentificacion}" id="tipoIdentificacion">
+                                                        <f:selectItem itemLabel="" itemValue="-1" />
+                                                        <f:selectItems value="#{uipaciente.listaTipoIdentificacion}"  />
+                                                    </p:selectOneMenu></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="* Primer nombre:" /></td>
+                                            <td><p:inputText id="primerNombreP" value="#{uipaciente.paciente.nombre}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                                            <td></td>
+                                            <td align="right"><h:outputLabel value=" Segundo nombre:" /></td>
+                                            <td><p:inputText id="segundoNombreP" value="#{uipaciente.paciente.segundoNombre}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="* Primer apellido:" /></td>
+                                            <td><p:inputText id="primerApellidoP" value="#{uipaciente.paciente.primerApellido}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                                            <td></td>
+                                            <td align="right"><h:outputLabel value=" Segundo apellido:" /></td>
+                                            <td><p:inputText id="segundoApellidoP" value="#{uipaciente.paciente.segundoApellido}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="* Fecha Nacimiento:" /></td>
+                                            <td><p:calendar mode="popup" id="fechaNacimiento" value="#{uipaciente.paciente.fechaNacimiento}" 
+                                                            locale="es" pattern="dd/MM/yyyy" navigator="true" mask="true"/></td>
+                                            <td></td>
+                                            <td align="right"><h:outputLabel value="Correo E.:" /></td>
+                                            <td><p:inputText id="edad" value="#{uipaciente.paciente.email}" /></td>
+
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td align="right"><p:outputLabel value="Sexo:" for="sexo" /></td>
+                                            <td><p:selectOneMenu value="#{uipaciente.paciente.sexo}" id="sexo">
+                                                        <f:selectItem itemLabel="" itemValue="-1" />
+                                                        <f:selectItems value="#{uipaciente.listaSexo}"  />
+                                                    </p:selectOneMenu></td>
+                                            <td></td>
+                                            <td align="right"><p:outputLabel value="Ocupacion:" for="ocupacion" /></td>
+                                            <td><p:inputText id="ocupacion" value="#{uipaciente.paciente.ocupacion}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td align="right"><p:outputLabel value="Estado civil:" for="estadoCivil" /></td>
+                                            <td><p:selectOneMenu value="#{uipaciente.paciente.estadoCivil}" id="estadoCivil">
+                                                        <f:selectItem itemLabel="" itemValue="-1" />
+                                                        <f:selectItems value="#{uipaciente.listaEstadoCivil}"  />
+                                                    </p:selectOneMenu></td>
+                                            <td></td>
+                                            <td align="right"><p:outputLabel value="Grado escolar:" for="gradoEscolar" /></td>
+                                            <td><p:inputText id="gradoEscolar" value="#{uipaciente.paciente.gradoEscolar}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td align="right"><p:outputLabel value="* Entidad:" for="entidad" /></td>
+                                            <td colspan="4"><p:autoComplete id="entidad" dropdown="true" value="#{uipaciente.paciente.entidad.nombre}" 
+                                                                            completeMethod="#{uipaciente.listarEntidadesPatron}"  scrollHeight="200" 
+                                                                            forceSelection="true" size="68"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><p:outputLabel for="tipoUsuario" value="Régimen:" /></td>                            
+                                            <td><p:selectOneMenu id="tipoUsuario" value="#{uipaciente.paciente.tipoUsuario}" >
+                                                    <f:selectItem itemLabel="" itemValue="" />
+                                                    <f:selectItems value="#{uipaciente.listaRegimen}"  />                                
+                                                </p:selectOneMenu></td>
+                                            <td></td>
+                                            <td align="right"><h:outputLabel for="tipoAfiliacion" value="Tipo usuario:" /></td>
+                                            <td><p:selectOneMenu value="#{uipaciente.paciente.tipoAfiliacion}" id="tipoAfiliacion">
+                                                        <f:selectItem itemLabel="" itemValue="-1" />
+                                                        <f:selectItems value="#{uipaciente.listaTipoAfiliacion}"  />
+                                                    </p:selectOneMenu></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="Condicion:" /></td>
+                                            <td colspan="4"><p:selectOneMenu value="#{uipaciente.paciente.condicion}" id="condicion">
+                                                        <f:selectItem itemLabel="" itemValue="" />
+                                                        <f:selectItems value="#{uipaciente.listaCondicion}"  />
+                                                    </p:selectOneMenu></td>                        
+                                        </tr>                                                                        
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="* Direccion1:" /></td>
+                                            <td colspan="4"><p:inputText id="direccion1" value="#{uipaciente.paciente.direccion1}" style="width: 475px;" onkeyup="this.value = this.value.toUpperCase();"/></td>                        
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="Direccion2:" /></td>
+                                            <td colspan="4"><p:inputText id="direccion2" value="#{uipaciente.paciente.direccion2}" style="width: 475px;" onkeyup="this.value = this.value.toUpperCase();"/></td>                        
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="* Telefono1:" /></td>
+                                            <td><p:inputText id="telefono1" value="#{uipaciente.paciente.telefono1}" /></td>
+                                            <td></td>
+                                            <td align="right"><h:outputLabel value="* Ciudad Residencia:" /></td>
+                                            <td><p:autoComplete id="ciudadResidencia" dropdown="true" value="#{uipaciente.paciente.ciudadResidencia.nombre}" 
+                                                                            completeMethod="#{uipaciente.listarMunicipiosPatron}"  scrollHeight="200" 
+                                                                            forceSelection="true" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="* Telefono2:" /></td>
+                                            <td><p:inputText id="telefono2" value="#{uipaciente.paciente.telefono2}" /></td>
+
+                                            <td></td>
+                                            <td align="right"><h:outputLabel value="* Ciudad Nacimiento:" /></td>
+                                            <td><p:autoComplete id="ciudadNacimiento" dropdown="true" value="#{uipaciente.paciente.ciudadNacimiento.nombre}" 
+                                                                            completeMethod="#{uipaciente.listarMunicipiosPatron}"  scrollHeight="200" 
+                                                                            forceSelection="true" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><h:outputLabel value="Contacto:" /></td>
+                                            <td ><p:inputText id="padres" value="#{uipaciente.paciente.padres}" onkeyup="this.value = this.value.toUpperCase();"/></td>
+                                            <td></td>
+                                            <td align="right"><h:outputLabel for="fechaRegistro" value="Fecha Apertura:" /></td>
+                                            <td><p:inputText id="fechaRegistro" value="#{uipaciente.paciente.fechaApertura}"  readonly="true" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5" locale="es" />
+                                                </p:inputText></td>
+                                        </tr>
+                                        </table>
+                                    <table>
+                                        <tr>
+                                            <td align="center" colspan="5"><p:commandButton icon="fa fa-user-plus" value="Modificar"
+                                                                                            actionListener="#{uipaciente.guardarPaciente}"                                                                                                                                                                                         
+                                                                                            oncomplete="PF('modificarPaciente').hide()"                                       
+                                                                                            update="@all">
+                                                                                            <p:focus for="codigoRIPS"/>
+                                                                                            </p:commandButton>   
+                                            </td>                                                    
+                                        </tr>
+                                    </table>
+                                    <h:outputText value="* Campos requeridos." style="font-size: 70%;" />    
+                         </p:panel>     
+                        </p:outputPanel>
+                    </p:dialog>                          
         </h:form>
-    </h:body>
+    </h:body>       
 </html>

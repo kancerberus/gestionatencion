@@ -7,23 +7,26 @@ package vista;
 
 import controlador.GestorPaciente;
 import controlador.GestorProcedimiento;
-//import controlador.GestorReporte;
 import controlador.GestorUtilidades;
 import controlador.GestorValoracion;
 import controlador.GestorDiagnostico;
-//import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import modelo.Cita;
 import modelo.Terapia;
 import modelo.Valoracion;
 import modelo.Diagnostico;
+import modelo.Paciente;
 import org.primefaces.event.CellEditEvent;
 import util.Utilidades;
+
 
 /**
  *
@@ -37,7 +40,11 @@ public class UIValoracion implements Serializable {
     private GestorValoracion gestorValoracion;
     private GestorDiagnostico gestorDiagnostico;
     public Utilidades util = new Utilidades();
-    private GestorUtilidades gestorUtilidades;
+    private GestorUtilidades gestorUtilidades;    
+    private FacesContext contextoJSF;
+    private ELContext contextoEL;
+    private ExpressionFactory ef;
+    
 
     private List<SelectItem> listaTipoFormato;
     private Integer codigoValoracion;
@@ -53,14 +60,14 @@ public class UIValoracion implements Serializable {
     private String terapiasAutorizadas;
 
     private String manejoVentana;
+    private Paciente paciente;
 
     public UIValoracion() throws Exception {
         this.valoracion = new Valoracion();
         this.valoracion.setCita(new Cita());
-        //diagnostico1 = new Diagnostico();
-        //diagnostico2 = new Diagnostico();
         gestorUtilidades = new GestorUtilidades();
         gestorDiagnostico = new GestorDiagnostico();
+        paciente = new Paciente();
         guardado = Boolean.FALSE;
         consultarTerapias();
         cargarListaTipoFormato();
@@ -82,7 +89,7 @@ public class UIValoracion implements Serializable {
         Terapia t;
         if (event.getColumn().getHeaderText().equalsIgnoreCase("terapia")) {
             t = valoracion.getListaTerapias().get(event.getRowIndex());
-            //contrato.getListaRequeridos().get(event.getRowIndex());
+            
             for (SelectItem si : listaTerapias) {
                 if (event.getNewValue() == null) {
                     t.getProcedimiento().setNombre(null);
@@ -104,7 +111,6 @@ public class UIValoracion implements Serializable {
                 }
             }
         }
-
     }
 
     public void consultarPaciente(String identificacion) {
@@ -114,7 +120,19 @@ public class UIValoracion implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(UIValoracion.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+    }
+    
+        public void consultarPaciente2() {
+        try {            
+            GestorPaciente gestorPaciente = new GestorPaciente();
+            contextoJSF = FacesContext.getCurrentInstance();
+            contextoEL = contextoJSF.getELContext();
+            ef = contextoJSF.getApplication().getExpressionFactory();            
+            String identificacion = (String) ef.createValueExpression(contextoEL, "#{uivaloracion.valoracion.cita.paciente.identificacion}", String.class).getValue(contextoEL);                                                           
+            this.valoracion.getCita().setPaciente(gestorPaciente.consultarPacientePorId(identificacion));                                                
+        } catch (Exception ex) {
+            Logger.getLogger(UIValoracion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void consultarTerapias() {
@@ -260,8 +278,8 @@ public class UIValoracion implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(UICita.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
+    }           
+    
     /**
      * @return the valoracion
      */
@@ -424,24 +442,6 @@ public class UIValoracion implements Serializable {
         this.gestorDiagnostico = gestorDiagnostico;
     }
 
-//    public Diagnostico getDiagnostico1() {
-//        return diagnostico1;
-//    }
-//
-//    public void setDiagnostico1(Diagnostico diagnostico1) {
-//        this.diagnostico1 = diagnostico1;
-//    }
-//
-//    public Diagnostico getDiagnostico2() {
-//        return diagnostico2;
-//    }
-//
-//    public void setDiagnostico2(Diagnostico diagnostico2) {
-//        this.diagnostico2 = diagnostico2;
-//    }
-    /**
-     * @return the terapiasAutorizadas
-     */
     public String getTerapiasAutorizadas() {
         return terapiasAutorizadas;
     }
@@ -466,5 +466,47 @@ public class UIValoracion implements Serializable {
     public void setManejoVentana(String manejoVentana) {
         this.manejoVentana = manejoVentana;
     }
+
+    public GestorValoracion getGestorValoracion() {
+        return gestorValoracion;
+    }
+
+    public void setGestorValoracion(GestorValoracion gestorValoracion) {
+        this.gestorValoracion = gestorValoracion;
+    }     
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }        
+
+    public FacesContext getContextoJSF() {
+        return contextoJSF;
+    }
+
+    public void setContextoJSF(FacesContext contextoJSF) {
+        this.contextoJSF = contextoJSF;
+    }
+
+    public ELContext getContextoEL() {
+        return contextoEL;
+    }
+
+    public void setContextoEL(ELContext contextoEL) {
+        this.contextoEL = contextoEL;
+    }
+
+    public ExpressionFactory getEf() {
+        return ef;
+    }
+
+    public void setEf(ExpressionFactory ef) {
+        this.ef = ef;
+    }
+    
+    
 
 }

@@ -39,23 +39,9 @@ public class UILogin implements Serializable {
     public void Ingresar() throws Exception {
         try {
             FacesContext contextoJSF = FacesContext.getCurrentInstance();
-//            Sesion sesion = new Sesion();
-//            GestorSesion gestorSesion = new GestorSesion();
             HttpSession session = (HttpSession) contextoJSF.getExternalContext().getSession(false);
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            sesion.setCaf(getSessionManager().getCaf());
-//            sesion.getCaf().setCod_caf(selectorCaf.getSelectedItemId());
-            //Cargar valores configuracion
-//            getSessionManager().setInicio(new Inicio(gestorInicio.cargarInicio(sesion.getCaf())));
-//            getSessionManager().getInicio().setDiasHabilesAno(gestorInicio.cargarDiasHabilesAno());
-//            getSessionManager().getInicio().getListaFormularios().addAll(gestorInicio.cargarListaFormularios());
-//            getSessionManager().getInicio().getFormularios().putAll(gestorInicio.cargarFormularios(getSessionManager().getInicio().getListaFormularios()));
-//            sesion.setId(session.getId());
-//            sesion.setUsuario(u);
-//            sesion.setAgente(request.getHeader("user-agent"));
-//            sesion.setNavegador(gestorSesion.extraerNavegador(sesion.getAgente()));
-//            sesion.setSistemaOperativo(gestorSesion.extraerSistemaOperativo(sesion.getAgente()));
-//            gestorSesion.guardar(sesion);
+
             
         } catch (Exception e) {
             throw new RuntimeException("No se pudo registrar la sesión");

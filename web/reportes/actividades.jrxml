@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="actividades" language="groovy" pageWidth="520" pageHeight="842" columnWidth="520" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ded91120-f128-4041-9126-4d85a97b8d73">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="actividades" language="groovy" pageWidth="545" pageHeight="842" columnWidth="545" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ded91120-f128-4041-9126-4d85a97b8d73">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="codigo_terapia_sub" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[select * from detalle_terapia where codigo_terapia=$P{codigo_terapia_sub} and estado in ('F','E')]]>
+		<![CDATA[select * from detalle_terapia where codigo_terapia=$P{codigo_terapia_sub} and estado in ('F','E') order by fecha]]>
 	</queryString>
 	<field name="consecutivo" class="java.lang.Integer"/>
 	<field name="codigo_terapia" class="java.lang.Integer"/>
@@ -17,20 +17,20 @@
 	<columnHeader>
 		<band height="15">
 			<rectangle radius="10">
-				<reportElement x="103" y="0" width="417" height="15" backcolor="#66CCFF" uuid="713ac134-796a-47ba-b3df-5243f084befc"/>
+				<reportElement x="67" y="0" width="478" height="15" backcolor="#66CCFF" uuid="713ac134-796a-47ba-b3df-5243f084befc"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="103" height="15" backcolor="#66CCFF" uuid="9fd6e50c-a6eb-4e0c-a7da-b82c0c3db632"/>
+				<reportElement x="0" y="0" width="67" height="15" backcolor="#66CCFF" uuid="9fd6e50c-a6eb-4e0c-a7da-b82c0c3db632"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="103" y="0" width="417" height="15" uuid="3e25ba6f-9f9f-45be-9d5f-d1f20ba9f15f"/>
+				<reportElement x="77" y="0" width="456" height="15" uuid="3e25ba6f-9f9f-45be-9d5f-d1f20ba9f15f"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[ACTIVIDAD]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="0" width="93" height="15" uuid="2abad965-88d5-4978-8f25-c0881126692e"/>
+				<reportElement x="10" y="0" width="44" height="15" uuid="2abad965-88d5-4978-8f25-c0881126692e"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
@@ -41,38 +41,24 @@
 	<detail>
 		<band height="30" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="103" height="30" uuid="ce2a109b-435d-4752-934a-67609aa88d89"/>
-			</rectangle>
-			<rectangle radius="10">
-				<reportElement x="103" y="0" width="417" height="30" uuid="cd8dc945-ad90-4b4d-b500-02168d156186"/>
+				<reportElement x="67" y="0" width="478" height="30" uuid="cd8dc945-ad90-4b4d-b500-02168d156186"/>
 			</rectangle>
 			<textField>
-				<reportElement x="114" y="0" width="406" height="30" uuid="2b5f490f-9a67-4315-a943-0e1ad8a2a188"/>
+				<reportElement x="77" y="0" width="468" height="30" uuid="2b5f490f-9a67-4315-a943-0e1ad8a2a188"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{actividad}]]></textFieldExpression>
 			</textField>
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="67" height="30" uuid="ce2a109b-435d-4752-934a-67609aa88d89"/>
+			</rectangle>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="42" y="0" width="61" height="15" uuid="c2fa3f25-1c42-45f9-92c8-a308196051ad"/>
-				<textElement textAlignment="Center"/>
+				<reportElement x="0" y="0" width="67" height="30" uuid="c2fa3f25-1c42-45f9-92c8-a308196051ad"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
-			</textField>
-			<textField pattern="HH.mm">
-				<reportElement x="42" y="15" width="61" height="15" uuid="ac286646-07b7-4a7f-bc80-38a1832ec8e1"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="10" y="15" width="32" height="15" uuid="1b32e396-68dd-49bf-bed8-ad04f3db679c"/>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[HORA : ]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="10" y="0" width="32" height="15" uuid="c8d5280b-7c63-436d-9084-3ed7821eba05"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{consecutivo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

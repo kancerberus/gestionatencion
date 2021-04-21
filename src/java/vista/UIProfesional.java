@@ -77,20 +77,15 @@ public class UIProfesional implements Serializable {
         try {
             codigo = gestorCita.consultarCodigoAtencionCita(cita).toString();
             if (cita.getListaProcedimientos().get(0).getTipo() == 1) {
-                //codigoAtencion = "window.open('.././exportar?nomReporte=terapia&amp;parametros=codigoTerapia&amp;valores=" + codigo + "&amp;tipos=I');";
-                codigoAtencion = "window.open('.././exportar?nomReporte=terapia&parametros=codigoTerapia&valores=" + codigo + "&tipos=I');";
-            } else if (cita.getListaProcedimientos().get(0).getTipo() == 2) {
-                //codigoAtencion = "window.open('.././exportar?nomReporte=valoracion&amp;parametros=codigoValoracion&amp;valores=" + codigo + "&amp;tipos=I');";
+                codigoAtencion = "window.open('.././exportar?nomReporte=terapia&parametros=codigoTerapia&valores=" + codigo + "&tipos=I');";                
+                rutaRecetario = "window.open('.././exportar?nomReporte=recetariot&parametros=codigoTerapia&valores=" + codigo + "&tipos=I');";
+            } else if (cita.getListaProcedimientos().get(0).getTipo() == 2) {                
                 codigoAtencion = "window.open('.././exportar?nomReporte=valoracion&parametros=codigoValoracion&valores=" + codigo + "&tipos=I');";
                 rutaRecetario = "window.open('.././exportar?nomReporte=recetario&parametros=codigoValoracion&valores=" + codigo + "&tipos=I');";
-            } else if (cita.getListaProcedimientos().get(0).getTipo() == 4) {
-                //codigoAtencion = "window.open('.././exportar?nomReporte=valoracion&amp;parametros=codigoValoracion&amp;valores=" + codigo + "&amp;tipos=I');";
+            } else if (cita.getListaProcedimientos().get(0).getTipo() == 4) {                
                 codigoAtencion = "window.open('.././exportar?nomReporte=estudio_audiologico&parametros=codigo_estudio&valores=" + codigo + "&tipos=I');";                
             }
-            //#{itemCita.listaProcedimientos.get(0).tipo eq 1 ? 
-            //"window.open('.././exportar?nomReporte=terapia&amp;parametros=codigoTerapia&amp;valores=".(uiprofesional.codigoAtencion)."&amp;tipos=I');"
-            //: (itemCita.listaProcedimientos.get(0).tipo eq 2 ? 
-            //'window.open(\'.././exportar?nomReporte=valoracion&amp;parametros=codigoValoracion&amp;valores='+(uiprofesional.codigoAtencion)+'&amp;tipos=I\');'
+
         } catch (Exception ex) {
             Logger.getLogger(UIProfesional.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -106,7 +101,7 @@ public class UIProfesional implements Serializable {
         if (cita.getListaProcedimientos().get(0).getTipo() == 1) {
             try {
                 UITerapia uiterapia = (UITerapia) ef.createValueExpression(contextoEL, "#{uiterapia}", UITerapia.class).getValue(contextoEL);
-                //UITerapia uiterapia = gestorTerapia.consultarTerapiaPorCita(cita);                
+                
                 uiterapia.setTerapia(gestorTerapia.consultarTerapiaPorCita(cita));
                 dt = gestorTerapia.consultarDetalleTerapiaPorCita(uiterapia.getTerapia());
                 uiterapia.setDetalleTerapia(dt);

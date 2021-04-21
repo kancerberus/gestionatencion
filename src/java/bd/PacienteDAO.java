@@ -156,12 +156,12 @@ public class PacienteDAO {
                     + " identificacion,p.nombre,historia_clinica,entidad,e.nombre nombre_entidad,tipo_usuario,fecha_nacimiento,edad,direccion1, "
                     + " direccion2,telefono1,telefono2,ciudad_residencia,cr.nombre nombre_ciudad_residencia,ciudad_nacimiento,cn.nombre nombre_ciudad_nacimiento, "
                     + " fecha_apertura,padres,p.correo_electronico, "
-                    + " l_sexo.value sexo, "
-                    + " l_estado_civil.value estado_civil, "
+                    + " l_sexo.value sexo, l_sexo.label sexo2,"
+                    + " l_estado_civil.value estado_civil, l_estado_civil.label estado_civil2,"
                     + " p.ocupacion, "
                     + " p.grado_escolar, "
-                    + " l_tipo_afiliacion.value tipo_afiliacion, "
-                    + " l_tipo_identificacion.value tipo_identificacion, "
+                    + " l_tipo_afiliacion.value tipo_afiliacion, l_tipo_afiliacion.label tipo_afiliacion2,"
+                    + " l_tipo_identificacion.value tipo_identificacion, l_tipo_identificacion.label tipo_identificacion2,"
                     + " l_condicion.value condicion, "
                     + " p.nombre, p.segundo_nombre, p.primer_apellido, p.segundo_apellido"
                     + " from "
@@ -219,11 +219,15 @@ public class PacienteDAO {
                 paciente.setEmail(rs.getString("correo_electronico"));
 
                 paciente.setSexo(rs.getString("sexo"));
+                paciente.setSexo2(rs.getString("sexo2"));
                 paciente.setGradoEscolar(rs.getString("grado_escolar"));
                 paciente.setOcupacion(rs.getString("ocupacion"));
                 paciente.setEstadoCivil(rs.getString("estado_civil"));
+                paciente.setEstadoCivil2(rs.getString("estado_civil2"));
                 paciente.setTipoAfiliacion(rs.getString("tipo_afiliacion"));
+                paciente.setTipoAfiliacion2(rs.getString("tipo_afiliacion2"));
                 paciente.setTipoIdentificacion(rs.getString("tipo_identificacion"));
+                paciente.setTipoIdentificacion2(rs.getString("tipo_identificacion2"));
                 paciente.setCondicion(rs.getString("condicion"));
 
             }

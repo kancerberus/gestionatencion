@@ -25,7 +25,7 @@ public class DiagnosticoDAO {
     public ArrayList<Diagnostico> listarDiagnosticos(String patron) throws SQLException {
         Diagnostico diagnostico;
         ArrayList<Diagnostico> listaDiagnosticos = new ArrayList<>();
-        ResultSet rs;
+        ResultSet rs;        
         Consulta consulta = null;
         try {
             consulta = new Consulta(getConexion());

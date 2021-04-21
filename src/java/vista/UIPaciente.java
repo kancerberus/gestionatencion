@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import modelo.CentroCostos;
 import modelo.ControlExport;
@@ -44,6 +47,9 @@ public class UIPaciente implements Serializable {
     private GestorPaciente gestorPaciente;
     private GestorUtilidades gestorUtilidades;
     public Utilidades util = new Utilidades();
+    private FacesContext contextoJSF;
+    private ELContext contextoEL;
+    private ExpressionFactory ef;
 
     private List<SelectItem> listaSexo;
     private List<SelectItem> listaTipoAfiliacion;
@@ -95,8 +101,29 @@ public class UIPaciente implements Serializable {
             paciente.setIdentificacion(id);
             existe = Boolean.FALSE;
         }
-
     }
+    
+            public void consultarPacientePorId2() throws Exception {
+            Paciente p;
+            String id;
+            GestorPaciente gestorPaciente = new GestorPaciente();   
+            contextoJSF = FacesContext.getCurrentInstance();
+            contextoEL = contextoJSF.getELContext();
+            ef = contextoJSF.getApplication().getExpressionFactory();
+        
+            id = (String) ef.createValueExpression(contextoEL, "#{uivaloracion.valoracion.cita.paciente.identificacion}", String.class).getValue(contextoEL);        
+            p = gestorPaciente.consultarPacientePorId(id);    
+
+            if (p != null) {
+                paciente = p;
+                existe = Boolean.TRUE;
+            } else {
+                id = paciente.getIdentificacion();
+                paciente = new Paciente();
+                paciente.setIdentificacion(id);
+                existe = Boolean.FALSE;
+            }
+        }    
 
     public void listarCentroCostos() throws Exception {
         List<CentroCostos> listaCC = gestorCentroCostos.listarCentroCostos();
@@ -127,17 +154,6 @@ public class UIPaciente implements Serializable {
     
     public void guardarPaciente() {
         Boolean invalido = false;
-        /*
-         paciente identificacion ""
-         paciente nombre ""
-         centro costos codigo null
-         fecha nacimiento null
-         entidad nombre null
-         direccion1 ""
-         telefono1 ""
-         ciudad nombre null
-         ciudad nombre null
-         */
         try {
             if (paciente.getIdentificacion().equalsIgnoreCase("")) {
                 invalido = true;
@@ -555,6 +571,30 @@ public class UIPaciente implements Serializable {
      */
     public void setListaCondicion(List<SelectItem> listaCondicion) {
         this.listaCondicion = listaCondicion;
+    }
+
+    public FacesContext getContextoJSF() {
+        return contextoJSF;
+    }
+
+    public void setContextoJSF(FacesContext contextoJSF) {
+        this.contextoJSF = contextoJSF;
+    }
+
+    public ELContext getContextoEL() {
+        return contextoEL;
+    }
+
+    public void setContextoEL(ELContext contextoEL) {
+        this.contextoEL = contextoEL;
+    }
+
+    public ExpressionFactory getEf() {
+        return ef;
+    }
+
+    public void setEf(ExpressionFactory ef) {
+        this.ef = ef;
     }
 
     

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informeTerapeutico" language="groovy" pageWidth="612" pageHeight="792" columnWidth="532" leftMargin="50" rightMargin="30" topMargin="30" bottomMargin="20" uuid="535cc5cd-f013-4d9b-a08d-70341a50e3b9">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informeTerapeutico" language="groovy" pageWidth="612" pageHeight="1008" columnWidth="532" leftMargin="50" rightMargin="30" topMargin="30" bottomMargin="20" uuid="535cc5cd-f013-4d9b-a08d-70341a50e3b9">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="103"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="codigoTerapia" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -17,7 +17,8 @@ p.fecha_nacimiento,
 l_tipo_identificacion.label tipo_identificacion,
 l_sexo.label sexo,
 p.identificacion,
-t.informe_terapeutico
+t.informe_terapeutico,
+t.codigo
 from
 terapia t
 inner join pacientes p on (t.id_paciente=p.identificacion)
@@ -40,23 +41,27 @@ t.codigo=$P{codigoTerapia}]]>
 	<field name="sexo" class="java.lang.String"/>
 	<field name="identificacion" class="java.lang.String"/>
 	<field name="informe_terapeutico" class="java.lang.String"/>
+	<field name="codigo" class="java.lang.Integer"/>
 	<group name="informeTerapeutico">
 		<groupExpression><![CDATA[$P{codigoTerapia}]]></groupExpression>
 		<groupFooter>
-			<band height="375">
+			<band height="567">
 				<rectangle radius="10">
-					<reportElement x="0" y="0" width="532" height="375" uuid="fbf52116-f1ae-488c-8acb-a473214c0914"/>
+					<reportElement x="0" y="0" width="532" height="567" uuid="fbf52116-f1ae-488c-8acb-a473214c0914"/>
 				</rectangle>
 				<textField>
-					<reportElement x="10" y="20" width="522" height="344" uuid="f1c6de83-c6db-405f-a6fa-50979280192c"/>
+					<reportElement x="10" y="31" width="511" height="518" uuid="f1c6de83-c6db-405f-a6fa-50979280192c"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{informe_terapeutico}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="10" y="0" width="90" height="20" uuid="97acdb2b-202d-46c8-b5ff-8ad82b8a1d73"/>
-					<textElement>
-						<font isBold="true"/>
+					<reportElement x="10" y="0" width="90" height="31" uuid="97acdb2b-202d-46c8-b5ff-8ad82b8a1d73"/>
+					<textElement verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[DIAGNOSTICO:]]></text>
+					<text><![CDATA[DIAGNÓSTICO:]]></text>
 				</staticText>
 			</band>
 		</groupFooter>
@@ -113,106 +118,133 @@ Pereira - Risaralda - Colombia]]></text>
 				<reportElement x="0" y="20" width="532" height="61" uuid="5eb0c2ed-016b-49a2-9cc9-ff47749e9d67"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="20" uuid="83c3f030-4b69-47e7-bca1-3fb04eb9582f"/>
-				<textElement>
+				<reportElement x="0" y="0" width="37" height="20" forecolor="#0000FF" uuid="83c3f030-4b69-47e7-bca1-3fb04eb9582f"/>
+				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Area:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="0" width="184" height="20" uuid="91dea7c4-4d22-43a2-96c0-c83f00a965f4"/>
-				<textElement>
+				<reportElement x="37" y="0" width="247" height="20" forecolor="#0000FF" uuid="91dea7c4-4d22-43a2-96c0-c83f00a965f4"/>
+				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{area}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="332" y="0" width="100" height="20" uuid="b477bb64-399c-461e-888c-75fab937829f"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="432" y="0" width="100" height="20" uuid="55dd6e0b-9256-40f1-85b3-f1112750e8c5"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fecha_informe_terapeutico}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="10" y="20" width="90" height="20" uuid="c9c20a15-3325-4080-9d60-c82220088450"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Nombres y Apellidos]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="100" y="20" width="232" height="20" uuid="36c3174c-82d4-4af3-8bd9-1022ed36bac0"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="332" y="20" width="100" height="20" uuid="23a4a189-3517-474f-99f7-8479dc81011b"/>
+				<reportElement x="398" y="40" width="34" height="20" uuid="23a4a189-3517-474f-99f7-8479dc81011b"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Tel]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="432" y="20" width="100" height="20" uuid="dd7ea37f-180e-4205-98ef-6c142e7502cd"/>
+				<reportElement x="432" y="40" width="100" height="20" uuid="dd7ea37f-180e-4205-98ef-6c142e7502cd"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{telefono1}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="10" y="40" width="105" height="20" uuid="116e2707-feef-4326-820b-1a8c7b975612"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Fecha de Nacimiento]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="115" y="40" width="85" height="20" uuid="6bb3e4b4-d77b-4f6a-b9b4-1a31c848aaa2"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fecha_nacimiento}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="236" y="40" width="48" height="20" uuid="f0266283-34f7-4f8c-bde3-418e47497472"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Edad]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="284" y="40" width="100" height="20" uuid="9f55e07a-d15d-425a-a13b-ec8f5511f37f"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{edad}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="398" y="40" width="34" height="20" uuid="c356b746-e770-455c-8670-a544e4bab83b"/>
+				<reportElement x="398" y="60" width="34" height="20" uuid="c356b746-e770-455c-8670-a544e4bab83b"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Sexo]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="432" y="40" width="100" height="20" uuid="459431a4-6f44-4792-9a42-4001fb8d94c6"/>
+				<reportElement x="432" y="60" width="100" height="20" uuid="459431a4-6f44-4792-9a42-4001fb8d94c6"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="10" y="60" width="90" height="20" uuid="1ca6a5c3-91c2-4ae4-9745-d1966fa54781"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Identificacion]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="100" y="60" width="100" height="20" uuid="da5d9087-8c7b-4cd3-a731-286bfdca13f3"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{tipo_identificacion}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="200" y="60" width="100" height="20" uuid="f683e3fa-046d-430f-9c4f-d09a8be77f19"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{identificacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="20" width="52" height="20" uuid="e908a8d7-836f-4708-bcdb-c5763e941f72"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Terapia #]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="432" y="20" width="100" height="20" uuid="fff55be8-b99f-448a-b90b-06ca8e2e268b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<summary>
-		<band height="122" splitType="Stretch">
+		<band height="70" splitType="Stretch">
 			<line>
-				<reportElement x="10" y="110" width="150" height="1" uuid="1aa223c2-023a-4a1f-991a-a2696aae2a4b"/>
+				<reportElement x="10" y="51" width="150" height="1" uuid="1aa223c2-023a-4a1f-991a-a2696aae2a4b"/>
 			</line>
 			<line>
-				<reportElement x="367" y="100" width="148" height="1" uuid="8be932da-6e74-4ba2-857a-da14b219dc40"/>
+				<reportElement x="359" y="50" width="148" height="1" uuid="8be932da-6e74-4ba2-857a-da14b219dc40"/>
 			</line>
 			<staticText>
-				<reportElement x="406" y="101" width="80" height="15" uuid="d92baaa8-0fa8-4eec-8820-3fc5b135a12b"/>
+				<reportElement x="398" y="51" width="80" height="15" uuid="d92baaa8-0fa8-4eec-8820-3fc5b135a12b"/>
 				<textElement>
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PACIENTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="37" y="81" width="100" height="28" uuid="0aee9bd2-6bb0-41e7-a92b-d345a7920e9d"/>
+				<reportElement x="24" y="52" width="123" height="15" uuid="0aee9bd2-6bb0-41e7-a92b-d345a7920e9d"/>
 				<textElement>
 					<font fontName="Arial" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PROFESIONAL
-R.P. No.]]></text>
+				<text><![CDATA[PROFESIONAL T.P. No.]]></text>
 			</staticText>
 		</band>
 	</summary>

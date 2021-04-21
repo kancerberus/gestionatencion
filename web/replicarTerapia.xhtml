@@ -31,17 +31,17 @@ and open the template in the editor.
                                         <td><p:outputLabel value="Fecha:"/></td>
                                         <td><p:calendar value="#{uiterapia.fechaInicial}" mode="popup" pattern="dd/MM/yyyy" locale="es"/></td>
                                         <td><p:commandButton icon="ui-icon-search" value="Consultar Citas" style="height: 26px; width: 150px; font-size: 80%;"
-                                                             actionListener="#{uiterapia.consultarCitasTerapia}" update="dtListaCitasReplicar,growlReplicarTerapia,calendarioReplicar" /></td>
+                                                                                                                          actionListener="#{uiterapia.consultarCitasTerapia}" update="dtListaCitasReplicar,growlReplicarTerapia,calendarioReplicar" /></td>
                                         <td><p:commandButton icon="ui-icon-search" value="Copiar" style="height: 26px; width: 100px; font-size: 80%;"
-                                                             actionListener="#{uiterapia.guardarCitasReplicar}" update="dtListaCitasReplicar,growlReplicarTerapia,calendarioReplicar" /></td>
+                                                                                                                          actionListener="#{uiterapia.guardarCitasReplicar}" update="dtListaCitasReplicar,growlReplicarTerapia,calendarioReplicar" /></td>
                                     </tr>
                                 </table>
                             </td>
                             <td rowspan="2" style="width:300px">
                                 <p:schedule id="calendarioReplicar" value="#{uiterapia.eventModelReplicar}" initialDate="#{uiterapia.fechaInicial}" locale="es"
-                                            view="month" showHeader="true" slotMinutes="15" minTime="6" maxTime="20" timeZone="GMT-5"
-                                            centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="prev,next" resizable="false"
-                                            draggable="false">
+                                                                                        view="month" showHeader="true" slotMinutes="15" minTime="6" maxTime="20" timeZone="GMT-5"
+                                                                                        centerHeaderTemplate="title" rightHeaderTemplate="" leftHeaderTemplate="prev,next" resizable="false"
+                                                                                        draggable="false">
 
                                     <p:ajax event="eventSelect"  listener="#{uiterapia.onEventSelectReplicar}"  update="calendarioReplicar" />
                                     <p:ajax event="dateSelect"  listener="#{uiterapia.onDateSelectReplicar}"  update="calendarioReplicar" />
@@ -51,7 +51,7 @@ and open the template in the editor.
                         </tr>
                         <tr><td>
                                 <p:dataTable var="itemCita" value="#{uiterapia.listaCitasReplicar}" id="dtListaCitasReplicar" style="font-size: 65%;"
-                                             rows="10" paginator="true" >
+                                                                                         rows="25" paginator="true" >
 
                                     <p:column headerText="Cod. cita" >
                                         <h:outputText value="#{itemCita.codigo}" />

@@ -7,8 +7,6 @@ package controlador;
 
 import bd.ValoracionDAO;
 import modelo.Valoracion;
-import modelo.Diagnostico;
-
 /**
  *
  * @author Andres

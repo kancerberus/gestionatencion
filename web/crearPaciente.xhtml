@@ -31,6 +31,7 @@ and open the template in the editor.
                                         <f:selectItems value="#{uipaciente.listaTipoIdentificacion}"  />
                                     </p:selectOneMenu></td>
                         </tr>
+                        
                         <tr>
                             <td align="right"><h:outputLabel value="* Primer nombre:" /></td>
                             <td><p:inputText id="nombre" value="#{uipaciente.paciente.nombre}"/></td>
@@ -38,6 +39,7 @@ and open the template in the editor.
                             <td align="right"><h:outputLabel value=" Segundo nombre:" /></td>
                             <td><p:inputText id="segundoNombre" value="#{uipaciente.paciente.segundoNombre}" /></td>
                         </tr>
+                        
                         <tr>
                             <td align="right"><h:outputLabel value="* Primer apellido:" /></td>
                             <td><p:inputText id="primerApellido" value="#{uipaciente.paciente.primerApellido}"/></td>
@@ -45,6 +47,7 @@ and open the template in the editor.
                             <td align="right"><h:outputLabel value=" Segundo apellido:" /></td>
                             <td><p:inputText id="segundoApellido" value="#{uipaciente.paciente.segundoApellido}" /></td>
                         </tr>
+                        
                         <tr>
                             <td align="right"><h:outputLabel value="* Fecha Nacimiento:" /></td>
                             <td><p:calendar mode="popup" id="fechaNacimiento" value="#{uipaciente.paciente.fechaNacimiento}" 
@@ -65,6 +68,7 @@ and open the template in the editor.
                             <td align="right"><p:outputLabel value="Ocupacion:" for="ocupacion" /></td>
                             <td><p:inputText id="ocupacion" value="#{uipaciente.paciente.ocupacion}" /></td>
                         </tr>
+                        
                         <tr>
                             <td align="right"><p:outputLabel value="Estado civil:" for="estadoCivil" /></td>
                             <td><p:selectOneMenu value="#{uipaciente.paciente.estadoCivil}" id="estadoCivil">
@@ -83,6 +87,7 @@ and open the template in the editor.
                                                             forceSelection="true" size="68"/></td>
 
                         </tr>
+                        
                         <tr>
                             <td align="right"><p:outputLabel for="tipoUsuario" value="Régimen:" /></td>                            
                             <td><p:selectOneMenu id="tipoUsuario" value="#{uipaciente.paciente.tipoUsuario}" >
@@ -96,6 +101,7 @@ and open the template in the editor.
                                         <f:selectItems value="#{uipaciente.listaTipoAfiliacion}"  />
                                     </p:selectOneMenu></td>
                         </tr>
+                        
                         <tr>
                             <td align="right"><h:outputLabel value="Condicion:" /></td>
                             <td colspan="4"><p:selectOneMenu value="#{uipaciente.paciente.condicion}" id="condicion">
@@ -103,14 +109,17 @@ and open the template in the editor.
                                         <f:selectItems value="#{uipaciente.listaCondicion}"  />
                                     </p:selectOneMenu></td>                        
                         </tr>                                                                        
+                        
                         <tr>
                             <td align="right"><h:outputLabel value="* Direccion1:" /></td>
                             <td colspan="4"><p:inputText id="direccion1" value="#{uipaciente.paciente.direccion1}" style="width: 475px;"/></td>                        
                         </tr>
+                        
                         <tr>
                             <td align="right"><h:outputLabel value="Direccion2:" /></td>
                             <td colspan="4"><p:inputText id="direccion2" value="#{uipaciente.paciente.direccion2}" style="width: 475px;"/></td>                        
                         </tr>
+                        
                         <tr>
                             <td align="right"><h:outputLabel value="* Telefono1:" /></td>
                             <td><p:inputText id="telefono1" value="#{uipaciente.paciente.telefono1}" /></td>
@@ -120,6 +129,7 @@ and open the template in the editor.
                                                             completeMethod="#{uipaciente.listarMunicipiosPatron}"  scrollHeight="200" 
                                                             forceSelection="true" /></td>
                         </tr>
+                        
                         <tr>
                             <td align="right"><h:outputLabel value="* Telefono2:" /></td>
                             <td><p:inputText id="telefono2" value="#{uipaciente.paciente.telefono2}" /></td>
@@ -130,6 +140,7 @@ and open the template in the editor.
                                                             completeMethod="#{uipaciente.listarMunicipiosPatron}"  scrollHeight="200" 
                                                             forceSelection="true" /></td>
                         </tr>
+                        
                         <tr>
                             <td align="right"><h:outputLabel value="Contacto:" /></td>
                             <td ><p:inputText id="padres" value="#{uipaciente.paciente.padres}" /></td>
@@ -139,14 +150,18 @@ and open the template in the editor.
                                 <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5" locale="es" />
                                 </p:inputText></td>
                         </tr>
-                        </table>
+                        
+                    </table>
+                    
                     <table>
                         <tr>
                             <td align="center" colspan="5"><p:commandButton value="Guardar" update="aviso,pnlCrearPaciente" actionListener="#{uipaciente.guardarPaciente}" /></td>
                             <td align="center" colspan="5"><p:commandButton value="Limpiar" update="pnlCrearPaciente" actionListener="#{uipaciente.limpiarPaciente}" /></td>                        
                         </tr>
                     </table>
+                    
                     <h:outputText value="* Campos requeridos." style="font-size: 70%;" />
+                
                 </p:panel>   
             </h:form>
         </ui:composition>
